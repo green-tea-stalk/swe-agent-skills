@@ -12,15 +12,11 @@ Operational guidelines for AI coding agents developing, maintaining, or refactor
 
 ---
 
-## 1. Mandatory Self-Validation Trigger Rules
+## 1. Skill Authoring Constraints
 
-Run the validator script (`python3 .agents/skills/validating-skills/scripts/validate_skills.py`) before completing your task:
+When authoring skills in `plugins/`:
 
-- **Trigger Validation (MUST run and pass with exit code 0)**:
-  - Added or modified files in `plugins/*/skills/` (`SKILL.md`, `scripts/`, `references/`)
-  - Added or modified subagents in `plugins/*/agents/*.md`
-  - Added or modified manifests (`plugins/*/plugin.json`, `plugins/*/.claude-plugin/plugin.json`, `plugins/*/.codex-plugin/plugin.json`)
-  - Added or modified meta-skills in `.agents/skills/`
+- **Portable Frontmatter (Greatest Common Denominator)**: Use ONLY `name` and `description` in `SKILL.md` frontmatter. Do NOT include agent-specific or optional fields (`allowed-tools`, `compatibility`, `metadata`, `license`) to guarantee universal cross-agent compatibility.
 
 ---
 
@@ -32,3 +28,15 @@ Strictly isolate repository meta-development rules from distributed runtime skil
 - **No Leaked Local Paths**: Never include paths matching `/Users/...` or `~/.gemini/...` in `plugins/`.
 - **No Meta-Rule Leak**: Never embed maintainer language preferences (e.g. "respond in Japanese") or repository development rules into distributed skills under `plugins/`.
 - **Respect Target Project Context**: Ensure distributed skills inspect the target project's own configuration (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, lint configs).
+
+---
+
+## 3. Mandatory Self-Validation Trigger Rules
+
+Run the validator script (`python3 .agents/skills/validating-skills/scripts/validate_skills.py`) before completing your task:
+
+- **Trigger Validation (MUST run and pass with exit code 0)**:
+  - Added or modified files in `plugins/*/skills/` (`SKILL.md`, `scripts/`, `references/`)
+  - Added or modified subagents in `plugins/*/agents/*.md`
+  - Added or modified manifests (`plugins/*/plugin.json`, `plugins/*/.claude-plugin/plugin.json`, `plugins/*/.codex-plugin/plugin.json`)
+  - Added or modified meta-skills in `.agents/skills/`

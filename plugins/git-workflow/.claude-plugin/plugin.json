@@ -1,0 +1,8 @@
+{
+  "name": "git-workflow",
+  "version": "0.1.0",
+  "description": "Essential Git workflow automation and best practices for modern AI coding agents.",
+  "author": {
+    "name": "swe-agent-skills"
+  }
+}

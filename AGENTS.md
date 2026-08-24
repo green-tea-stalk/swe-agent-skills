@@ -61,9 +61,13 @@ To prevent rule drift and ensure continuous compliance with the evolving Agent S
 - **Executable Single Source of Truth**: Active authoring standards (naming patterns, Frontmatter schemas, line limits, relative path requirements, portability checks, validation step checks) are maintained directly within the validator script ([`validate_skills.py`](.agents/skills/validating-skills/scripts/validate_skills.py)) with dynamic caching and spec updates.
 - **Enforcement**: Whenever a skill, agent, or plugin is created or modified, you must execute the validator and ensure all items pass with exit code `0`. Refer to the validator output for actionable compliance errors and remediation steps.
 
+### Key Architectural Decisions
+- **Unified Rule-Driven Workflow over Runtime Hooks**: Lifecycle hooks (`hooks.json`) are restricted to executing deterministic shell commands and cannot invoke AI prompt workflows or reviewer subagents. Splitting automated checks across hooks while leaving qualitative AI reviews to explicit rules creates fragmented responsibility. Therefore, we deliberately rely on a unified rule-driven workflow (`.agents/rules/`) that orchestrates both validation scripts (`validate_skills.py`) and reviewer subagents (`python-reviewer.md`) in a single consistent framework.
+
 ---
 
 ## 5. Plugin Architecture
+
 
 Plugins are packaged units distributing skills and subagents together.
 
@@ -88,4 +92,4 @@ plugins/<plugin-name>/
 ## 6. Environment & Maintenance
 
 - **Tested Environment**: macOS with Google Antigravity (AGY) only. (The maintainer actively verifies behavior on macOS using AGY. Compatibility for other agents like Claude Code and Codex CLI is maintained strictly by adhering to their official open specifications).
-- **Tooling**: Python 3 standard library for local validator script.
+- **Runtime & Tooling Requirements**: Git, GitHub CLI (`gh`), and Python 3 (standard library only, no external dependencies).
