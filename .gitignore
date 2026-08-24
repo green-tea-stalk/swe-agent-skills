@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Local Skill Cache (generated and refreshed automatically with TTL)
+.cache/
