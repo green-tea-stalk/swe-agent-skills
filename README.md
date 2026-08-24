@@ -19,11 +19,18 @@ Directly supported as native plugins in the following AI coding assistants:
 - **Claude Code**: Native plugin discovery via `.claude-plugin/plugin.json` and Plugin Marketplace.
 - **Codex CLI**: Native plugin discovery via `.codex-plugin/plugin.json` and plugin management via `/plugins`.
 
+### Prerequisites
+
+- **Git**
+- **GitHub CLI (`gh`)**
+- **Python 3** (Standard library only; no external `pip` packages required)
+
 ---
 
 ## Quickstart (Installation & Usage)
 
 Because the plugins provided in this repository are project-agnostic SWE practices, they are intended to be **installed at the user scope (globally across your machine)** to be seamlessly available across all your projects.
+
 
 Follow the instructions below for your agent environment:
 
