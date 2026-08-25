@@ -17,14 +17,9 @@ This local skill dynamically validates that all skills, subagents, and plugin co
    ```
 
 2. **Update Cache if Required (Exit Code 1)**:
-   If the script exits with code 1 (missing or outdated cache), you MUST:
-   - Read the official Agent Skills documentation strictly from the following primary sources:
-     - Specification: `https://agentskills.io/specification`
-     - Best Practices: `https://agentskills.io/skill-creation/best-practices`
-     - Optimizing Descriptions: `https://agentskills.io/skill-creation/optimizing-descriptions`
-     - Evaluating Skills: `https://agentskills.io/skill-creation/evaluating-skills`
-     - Using Scripts: `https://agentskills.io/skill-creation/using-scripts`
-   - Extract the current required structure, constraints, and best practices from the documentation.
+   If the script exits with code 1 (missing or outdated cache), it means the script has automatically fetched the latest primary documentation and saved it to a local raw file. You MUST:
+   - Read the fetched raw documentation from the path provided by the script (e.g., `.cache/raw_docs.html`).
+   - Interpret the content to extract the current required structure, constraints, and best practices.
    - Summarize the extracted validation axes (checklist format) into a markdown file.
    - Save the markdown file precisely to `.agents/skills/validating-skills/.cache/validation_axes.md` (creating the directory if needed).
    - Re-run the script in step 1 to confirm the cache is now valid.
