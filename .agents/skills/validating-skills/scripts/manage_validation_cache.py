@@ -35,8 +35,8 @@ def fetch_docs(cache_dir: Path) -> Path:
         try:
             req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
             with urllib.request.urlopen(req, timeout=10) as response:
-                html = response.read().decode('utf-8')
-                content_blocks.append(f"<!-- SOURCE: {url} -->\n{html}\n")
+                markdown_content = response.read().decode('utf-8')
+                content_blocks.append(f"<!-- SOURCE: {url} -->\n{markdown_content}\n")
         except Exception as e:
             print(f"  [!] Failed to fetch {url}: {e}")
             content_blocks.append(f"<!-- SOURCE: {url} (FAILED: {e}) -->\n")
