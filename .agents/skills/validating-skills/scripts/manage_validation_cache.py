@@ -15,14 +15,14 @@ from pathlib import Path
 CACHE_TTL_SECONDS = 7 * 24 * 60 * 60  # 7 days
 CACHE_DIR_NAME = ".cache"
 CACHE_FILE_NAME = "validation_axes.md"
-RAW_DOCS_FILE_NAME = "raw_docs.html"
+RAW_DOCS_FILE_NAME = "raw_docs.md"
 
 PRIMARY_URLS = [
-    "https://agentskills.io/specification",
-    "https://agentskills.io/skill-creation/best-practices",
-    "https://agentskills.io/skill-creation/optimizing-descriptions",
-    "https://agentskills.io/skill-creation/evaluating-skills",
-    "https://agentskills.io/skill-creation/using-scripts"
+    "https://agentskills.io/specification.md",
+    "https://agentskills.io/skill-creation/best-practices.md",
+    "https://agentskills.io/skill-creation/optimizing-descriptions.md",
+    "https://agentskills.io/skill-creation/evaluating-skills.md",
+    "https://agentskills.io/skill-creation/using-scripts.md"
 ]
 
 def fetch_docs(cache_dir: Path) -> Path:

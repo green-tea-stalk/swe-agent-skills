@@ -18,7 +18,7 @@ This local skill dynamically validates that all skills, subagents, and plugin co
 
 2. **Update Cache if Required (Exit Code 1)**:
    If the script exits with code 1 (missing or outdated cache), it means the script has automatically fetched the latest primary documentation and saved it to a local raw file. You MUST:
-   - Read the fetched raw documentation from the path provided by the script (e.g., `.cache/raw_docs.html`).
+   - Read the fetched raw documentation from the path provided by the script (e.g., `.cache/raw_docs.md`).
    - Interpret the content to extract the current required structure, constraints, and best practices.
    - Summarize the extracted validation axes (checklist format) into a markdown file.
    - Save the markdown file precisely to `.agents/skills/validating-skills/.cache/validation_axes.md` (creating the directory if needed).
