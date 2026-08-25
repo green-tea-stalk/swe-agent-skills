@@ -18,7 +18,7 @@ Follow these sequential steps whenever drafting or updating a Pull Request:
 Execute the deterministic helper script from the skill directory to inspect repository metadata, branch safety, uncommitted changes, remote sync status, and existing PRs:
 
 ```bash
-python3 plugins/git-workflow/skills/drafting-pull-request/scripts/prepare_pr.py
+python3 scripts/prepare_pr.py
 ```
 
 Inspect the generated report carefully:

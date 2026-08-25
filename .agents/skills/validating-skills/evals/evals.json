@@ -1,0 +1,10 @@
+{
+  "skill_name": "validating-skills",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Validate the committing-changes skill.",
+      "expected_output": "Validation complete, reporting APPROVED or CHANGES_REQUIRED with specific issues based on the official axes."
+    }
+  ]
+}
