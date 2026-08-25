@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-validate_skills.py - Validation Cache Manager for swe-agent-skills
+manage_validation_cache.py - Validation Cache Manager for swe-agent-skills
 
 This script manages the cache of validation axes.
 It does NOT perform static validation itself. Instead, it checks if the cached

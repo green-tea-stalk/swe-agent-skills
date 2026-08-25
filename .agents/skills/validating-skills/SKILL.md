@@ -13,7 +13,7 @@ This local skill dynamically validates that all skills, subagents, and plugin co
 1. **Check Validation Cache**:
    Execute the validation cache manager script from the repository root to check if up-to-date validation axes exist:
    ```bash
-   python3 .agents/skills/validating-skills/scripts/validate_skills.py
+   python3 .agents/skills/validating-skills/scripts/manage_validation_cache.py
    ```
 
 2. **Update Cache if Required (Exit Code 1)**:
