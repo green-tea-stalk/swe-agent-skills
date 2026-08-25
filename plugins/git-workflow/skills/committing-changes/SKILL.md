@@ -18,7 +18,7 @@ Follow these sequential steps whenever executing a commit:
 Execute the deterministic helper script from the skill directory to inspect branch safety, secrets, staging state, and diff statistics:
 
 ```bash
-python3 plugins/git-workflow/skills/committing-changes/scripts/prepare_commit.py
+python3 scripts/prepare_commit.py
 ```
 
 Inspect the generated report:

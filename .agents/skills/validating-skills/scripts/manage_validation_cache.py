@@ -26,6 +26,7 @@ PRIMARY_URLS = [
 ]
 
 def fetch_docs(cache_dir: Path) -> Path:
+    """Fetch primary documentation and save it to the cache directory."""
     raw_docs_path = cache_dir / RAW_DOCS_FILE_NAME
     print("[*] Fetching latest primary documentation...")
     content_blocks = []
@@ -37,7 +38,7 @@ def fetch_docs(cache_dir: Path) -> Path:
             with urllib.request.urlopen(req, timeout=10) as response:
                 markdown_content = response.read().decode('utf-8')
                 content_blocks.append(f"<!-- SOURCE: {url} -->\n{markdown_content}\n")
-        except Exception as e:
+        except urllib.error.URLError as e:
             print(f"  [!] Failed to fetch {url}: {e}")
             content_blocks.append(f"<!-- SOURCE: {url} (FAILED: {e}) -->\n")
             
@@ -47,6 +48,7 @@ def fetch_docs(cache_dir: Path) -> Path:
     return raw_docs_path
 
 def main() -> int:
+    """Execute the validation cache manager."""
     script_dir = Path(__file__).resolve().parent
     cache_dir = script_dir.parent / CACHE_DIR_NAME
     cache_path = cache_dir / CACHE_FILE_NAME
@@ -71,7 +73,7 @@ def main() -> int:
                 return 0
             else:
                 print(f"[!] Cache has expired (age: {int(age / 86400)}d, TTL: 7d).")
-        except Exception as e:
+        except OSError as e:
             print(f"[!] Failed to read cache: {e}")
     else:
         print("[!] No cached validation axes found.")
@@ -90,3 +92,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+

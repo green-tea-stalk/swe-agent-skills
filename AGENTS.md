@@ -58,11 +58,12 @@ To prevent rule drift and ensure continuous compliance with the evolving Agent S
 👉 **[`.agents/skills/validating-skills/`](.agents/skills/validating-skills/)**
 
 ### Core Compliance Philosophy
-- **Executable Single Source of Truth**: Active authoring standards (naming patterns, Frontmatter schemas, line limits, relative path requirements, portability checks, validation step checks) are maintained directly within the validator script ([`validate_skills.py`](.agents/skills/validating-skills/scripts/validate_skills.py)) with dynamic caching and spec updates.
-- **Enforcement**: Whenever a skill, agent, or plugin is created or modified, you must execute the validator and ensure all items pass with exit code `0`. Refer to the validator output for actionable compliance errors and remediation steps.
+- **Dynamic Specification Analysis**: Validation criteria are not statically fixed; instead, the **`skill-spec-analyst`** subagent autonomously interprets the latest official primary documentation (managed via [`manage_validation_cache.py`](.agents/skills/validating-skills/scripts/manage_validation_cache.py)) to formulate the necessary validation axes (`validation_axes.md`).
+- **Objective Parallel Auditing**: Whenever skills are created or modified, each target skill is audited objectively and in parallel by dedicated **`skill-reviewer`** subagents (`.agents/agents/skill-reviewer.md`) based on the formulated axes.
+- **Incremental Convergence**: If any issues are flagged (`CHANGES_REQUIRED`), the offending files must be fixed and re-audited (running the reviewer subagent only on modified skills) until all target skills achieve an `APPROVED` verdict.
 
 ### Key Architectural Decisions
-- **Unified Rule-Driven Workflow over Runtime Hooks**: Lifecycle hooks (`hooks.json`) are restricted to executing deterministic shell commands and cannot invoke AI prompt workflows or reviewer subagents. Splitting automated checks across hooks while leaving qualitative AI reviews to explicit rules creates fragmented responsibility. Therefore, we deliberately rely on a unified rule-driven workflow (`.agents/rules/`) that orchestrates both validation scripts (`validate_skills.py`) and reviewer subagents (`python-reviewer.md`) in a single consistent framework.
+- **Unified Rule-Driven Workflow over Runtime Hooks**: Lifecycle hooks (`hooks.json`) are restricted to executing deterministic shell commands and cannot invoke AI prompt workflows or reviewer subagents. Splitting automated checks across hooks while leaving qualitative AI reviews to explicit rules creates fragmented responsibility. Therefore, we deliberately rely on a unified rule-driven workflow (`.agents/rules/`) that orchestrates cache management scripts (`manage_validation_cache.py`), specification analysis (`skill-spec-analyst.md`), and reviewer subagents (`skill-reviewer.md`, `python-reviewer.md`) in a single consistent framework.
 
 ---
 

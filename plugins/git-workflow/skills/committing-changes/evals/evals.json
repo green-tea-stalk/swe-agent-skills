@@ -1,0 +1,10 @@
+{
+  "skill_name": "committing-changes",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I made some changes to prepare_commit.py to add argparse support.",
+      "expected_output": "An atomic Conventional Commit using 'feat' or 'refactor' scope, with a proper Co-Authored-By trailer."
+    }
+  ]
+}

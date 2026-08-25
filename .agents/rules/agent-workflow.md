@@ -33,9 +33,9 @@ Strictly isolate repository meta-development rules from distributed runtime skil
 
 ## 3. Mandatory Self-Validation Trigger Rules
 
-Run the validator script (`python3 .agents/skills/validating-skills/scripts/validate_skills.py`) before completing your task:
+Execute the `validating-skills` skill (`.agents/skills/validating-skills/SKILL.md`) for all created or modified skills before completing your task, ensuring the validation workflow completes successfully:
 
-- **Trigger Validation (MUST run and pass with exit code 0)**:
+- **Trigger Validation**:
   - Added or modified files in `plugins/*/skills/` (`SKILL.md`, `scripts/`, `references/`)
   - Added or modified subagents in `plugins/*/agents/*.md`
   - Added or modified manifests (`plugins/*/plugin.json`, `plugins/*/.claude-plugin/plugin.json`, `plugins/*/.codex-plugin/plugin.json`)

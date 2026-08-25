@@ -9,6 +9,10 @@ Follows a strict Fail-Closed principle: if GitHub CLI is unavailable or unauthen
 execution stops immediately with an error rather than risking incorrect assumptions.
 """
 
+# /// script
+# requires-python = ">=3.9"
+# ///
+
 from __future__ import annotations
 
 import json
@@ -16,6 +20,7 @@ import re
 import shutil
 import subprocess
 import sys
+import argparse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -248,6 +253,9 @@ def get_diff_stat() -> str:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description="Pre-commit inspection script.")
+    parser.parse_args()
+
     if not is_git_repository():
         print("[ERROR] Current directory is not a Git repository.", file=sys.stderr)
         return 1
@@ -263,66 +271,82 @@ def main() -> int:
     noise_warnings = check_noise_files(staged_files)
     diff_stat = get_diff_stat()
 
-    print("=" * 60)
-    print("Pre-Commit Inspection Report")
-    print("=" * 60)
+    print("=" * 60, file=sys.stderr)
+    print("Pre-Commit Inspection Report", file=sys.stderr)
+    print("=" * 60, file=sys.stderr)
 
     # 1. Branch Status
-    print("\n[1] Branch Status")
+    print("\n[1] Branch Status", file=sys.stderr)
     status_label = "[PROTECTED]" if branch_info.is_protected else "[SAFE]"
-    print(f"  * Current Branch : {branch} {status_label}")
-    print(f"  * Branch Safety  : {branch_info.message}")
+    print(f"  * Current Branch : {branch} {status_label}", file=sys.stderr)
+    print(f"  * Branch Safety  : {branch_info.message}", file=sys.stderr)
 
     # 2. Staging & Safety Inspection
-    print("\n[2] Staging & Safety Inspection")
+    print("\n[2] Staging & Safety Inspection", file=sys.stderr)
     if not staged_files:
-        print("  * Staged Files   : None (No changes staged for commit).")
-        print("  * Action Needed  : Run `git add <files>` to stage specific atomic changes before committing.")
+        print("  * Staged Files   : None (No changes staged for commit).", file=sys.stderr)
+        print("  * Action Needed  : Run `git add <files>` to stage specific atomic changes before committing.", file=sys.stderr)
     else:
-        print(f"  * Staged Count   : {len(staged_files)} file(s)")
+        print(f"  * Staged Count   : {len(staged_files)} file(s)", file=sys.stderr)
         for status, path in staged_files:
-            print(f"      [{status}] {path}")
+            print(f"      [{status}] {path}", file=sys.stderr)
 
     # Safety Warnings
     if sensitive_warnings:
-        print("\n  [!] SECURITY WARNING - Sensitive files detected in staging:")
+        print("\n  [!] SECURITY WARNING - Sensitive files detected in staging:", file=sys.stderr)
         for path in sensitive_warnings:
-            print(f"      - {path}")
-        print("      Action: Run `git reset HEAD <file>` to unstage sensitive files before committing.")
+            print(f"      - {path}", file=sys.stderr)
+        print("      Action: Run `git reset HEAD <file>` to unstage sensitive files before committing.", file=sys.stderr)
 
     if noise_warnings:
-        print("\n  [!] NOISE WARNING - Build artifacts/OS noise detected in staging:")
+        print("\n  [!] NOISE WARNING - Build artifacts/OS noise detected in staging:", file=sys.stderr)
         for path in noise_warnings:
-            print(f"      - {path}")
-        print("      Action: Unstage or add to .gitignore.")
+            print(f"      - {path}", file=sys.stderr)
+        print("      Action: Unstage or add to .gitignore.", file=sys.stderr)
 
     # 3. Diff Statistics
-    print("\n[3] Staged Changes Summary")
+    print("\n[3] Staged Changes Summary", file=sys.stderr)
     if diff_stat:
         for line in diff_stat.splitlines():
-            print(f"  {line}")
+            print(f"  {line}", file=sys.stderr)
     else:
-        print("  (No staged diff available)")
+        print("  (No staged diff available)", file=sys.stderr)
 
     # 4. Unstaged / Untracked Context
     if unstaged_summary:
-        print(f"\n[4] Unstaged / Untracked Changes ({len(unstaged_summary)} items)")
+        print(f"\n[4] Unstaged / Untracked Changes ({len(unstaged_summary)} items)", file=sys.stderr)
         for item in unstaged_summary[:10]:
-            print(f"  {item}")
+            print(f"  {item}", file=sys.stderr)
         if len(unstaged_summary) > 10:
-            print(f"  ... and {len(unstaged_summary) - 10} more items.")
+            print(f"  ... and {len(unstaged_summary) - 10} more items.", file=sys.stderr)
 
-    print("\n" + "=" * 60)
-    print("Ready to construct Conventional Commit message:")
-    print("  Format : <type>(<scope>): <subject>")
-    print("           <blank line>")
-    print("           <body describing WHY and WHAT based on conversation context>")
-    print("           <blank line>")
-    print("           Co-Authored-By: <ModelName> <<email>>")
-    print("=" * 60)
+    print("\n" + "=" * 60, file=sys.stderr)
+    print("Ready to construct Conventional Commit message:", file=sys.stderr)
+    print("  Format : <type>(<scope>): <subject>", file=sys.stderr)
+    print("           <blank line>", file=sys.stderr)
+    print("           <body describing WHY and WHAT based on conversation context>", file=sys.stderr)
+    print("           <blank line>", file=sys.stderr)
+    print("           Co-Authored-By: <ModelName> <<email>>", file=sys.stderr)
+    print("=" * 60, file=sys.stderr)
 
+    report_data = {
+        "branch_status": {
+            "branch": branch,
+            "is_protected": branch_info.is_protected,
+            "is_default": branch_info.is_default,
+            "force_push_restricted": branch_info.force_push_restricted,
+            "message": branch_info.message
+        },
+        "staged_files": [{"status": s, "path": p} for s, p in staged_files],
+        "unstaged_summary": unstaged_summary,
+        "sensitive_warnings": sensitive_warnings,
+        "noise_warnings": noise_warnings,
+        "diff_stat": diff_stat
+    }
+    
+    print(json.dumps(report_data, indent=2))
+    
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
