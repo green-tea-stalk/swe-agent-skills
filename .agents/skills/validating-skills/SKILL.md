@@ -6,22 +6,26 @@ description: >-
 
 # Validating Skills and Plugins
 
-This local skill validates that all skills, subagents, and plugin configurations in this repository adhere to the latest Agent Skills open standards, best practices, and multi-agent portability rules.
+This local skill dynamically validates that all skills, subagents, and plugin configurations in this repository adhere to the latest Agent Skills open standards, best practices, and structure requirements by dynamically referring to the official documentation.
 
 ## Workflow
 
-1. **Run the Validation Script**:
-   Execute the rule-driven validation script from the repository root:
+1. **Check Validation Cache**:
+   Execute the validation cache manager script from the repository root to check if up-to-date validation axes exist:
    ```bash
    python3 .agents/skills/validating-skills/scripts/validate_skills.py
    ```
 
-2. **Inspect Validation Output**:
-   - **Frontmatter & Naming**: Confirms `name` matches parent directory, follows `kebab-case` (gerund preferred), and `description` is in third-person without reserved words.
-   - **Progressive Disclosure**: Verifies line count stays within recommended limits (< 500 lines) and complex reference material is moved to `references/`.
-   - **Multi-Agent Portability**: Ensures standard relative paths are used instead of tool-specific environment variables or hardcoded local paths.
-   - **Validation Steps**: Ensures procedural skills include verification instructions.
+2. **Update Cache if Required (Exit Code 1)**:
+   If the script exits with code 1 (missing or outdated cache), you MUST:
+   - Read the official Agent Skills documentation (or search for the latest specification) to extract the current required structure and best practices.
+   - Summarize the extracted validation axes (checklist format) into a markdown file.
+   - Save the markdown file precisely to `.agents/skills/validating-skills/.cache/validation_axes.md` (creating the directory if needed).
+   - Re-run the script in step 1 to confirm the cache is now valid.
 
-3. **Validation / Verification Step**:
-
-   - If any errors are reported, fix the offending files and rerun the validation script until `[RESULT] ALL ITEMS PASSED VALIDATION` is displayed with exit code 0.
+3. **Dynamic Review & Verification Step (Exit Code 0)**:
+   If the script exits with code 0, it will output the current `--- VALIDATION AXES ---`.
+   - As an AI agent, carefully read the provided validation axes.
+   - Review the target skill, subagent, or plugin files in this repository against these axes.
+   - If any discrepancies or violations are found, fix the offending files.
+   - Report the review results to the user.
