@@ -27,6 +27,14 @@
 
 ---
 
+## 収録プラグイン一覧
+
+- **git-workflow**: コミットや PR 作成を自動化し、ベストプラクティスを強制する Git ワークフロー。
+  - [committing-changes](./plugins/git-workflow/skills/committing-changes/README.ja.md)
+  - [drafting-pull-request](./plugins/git-workflow/skills/drafting-pull-request/README.ja.md)
+
+---
+
 ## クイックスタート（インストール・導入方法）
 
 本リポジトリで提供するプラグインは特定のプロジェクトに依存しない汎用的な SWE プラクティスであるため、**ユーザースコープ（グローバル環境）にインストールして、作業するすべてのプロジェクトで横断的に利用**することを前提としています。
