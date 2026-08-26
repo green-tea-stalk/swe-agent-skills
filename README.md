@@ -27,6 +27,14 @@ Directly supported as native plugins in the following AI coding assistants:
 
 ---
 
+## Available Plugins
+
+- **git-workflow**: Essential Git workflow automation and best practices.
+  - [committing-changes](./plugins/git-workflow/skills/committing-changes/README.md)
+  - [drafting-pull-request](./plugins/git-workflow/skills/drafting-pull-request/README.md)
+
+---
+
 ## Quickstart (Installation & Usage)
 
 Because the plugins provided in this repository are project-agnostic SWE practices, they are intended to be **installed at the user scope (globally across your machine)** to be seamlessly available across all your projects.
