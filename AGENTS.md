@@ -94,3 +94,9 @@ plugins/<plugin-name>/
 
 - **Tested Environment**: macOS with Google Antigravity (AGY) only. (The maintainer actively verifies behavior on macOS using AGY. Compatibility for other agents like Claude Code and Codex CLI is maintained strictly by adhering to their official open specifications).
 - **Runtime & Tooling Requirements**: Git, GitHub CLI (`gh`), and Python 3 (standard library only, no external dependencies).
+
+---
+
+## 7. Release Management
+
+This repository uses **[release-please](https://github.com/googleapis/release-please)** for automated changelog generation and release creation. All releases are created via GitHub Actions based on Conventional Commits. Agents should format their commits correctly to ensure releases are generated accurately.
