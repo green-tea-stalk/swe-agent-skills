@@ -253,7 +253,13 @@ def get_diff_stat() -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Pre-commit inspection script.")
+    parser = argparse.ArgumentParser(
+        description="Pre-commit inspection script to verify branch safety, secrets, and staged files.",
+        epilog="""Examples:
+  python3 scripts/prepare_commit.py
+  (No flags are currently supported; the script evaluates the current git repository state.)""",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.parse_args()
 
     if not is_git_repository():
@@ -327,6 +333,7 @@ def main() -> int:
     print("           <body describing WHY and WHAT based on conversation context>", file=sys.stderr)
     print("           <blank line>", file=sys.stderr)
     print("           Co-Authored-By: <ModelName> <<email>>", file=sys.stderr)
+    print("           (Enclose model name in double quotes if it contains parentheses)", file=sys.stderr)
     print("=" * 60, file=sys.stderr)
 
     report_data = {
