@@ -17,6 +17,7 @@ Operational guidelines for AI coding agents developing, maintaining, or refactor
 When authoring skills in `plugins/`:
 
 - **Portable Frontmatter (Greatest Common Denominator)**: Use ONLY `name` and `description` in `SKILL.md` frontmatter. Do NOT include agent-specific or optional fields (`allowed-tools`, `compatibility`, `metadata`, `license`) to guarantee universal cross-agent compatibility.
+- **Bilingual Documentation Policy**: When adding or updating a skill, you MUST create or update the English `README.md` file. The English `README.md` serves as the Single Source of Truth (SSOT). You must finalize the edits in the English `README.md` first, and only then reflect those finalized changes into the Japanese `README.ja.md` file.
 
 ---
 
