@@ -4,7 +4,12 @@
     {
       "id": 1,
       "prompt": "I made some changes to prepare_commit.py to add argparse support.",
-      "expected_output": "An atomic Conventional Commit using 'feat' or 'refactor' scope, with a proper Co-Authored-By trailer."
+      "expected_output": "An atomic Conventional Commit using 'feat' or 'refactor' scope, with a proper Co-Authored-By trailer.",
+      "assertions": [
+        "The agent runs scripts/prepare_commit.py",
+        "The commit message contains a Conventional Commits type and scope",
+        "The commit message contains a Co-Authored-By trailer"
+      ]
     }
   ]
 }

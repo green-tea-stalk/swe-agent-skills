@@ -1,7 +1,7 @@
 ---
 name: committing-changes
 description: >-
-  Use this skill when preparing, formatting, and executing Git commits. Runs automated pre-commit checks (branch safety, secret detection, staging diff analysis) via helper script and constructs context-rich Conventional Commits with model-specific co-author attribution.
+  Use this skill when preparing, formatting, and executing Git commits, even if the user does not explicitly mention Git or Conventional Commits. Runs automated pre-commit checks (branch safety, secret detection, staging diff analysis) via helper script and constructs context-rich Conventional Commits with model-specific co-author attribution.
 ---
 
 # Committing Changes
@@ -47,9 +47,10 @@ Co-Authored-By: <AgentName> <ModelName> <<email>>
 #### Co-Author Trailer Guidelines
 Append the co-author trailer matching the active AI coding agent and specific model:
 - **Format**: `Co-Authored-By: <AgentName> <ModelName> <<email>>`
+  - *Note: If the model name contains parentheses (e.g., `Gemini 3.1 Pro (High)`), you MUST enclose the entire author name in double quotes to prevent breaking Git/GitHub parsing. (e.g. `Co-Authored-By: "Antigravity Gemini 3.1 Pro (High)" <gemini@google.com>`)*
 - **Examples**:
   - **Claude Code**: `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`
-  - **Google Antigravity**: `Co-Authored-By: Antigravity Gemini 3.7 Flash <gemini@google.com>`
+  - **Google Antigravity**: `Co-Authored-By: "Antigravity Gemini 3.1 Pro (High)" <gemini@google.com>`
   - **OpenAI Codex**: `Co-Authored-By: Codex GPT-5.6 Sol <codex@openai.com>`
 
 #### Type Selection Guidelines
@@ -73,7 +74,7 @@ Append the co-author trailer matching the active AI coding agent and specific mo
 Run the commit command with the constructed message and Co-Author trailer:
 
 ```bash
-git commit -m "<type>(<scope>): <subject>" -m "<body explaining why and what>" -m "Co-Authored-By: <AgentName> <ModelName> <<email>>"
+git commit -m "<type>(<scope>): <subject>" -m "<body explaining why and what>" -m 'Co-Authored-By: <AgentName> <ModelName> <<email>>'
 ```
 
 
