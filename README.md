@@ -32,9 +32,10 @@ Directly supported as native plugins in the following AI coding assistants:
 
 ## Available Plugins
 
-- **git-workflow**: Essential Git workflow automation and best practices.
-  - [committing-changes](./plugins/git-workflow/skills/committing-changes/README.md)
-  - [drafting-pull-request](./plugins/git-workflow/skills/drafting-pull-request/README.md)
+- **swe-workflow**: Comprehensive Software Engineering (SWE) and Spec-Driven Development (SDD) workflow automation and best practices.
+  - [planning-and-designing](./plugins/swe-workflow/skills/planning-and-designing/README.md)
+  - [committing-changes](./plugins/swe-workflow/skills/committing-changes/README.md)
+  - [drafting-pull-request](./plugins/swe-workflow/skills/drafting-pull-request/README.md)
 
 ---
 

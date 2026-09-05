@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Deterministic pre-PR helper script for drafting-pull-request skill.
 
 Analyzes Git repository state, verifies GitHub CLI (`gh`) authentication,
@@ -11,6 +15,7 @@ Follows a strict Fail-Closed principle: stops immediately on prerequisite failur
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import shutil
@@ -383,6 +388,28 @@ def check_gh_stack_availability(base_branch: str, default_branch: str) -> tuple[
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Pre-PR inspection script to verify repository state, branch protection, uncommitted changes, and PR readiness.",
+        epilog="""Examples:
+  python3 scripts/prepare_pr.py
+  python3 scripts/prepare_pr.py main
+  python3 scripts/prepare_pr.py --json
+  python3 scripts/prepare_pr.py main --json""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "base_branch",
+        nargs="?",
+        default=None,
+        help="Base branch to target or compare against (defaults to repository default branch).",
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output structured inspection report as JSON to stdout.",
+    )
+    args = parser.parse_args()
+
     if not is_git_repository():
         print("[ERROR] Current directory is not a Git repository.", file=sys.stderr)
         return 1
@@ -390,7 +417,7 @@ def main() -> int:
     verify_gh_prerequisites()
 
     repo_info = get_target_repo_info()
-    base_branch = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1].strip() else repo_info.default_branch
+    base_branch = args.base_branch.strip() if args.base_branch and args.base_branch.strip() else repo_info.default_branch
     current_branch = get_current_branch()
     branch_info = check_branch_protection(current_branch, repo_info.default_branch)
     staged, unstaged, untracked = get_uncommitted_changes()
@@ -399,6 +426,58 @@ def main() -> int:
     commit_count, commits, diff_stat = get_commit_diff_stats(base_branch)
     issue_candidates = find_issue_candidates(current_branch, commits)
     stack_ready, stack_msg = check_gh_stack_availability(base_branch, repo_info.default_branch)
+    total_uncommitted = len(staged) + len(unstaged) + len(untracked)
+
+    if args.json:
+        report_data = {
+            "repository": {
+                "nwo": repo_info.nwo,
+                "owner": repo_info.owner,
+                "name": repo_info.name,
+                "default_branch": repo_info.default_branch,
+                "base_branch": base_branch,
+                "is_fork": repo_info.is_fork,
+            },
+            "branch_status": {
+                "current_branch": current_branch,
+                "is_protected": branch_info.is_protected,
+                "is_default": branch_info.is_default,
+                "message": branch_info.message,
+            },
+            "uncommitted_changes": {
+                "total_count": total_uncommitted,
+                "staged": staged,
+                "unstaged": unstaged,
+                "untracked": untracked,
+            },
+            "remote_sync": {
+                "status": sync_info.status,
+                "message": sync_info.message,
+            },
+            "commits": {
+                "base_branch": base_branch,
+                "count": commit_count,
+                "commit_messages": commits,
+                "diff_stat": diff_stat,
+            },
+            "existing_pr": {
+                "exists": existing_pr.exists,
+                "number": existing_pr.number,
+                "title": existing_pr.title,
+                "url": existing_pr.url,
+                "is_draft": existing_pr.is_draft,
+            },
+            "issue_candidates": [
+                {"number": iss.number, "title": iss.title, "is_matched": iss.is_matched}
+                for iss in issue_candidates
+            ],
+            "stacked_pr": {
+                "is_ready": stack_ready,
+                "message": stack_msg,
+            },
+        }
+        print(json.dumps(report_data, indent=2))
+        return 0
 
     print("=" * 60)
     print("Pre-PR Inspection Report")

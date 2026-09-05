@@ -201,9 +201,12 @@ def get_staged_files() -> list[tuple[str, str]]:
 
     staged: list[tuple[str, str]] = []
     for line in out.splitlines():
-        parts = line.split(maxsplit=1)
+        parts = line.split("\t")
         if len(parts) == 2:
             staged.append((parts[0].strip(), parts[1].strip()))
+        elif len(parts) >= 3:
+            # Handle renames/copies (status, orig_path, new_path)
+            staged.append((parts[0].strip(), parts[2].strip()))
     return staged
 
 
@@ -332,7 +335,7 @@ def main() -> int:
     print("           <blank line>", file=sys.stderr)
     print("           <body describing WHY and WHAT based on conversation context>", file=sys.stderr)
     print("           <blank line>", file=sys.stderr)
-    print("           Co-Authored-By: <ModelName> <<email>>", file=sys.stderr)
+    print("           Co-Authored-By: <AgentName> <ModelName> <<email>>", file=sys.stderr)
     print("           (Enclose model name in double quotes if it contains parentheses)", file=sys.stderr)
     print("=" * 60, file=sys.stderr)
 

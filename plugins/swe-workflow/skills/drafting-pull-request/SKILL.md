@@ -61,9 +61,10 @@ Synchronize the local branch with the remote repository according to the sync st
 
 ### Step 4: Extract Design Decisions via `decision-analyst` Subagent
 
-Invoke the dedicated `decision-analyst` subagent to analyze the session context and diff:
-- **Purpose**: Extract genuine, high-value design decisions and architectural trade-offs where multiple viable approaches existed.
-- **Filter**: Exclude bug fix iterations, AI hallucinations, and trivial choices.
+Invoke the dedicated `decision-analyst` subagent to analyze the session context and git diff:
+- **Invocation**: Dispatch the `decision-analyst` subagent ([`../../agents/decision-analyst.md`](../../agents/decision-analyst.md)) to audit the session and diff.
+- **Purpose**: Extract genuine, high-value design decisions and architectural trade-offs where multiple viable approaches existed (stating Context, Chosen Approach, Alternatives Considered, and Rationale).
+- **Filter**: Strictly filter out bug fixes, syntax adjustments, AI hallucinations, and obvious implementation steps.
 
 ---
 
@@ -72,7 +73,7 @@ Invoke the dedicated `decision-analyst` subagent to analyze the session context 
 Formulate the PR title and body following the specification in [`pr-template.md`](./references/pr-template.md):
 
 1. **PR Title (`release-please` compatible)**:
-   - Format: `<type>(<scope>): <subject>` (e.g. `feat(git-workflow): add drafting-pull-request skill`)
+   - Format: `<type>(<scope>): <subject>` (e.g. `feat(swe-workflow): add drafting-pull-request skill`)
 2. **PR Body Structure**:
    - **Summary**: High-level bullet points.
    - **Context & Motivation**: The problem and why this change was made.
