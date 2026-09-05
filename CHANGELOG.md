@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/green-tea-stalk/swe-agent-skills/compare/v1.0.0...v1.1.0) (2026-09-05)
+
+
+### Features
+
+* **swe-workflow:** add implementing-tasks skill and reviewer subagents ([#16](https://github.com/green-tea-stalk/swe-agent-skills/issues/16)) ([682ffc8](https://github.com/green-tea-stalk/swe-agent-skills/commit/682ffc82887272af65cc41b7d7b727e6e7bd4962))
+* **swe-workflow:** add planning-and-designing skill and restructure plugin ([#14](https://github.com/green-tea-stalk/swe-agent-skills/issues/14)) ([1c23067](https://github.com/green-tea-stalk/swe-agent-skills/commit/1c23067737af1c6d7f11ec94befe3e3fd1a3725e))
+
 ## 1.0.0 (2026-08-30)
 
 
