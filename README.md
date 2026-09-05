@@ -32,11 +32,16 @@ Directly supported as native plugins in the following AI coding assistants:
 
 ## Available Plugins
 
-- **swe-workflow**: Comprehensive Software Engineering (SWE) and Spec-Driven Development (SDD) workflow automation and best practices.
-  - [planning-and-designing](./plugins/swe-workflow/skills/planning-and-designing/README.md)
-  - [implementing-tasks](./plugins/swe-workflow/skills/implementing-tasks/README.md)
-  - [committing-changes](./plugins/swe-workflow/skills/committing-changes/README.md)
-  - [drafting-pull-request](./plugins/swe-workflow/skills/drafting-pull-request/README.md)
+### `swe-workflow`
+
+Comprehensive Software Engineering (SWE) and Spec-Driven Development (SDD) workflow automation, quality gatekeeping, and Git lifecycle management.
+
+| Skill | Category / Role | Summary |
+| :--- | :--- | :--- |
+| [`planning-and-designing`](./plugins/swe-workflow/skills/planning-and-designing/README.md) | SDD Planning & Design | Transforms user requirements into verifiable, bilingual specification assets (`requirements.md`, `design.md`, `tasks.md`) via incremental elicitation, DbC contracts, and multi-agent audits. |
+| [`implementing-tasks`](./plugins/swe-workflow/skills/implementing-tasks/README.md) | SDD Implementation | Drives strict TDD (Red-Green-Refactor) against DbC contracts, dual-reviewer audits (code & security), post-audit refactoring, and Stacked PR generation. |
+| [`committing-changes`](./plugins/swe-workflow/skills/committing-changes/README.md) | Git Automation | Runs automated pre-commit safety checks (branch protection, secret detection) and constructs atomic, context-rich Conventional Commits with co-author attribution. |
+| [`drafting-pull-request`](./plugins/swe-workflow/skills/drafting-pull-request/README.md) | GitHub PR Management | Inspects remote sync and branch safety, extracts objective design decisions and trade-offs via `decision-analyst`, and submits release-please compatible Draft PRs. |
 
 ---
 
