@@ -100,3 +100,20 @@ plugins/<plugin-name>/
 ## 7. Release Management
 
 This repository uses **[release-please](https://github.com/googleapis/release-please)** for automated changelog generation and release creation. All releases are created via GitHub Actions based on Conventional Commits. Agents should format their commits correctly to ensure releases are generated accurately.
+
+---
+
+## 8. Documentation & Localization Policy
+
+To ensure global accessibility, cognitive consistency, and mechanical auditability across all AI coding agents and human engineers, this repository enforces a strict bilingual documentation policy:
+
+- **English as Single Source of Truth (SSOT)**:
+  All primary documentation, skill specifications, and architectural definitions are authored in English first (`README.md`, `SKILL.md`).
+- **Japanese Derived Documentation (`*.ja.md`)**:
+  - The repository root provides a companion `README.ja.md` mirrored from `README.md`.
+  - Every skill directory provides a companion `README.ja.md` mirrored from its `README.md`.
+- **Strict 1:1 Mirror Parity**:
+  - Derived Japanese documentation must strictly mirror the structural outline, section headings, Mermaid topologies, and table schemas of the English SSOT.
+  - Documents must maintain exact line-by-line parity (identical line counts) to enable deterministic drift detection via automated diffs and line count assertions.
+- **Workflow Sequence**:
+  Always draft, review, and finalize changes in the English SSOT before translating and synchronizing them into the Japanese companion document. Never update the Japanese documentation in isolation.
