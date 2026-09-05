@@ -49,30 +49,48 @@ plugins/swe-workflow/agents/
 
 ```mermaid
 flowchart TD
-    S1[Step 1: Pre-Inspection & Mode Resolution] --> S2[Step 2: Input Validation & Task Suitability]
-    S2 --> S3[Step 3: Codebase Reconnaissance]
-    S3 --> S4[Step 4: Requirements Specification & Audit]
-    S4 --> S5[Step 5: Component Design & Audit]
-    S5 --> S6[Step 6: Task Planning & Audit]
-    S6 --> S7[Step 7: Bilingual Translation Generation]
-    S7 --> S8[Step 8: Delegate to drafting-pull-request]
+    subgraph P1["Phase 1: Requirements Elicitation & Suitability"]
+        S1["Step 1: Incremental Requirements Elicitation<br>(Interactive dialogue until mutual completion)"] --> S2{"Step 2: Task Suitability Check<br>(Check heavyweight suitability & bypass confirmation)"}
+        S2 -- "Bypass accepted" --> EXIT["Exit Skill (Proceed to Direct Implementation)"]
+        S2 -- "Proceed with SDD" --> S3
+    end
+
+    subgraph P2["Phase 2: Spec Discovery & Consolidation"]
+        S3["Step 3: Spec Exploration & Consolidation<br>(Duplicate, sub-scope, super-scope, or new feature)"] --> S4
+    end
+
+    subgraph P3["Phase 3: Codebase Reconnaissance & Input Finalization"]
+        S4["Step 4: Codebase Reconnaissance & Feasibility<br>(Verify feasibility, fill gaps, finalize inputs)"] --> S5
+    end
+
+    subgraph P4["Phase 4: Specification Drafting & Review Audits"]
+        S5["Step 5: Draft & Audit Requirements Specification<br>(requirements.md + requirements-reviewer)"] --> S6["Step 6: Draft & Audit Component Design<br>(design.md + decision-analyst + design-reviewer)"]
+        S6 --> S7["Step 7: Draft & Audit Implementation Task Plan<br>(tasks.md + tasks-reviewer)"]
+    end
+
+    subgraph P5["Phase 5: Localization & PR Delegation"]
+        S7 --> S8["Step 8: Bilingual Translation Generation<br>(Derive *.<lang>.md using ISO 639-1 code)"]
+        S8 --> S9["Step 9: Delegate to drafting-pull-request<br>(Branch safety, atomic commit, draft PR creation)"]
+    end
 ```
 
-1. **Step 1: Pre-Inspection & Mode Resolution**:
-   Normalizes feature name to kebab-case (e.g. `docs/specs/<feature-name>/`) and determines mode: Initial (v1.0.0), Revision (update existing), or Resume (uncompleted steps).
-2. **Step 2: Input Validation & Task Suitability**:
-   Checks whether the change is too lightweight for SDD (typos, 1-line fixes) and recommends direct editing if unsuitable. Validates completeness of intent with strict fail-closed clarifying questions.
-3. **Step 3: Codebase Reconnaissance**:
-   Inspects target repository conventions, tech stack, dependencies, and existing code patterns.
-4. **Step 4: Requirements Specification & Audit**:
+1. **Step 1: Incremental Requirements Elicitation**:
+   Conducts multi-turn dialogue to clarify problem, actors, happy paths, edge cases, and out-of-scope items. Strict exit criteria requires both user sign-off and assistant verification of requirements sufficiency.
+2. **Step 2: Task Suitability Assessment & Bypass Decision**:
+   Evaluates whether change is too lightweight for SDD (typos, 1-line fixes). Offers user bypass option: if accepted, terminates skill gracefully; if declined, continues formal SDD.
+3. **Step 3: Specification Exploration & Scope Consolidation**:
+   Analyzes existing specs under `docs/specs/` to classify into Duplicate, Sub-scope, Super-scope, or New Feature. Mandates user confirmation to decide consolidation strategy and normalizes feature name.
+4. **Step 4: Codebase Reconnaissance & Technical Feasibility Verification**:
+   Inspects codebase conventions, tech stack, and patterns. Verifies technical feasibility, conducts gap-filling dialogue with user, and finalizes authoring inputs.
+5. **Step 5: Requirements Specification & Audit**:
    Drafts `requirements.md` and achieves `APPROVED` verdict from `requirements-reviewer`.
-5. **Step 5: Component Design & Audit**:
+6. **Step 6: Component Design & Audit**:
    Drafts `design.md`, extracts design decisions via `decision-analyst`, and achieves `APPROVED` verdict from `design-reviewer`.
-6. **Step 6: Task Planning & Audit**:
+7. **Step 7: Task Planning & Audit**:
    Drafts `tasks.md` with GFM tracking and achieves `APPROVED` verdict from `tasks-reviewer`.
-7. **Step 7: Bilingual Translation Generation**:
+8. **Step 8: Bilingual Translation Generation**:
    Generates faithful localized files (e.g. `requirements.<lang>.md`, `design.<lang>.md`, `tasks.<lang>.md`) using target ISO 639-1 code and RFC 2119 mapping if user conversation is non-English.
-8. **Step 8: Delegate to `drafting-pull-request`**:
+9. **Step 9: Delegate to `drafting-pull-request`**:
    Invokes `drafting-pull-request` to handle branch safety, Conventional Commit creation, and Draft PR submission.
 
 ---

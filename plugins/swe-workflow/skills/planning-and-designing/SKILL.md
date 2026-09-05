@@ -2,10 +2,11 @@
 name: planning-and-designing
 description: >-
   Use this skill when executing the Planning & Design phase (Phase A) of Spec-Driven Development (SDD).
-  Inspects existing specifications or codebase, validates task suitability against heavyweight processes,
+  Engages in incremental requirements elicitation, checks task suitability, explores existing specifications
+  for consolidation (duplicate, sub-scope, super-scope, new), verifies codebase feasibility to finalize inputs,
   drafts EARS/RFC 2119 requirements with Mermaid modeling, defines Component Contracts (DbC) and data models,
   extracts design decisions, creates GFM-tracked Stacked PR task plans, executes multi-stage subagent reviewer audits
-  (up to 3 iterations), generates bilingual translations, and delegates to
+  (up to 3 iterations), generates dynamic bilingual translations, and delegates to
   drafting-pull-request for atomic verification.
 ---
 
@@ -21,69 +22,116 @@ Follow these sequential steps whenever planning and designing a new feature or s
 
 ```mermaid
 flowchart TD
-    S1[Step 1: Pre-Inspection & Mode Resolution] --> S2[Step 2: Input Validation & Task Suitability]
-    S2 --> S3[Step 3: Codebase Reconnaissance]
-    S3 --> S4[Step 4: Requirements Specification & Audit]
-    S4 --> S5[Step 5: Component Design & Audit]
-    S5 --> S6[Step 6: Task Planning & Audit]
-    S6 --> S7[Step 7: Bilingual Translation Generation]
-    S7 --> S8[Step 8: Delegate to drafting-pull-request]
+    subgraph P1["Phase 1: Requirements Elicitation & Suitability"]
+        S1["Step 1: Incremental Requirements Elicitation<br>(Interactive dialogue until mutual completion)"] --> S2{"Step 2: Task Suitability Check<br>(Check heavyweight suitability & bypass confirmation)"}
+        S2 -- "Bypass accepted" --> EXIT["Exit Skill (Proceed to Direct Implementation)"]
+        S2 -- "Proceed with SDD" --> S3
+    end
+
+    subgraph P2["Phase 2: Spec Discovery & Consolidation"]
+        S3["Step 3: Spec Exploration & Consolidation<br>(Duplicate, sub-scope, super-scope, or new feature)"] --> S4
+    end
+
+    subgraph P3["Phase 3: Codebase Reconnaissance & Input Finalization"]
+        S4["Step 4: Codebase Reconnaissance & Feasibility<br>(Verify feasibility, fill gaps, finalize inputs)"] --> S5
+    end
+
+    subgraph P4["Phase 4: Specification Drafting & Review Audits"]
+        S5["Step 5: Draft & Audit Requirements Specification<br>(requirements.md + requirements-reviewer)"] --> S6["Step 6: Draft & Audit Component Design<br>(design.md + decision-analyst + design-reviewer)"]
+        S6 --> S7["Step 7: Draft & Audit Implementation Task Plan<br>(tasks.md + tasks-reviewer)"]
+    end
+
+    subgraph P5["Phase 5: Localization & PR Delegation"]
+        S7 --> S8["Step 8: Bilingual Translation Generation<br>(Derive *.<lang>.md using ISO 639-1 code)"]
+        S8 --> S9["Step 9: Delegate to drafting-pull-request<br>(Branch safety, atomic commit, draft PR creation)"]
+    end
 ```
 
 ---
 
-### Step 1: Pre-Inspection & Mode Resolution
+### Step 1: Incremental Requirements Elicitation
 
-1. **Normalize Feature Name**:
-   - Synthesize or extract the target feature name and normalize it to lowercase kebab-case (`^[a-z0-9-]+$`, e.g. `user-authentication`, `csv-exporter`).
-   - The canonical target directory is `docs/specs/<feature-name>/`.
+Users typically cannot convey full requirements in a single initial prompt. Step 1 conducts an interactive, multi-turn elicitation dialogue to crystallize ambiguous or high-level user ideas into robust requirements before any repository inspection occurs:
 
-2. **Scan Existing Specification Assets**:
-   Inspect `docs/specs/<feature-name>/` to determine the execution mode:
-   - **Initial Mode (0 existing files)**:
-     - No specification documents exist. Initialize a new specification starting at version `1.0.0`.
-   - **Revision Mode (complete existing files exist)**:
-     - Read the YAML frontmatter of existing files (`version`, `status`, `upstream`).
-     - Determine whether the revision is triggered by new requirements (Type A) or implementation defect feedback (Type B).
-   - **Resume Mode (partial files exist)**:
-     - If previous execution was interrupted (e.g. `requirements.md` exists but `design.md` is missing), resume execution from the first uncompleted step.
+1. **Structured Elicitation Inquiries**:
+   - Actively ask targeted questions to clarify:
+     1. **Core Problem & Motivation**: What problem are we solving, and why?
+     2. **Actors & Personas**: Who or what uses this feature (developers, end users, external services)?
+     3. **Primary Use Cases**: What is the happy path and primary user journey?
+     4. **Boundary & Edge Conditions**: What are the input constraints, rate limits, timeouts, and negative scenarios?
+     5. **Out of Scope (Explicit Boundaries)**: What will we deliberately NOT implement in this iteration?
+
+2. **Strict Mutual Exit Criteria (Fail-Closed)**:
+   Step 1 MUST NOT complete until **both** conditions are satisfied:
+   - **User Sign-off**: The user explicitly states that they have conveyed all initial requirements and have nothing further to add.
+   - **Assistant Sufficiency Verification**: The assistant objectively verifies that necessary requirements information (motivation, primary actors, happy paths, edge cases, out-of-scope boundaries) is sufficiently clear to anchor formal specifications.
+   - **Fail-Closed Rule**: If critical ambiguities or missing points remain, the assistant **MUST NOT terminate Step 1**, even if the user signals completion. The assistant must present the specific unaddressed questions and continue clarification. Step 1 is complete ONLY when both criteria are met.
 
 ---
 
-### Step 2: Input Validation, Task Suitability & Fail-Closed Protocol
+### Step 2: Task Suitability Assessment & Bypass Decision
 
-1. **Task Suitability Assessment (Heavyweight Process Check)**:
+1. **Heavyweight Process Evaluation**:
    - SDD is a heavyweight process involving multi-stage formal modeling, DbC contracts, and multi-subagent auditing.
    - **Unsuitable Tasks**: Typo fixes, 1-2 line localized bug fixes, documentation typos, or trivial configuration tweaks.
-   - **Protocol**: If the task is identified as unsuitable/trivial:
-     - **HALT and inform the user**: "This task appears to be a lightweight or localized change. SDD is a heavyweight multi-stage process that introduces significant overhead for minor tweaks. We recommend proceeding with direct implementation and commit/PR creation instead. Do you still wish to generate formal specifications?"
-     - Proceed with SDD ONLY if the user explicitly confirms.
 
-2. **Fail-Closed Missing Information Protocol**:
-   - Evaluate whether the user's request provides sufficient clarity regarding:
-     1. Core problem and business/technical motivation.
-     2. Primary actors and intended use cases.
-     3. Known constraints or out-of-scope boundaries.
-   - **Strict Fail-Closed Rule**: If the request is fundamentally ambiguous, contradictory, or missing core intent, **DO NOT proceed with speculative assumptions**. Present clear, structured clarifying questions to the user and await input.
+2. **User Decision & Branch Control**:
+   - If the task is identified as lightweight/trivial:
+     - **Prompt the user**: "This task appears to be a lightweight or localized change. SDD is a heavyweight multi-stage process that introduces significant overhead for minor tweaks. We recommend proceeding with direct implementation and commit/PR creation instead. Would you like to bypass SDD, or do you still wish to generate formal specifications?"
+     - **Bypass Accepted**: If the user accepts the bypass, **terminate the `planning-and-designing` skill gracefully** and proceed to direct code implementation.
+     - **Bypass Declined (SDD Requested)**: If the user insists on formal specifications, continue the SDD process and proceed to Step 3.
 
 ---
 
-### Step 3: Codebase Reconnaissance
+### Step 3: Specification Exploration & Scope Consolidation
 
-Before drafting formal specifications, inspect the target project's codebase to anchor requirements and architecture to concrete realities:
-1. **Target Project Guidelines**:
-   - Inspect `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, or repository guidelines if present.
-2. **Architecture & Technology Stack**:
-   - Inspect package manifests (`package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, etc.) to identify programming language, dependencies, and testing frameworks.
-3. **Existing Patterns & Component Boundaries**:
-   - Search for related modules, existing data models, interface patterns, and error handling conventions to ensure seamless integration.
+Once concrete requirements are elicited, inspect the full specification landscape under `docs/specs/` across the repository to determine the architectural topology and consolidation strategy:
+
+1. **Analyze Existing Specification Topology**:
+   Compare the elicited requirements against all existing specification directories under `docs/specs/` and classify into one of four patterns:
+   - **Duplicate**: An existing spec covers the exact same scope -> Propose revising/updating the existing spec.
+   - **Sub-scope**: The requirements represent a sub-feature or extension of an existing, broader spec -> Propose integrating into the existing spec as an added module or revision.
+   - **Super-scope**: The requirements encompass or unify multiple smaller, existing specs -> Propose consolidating and superseding those existing specs.
+   - **New Feature**: The requirements represent an entirely independent feature -> Establish a new feature directory.
+
+2. **Mandatory User Confirmation & Decision Authority**:
+   - Architectural and domain boundaries cannot always be determined mechanically.
+   - The assistant **MUST present its topology findings and recommended consolidation strategy to the user and seek explicit confirmation**.
+   - The assistant **MUST abide by the user's final decision** regarding whether to create a new spec or consolidate into an existing one.
+
+3. **Normalize Feature Name & Determine Execution Mode**:
+   - Normalize the confirmed feature name to lowercase kebab-case (`^[a-z0-9-]+$`, e.g. `user-authentication`, `csv-exporter`).
+   - The canonical target directory is `docs/specs/<feature-name>/`.
+   - Inspect `docs/specs/<feature-name>/` to determine mode:
+     - **Initial Mode (0 existing files)**: Start at version `1.0.0`.
+     - **Revision Mode (complete existing files exist)**: Inspect YAML frontmatter (`version`, `status`, `upstream`) and track revision type.
+     - **Resume Mode (partial files exist)**: Resume execution from the first uncompleted step.
 
 ---
 
-### Step 4: Draft & Audit Requirements Specification (`requirements.md`)
+### Step 4: Codebase Reconnaissance & Technical Feasibility Verification
+
+Ground the elicited requirements and architecture in the technical realities of the target codebase:
+
+1. **Target Codebase Reconnaissance**:
+   - **Guidelines**: Inspect `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, or repository guidelines if present.
+   - **Tech Stack & Dependencies**: Inspect package manifests (`package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, etc.) to identify languages, runtime libraries, and testing frameworks.
+   - **Existing Architecture Patterns**: Search for related modules, existing data models, interface patterns, and error handling conventions.
+
+2. **Feasibility Verification & Gap-Filling Dialogue**:
+   - Evaluate whether the elicited requirements are technically feasible within the existing codebase constraints.
+   - If technical discrepancies, architectural trade-offs, or integration questions arise (e.g. choice of authentication library, database migration strategy), interview the user to resolve them.
+
+3. **Strict Technical Exit Criteria (Fail-Closed)**:
+   - The assistant MUST NOT terminate Step 4 until it objectively verifies that all technical prerequisites, architecture choices, and integration boundaries needed to draft `requirements.md`, `design.md`, and `tasks.md` are **completely determined and verified**.
+   - Once all technical gaps are filled, the inputs for specification authoring are permanently **finalized**.
+
+---
+
+### Step 5: Draft & Audit Requirements Specification (`requirements.md`)
 
 1. **Draft English SSOT**:
-   - Create or update `docs/specs/<feature-name>/requirements.md` conforming strictly to [`references/requirements-template.md`](./references/requirements-template.md).
+   - Create or update `docs/specs/<feature-name>/requirements.md` conforming strictly to [`references/requirements-template.md`](./references/requirements-template.md) using the finalized inputs.
    - Enforce standard EARS syntax patterns (Ubiquitous, Event-driven, State-driven, Unwanted behavior, Optional feature, Complex).
    - Apply uppercase RFC 2119 / RFC 8174 keywords (`MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, `MAY`).
    - Satisfy ISO/IEC/IEEE 29148:2018 quality characteristics (Unambiguous, Complete, Consistent, Verifiable, Traceable).
@@ -95,11 +143,11 @@ Before drafting formal specifications, inspect the target project's codebase to 
    - **Convergence**:
      - If `CHANGES_REQUIRED`: address all identified defects and re-audit (up to 3 total iterations).
      - If unresolved after 3 iterations: **HALT safely (Fail-Closed)** and escalate specific blocker findings to the user.
-     - Proceed to Step 5 only upon receiving **APPROVED**.
+     - Proceed to Step 6 only upon receiving **APPROVED**.
 
 ---
 
-### Step 5: Draft & Audit Architecture & Component Design (`design.md`)
+### Step 6: Draft & Audit Architecture & Component Design (`design.md`)
 
 1. **Draft English SSOT**:
    - Create or update `docs/specs/<feature-name>/design.md` conforming strictly to [`references/design-template.md`](./references/design-template.md).
@@ -118,11 +166,11 @@ Before drafting formal specifications, inspect the target project's codebase to 
 3. **Audit via `design-reviewer` Subagent (Max 3 Iterations)**:
    - Invoke the dedicated `design-reviewer` subagent to audit `design.md`.
    - Enforce fail-closed convergence (max 3 iterations; escalate if unresolved).
-   - Proceed to Step 6 only upon receiving **APPROVED**.
+   - Proceed to Step 7 only upon receiving **APPROVED**.
 
 ---
 
-### Step 6: Draft & Audit Implementation Task Plan (`tasks.md`)
+### Step 7: Draft & Audit Implementation Task Plan (`tasks.md`)
 
 1. **Draft English SSOT**:
    - Create or update `docs/specs/<feature-name>/tasks.md` conforming strictly to [`references/tasks-template.md`](./references/tasks-template.md).
@@ -136,11 +184,11 @@ Before drafting formal specifications, inspect the target project's codebase to 
 2. **Audit via `tasks-reviewer` Subagent (Max 3 Iterations)**:
    - Invoke the dedicated `tasks-reviewer` subagent to audit `tasks.md`.
    - Enforce fail-closed convergence (max 3 iterations; escalate if unresolved).
-   - Proceed to Step 7 only upon receiving **APPROVED**.
+   - Proceed to Step 8 only upon receiving **APPROVED**.
 
 ---
 
-### Step 7: Bilingual Translation Generation
+### Step 8: Bilingual Translation Generation
 
 Once all three English SSOT documents (`requirements.md`, `design.md`, `tasks.md`) achieve **APPROVED** status:
 1. **Detect Conversation Language**:
@@ -155,7 +203,7 @@ Once all three English SSOT documents (`requirements.md`, `design.md`, `tasks.md
 
 ---
 
-### Step 8: Delegate to `drafting-pull-request`
+### Step 9: Delegate to `drafting-pull-request`
 
 Do NOT perform manual Git branching or piecemeal commits during this skill. Instead, delegate the finalized assets to the existing `drafting-pull-request` skill within the same plugin:
 

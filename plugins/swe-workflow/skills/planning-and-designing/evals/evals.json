@@ -6,6 +6,9 @@
       "prompt": "We need to design and plan a new user authentication feature with OAuth2 and passkeys.",
       "expected_output": "Comprehensive requirements.md, design.md, and tasks.md documents with subagent review approvals and derived localized translations in the user's conversation language.",
       "assertions": [
+        "The agent conducts an incremental requirements elicitation dialogue enforcing mutual exit criteria (user sign-off and assistant verification)",
+        "The agent evaluates existing specs under docs/specs/ and seeks user confirmation on consolidation strategy (duplicate, sub-scope, super-scope, or new)",
+        "The agent conducts codebase reconnaissance to verify technical feasibility and finalize authoring inputs",
         "The agent normalizes the feature name into a kebab-case directory under docs/specs/",
         "The agent drafts requirements.md adhering to EARS syntax, RFC 2119 / RFC 8174 keywords, and ISO/IEC/IEEE 29148 characteristics",
         "The agent validates requirements.md with the requirements-reviewer subagent until APPROVED",
@@ -25,7 +28,7 @@
       "assertions": [
         "The agent checks task suitability in Step 2",
         "The agent flags the task as too lightweight for SDD (typo / 1-line change)",
-        "The agent offers the user the choice to skip SDD and make the change directly"
+        "The agent offers the user the choice to bypass SDD and gracefully terminates if bypass is accepted"
       ]
     }
   ]
