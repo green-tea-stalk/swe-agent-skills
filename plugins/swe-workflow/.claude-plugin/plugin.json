@@ -1,0 +1,19 @@
+{
+  "name": "swe-workflow",
+  "version": "0.3.0",
+  "description": "Comprehensive Software Engineering (SWE) workflows, specification-driven development, and Git automation for modern AI coding agents.",
+  "author": {
+    "name": "swe-agent-skills"
+  },
+  "skills": [
+    "skills/committing-changes",
+    "skills/drafting-pull-request",
+    "skills/planning-and-designing"
+  ],
+  "agents": [
+    "agents/decision-analyst.md",
+    "agents/requirements-reviewer.md",
+    "agents/design-reviewer.md",
+    "agents/tasks-reviewer.md"
+  ]
+}

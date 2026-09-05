@@ -15,11 +15,12 @@ This skill guides the preparation, inspection, message construction, and executi
 Follow these sequential steps whenever executing a commit:
 
 ### Step 1: Run Pre-Commit Inspection Script
-Execute the deterministic helper script from the skill directory to inspect branch safety, secrets, staging state, and diff statistics:
+Execute the deterministic helper script located in the skill's `scripts/` directory against the current workspace:
 
 ```bash
-python3 scripts/prepare_commit.py
+python3 <path-to-skill>/scripts/prepare_commit.py
 ```
+*(Note: Run this command from your active workspace root; do NOT `cd` into the skill directory so Git inspects the target project)*
 
 Inspect the generated report:
 1. **Branch Safety**:

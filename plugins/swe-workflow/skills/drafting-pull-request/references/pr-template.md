@@ -71,7 +71,7 @@ This template defines the standard, high-quality structure for Pull Request desc
 
 ## Instructions for Agents
 
-1. **Title Alignment**: Format the PR title using Conventional Commits compatible with `release-please` (e.g. `feat(git-workflow): add drafting-pull-request skill`).
+1. **Title Alignment**: Format the PR title using Conventional Commits compatible with `release-please` (e.g. `feat(swe-workflow): add drafting-pull-request skill`).
 2. **Conversation Language Folding**:
    - If the user conversation is in English: Do NOT include the `<details>` block.
    - If the user conversation is in any other language (e.g. Japanese, French, Chinese, German, Spanish): Include the `<details>` block with full translations of the summary, motivation, decisions, changes, and verification.

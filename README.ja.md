@@ -32,9 +32,10 @@
 
 ## 収録プラグイン一覧
 
-- **git-workflow**: コミットや PR 作成を自動化し、ベストプラクティスを強制する Git ワークフロー。
-  - [committing-changes](./plugins/git-workflow/skills/committing-changes/README.ja.md)
-  - [drafting-pull-request](./plugins/git-workflow/skills/drafting-pull-request/README.ja.md)
+- **swe-workflow**: 包括的なソフトウェアエンジニアリング (SWE) および仕様駆動開発 (SDD) ワークフロー自動化とベストプラクティス。
+  - [planning-and-designing](./plugins/swe-workflow/skills/planning-and-designing/README.ja.md)
+  - [committing-changes](./plugins/swe-workflow/skills/committing-changes/README.ja.md)
+  - [drafting-pull-request](./plugins/swe-workflow/skills/drafting-pull-request/README.ja.md)
 
 ---
 

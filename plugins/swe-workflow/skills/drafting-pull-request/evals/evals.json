@@ -1,0 +1,18 @@
+{
+  "skill_name": "drafting-pull-request",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a draft PR for the current branch.",
+      "expected_output": "A draft pull request created on GitHub with a structured title and body containing decisions and trade-offs.",
+      "assertions": [
+        "The agent runs scripts/prepare_pr.py to inspect repository state",
+        "The agent checks branch protection and switches to a feature branch if protected",
+        "The agent verifies remote synchronization before pushing",
+        "The agent extracts design decisions and trade-offs via the decision-analyst subagent",
+        "The agent formats a release-please compatible PR title",
+        "The agent creates or updates the pull request via gh pr create or gh pr edit"
+      ]
+    }
+  ]
+}
