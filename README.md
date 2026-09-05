@@ -30,7 +30,7 @@ Directly supported as native plugins in the following AI coding assistants:
 
 ---
 
-## Available Plugins
+## Plugins
 
 ### `swe-workflow`
 
