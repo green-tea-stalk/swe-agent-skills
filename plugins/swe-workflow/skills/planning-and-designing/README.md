@@ -1,6 +1,6 @@
 # Planning & Designing Skill (`planning-and-designing`)
 
-Comprehensive specification engineering skill for the **Planning & Design phase (Phase A)** of **Spec-Driven Development (SDD)**.
+Comprehensive specification engineering skill for the **planning and designing phase** of **Spec-Driven Development (SDD)**.
 
 ---
 

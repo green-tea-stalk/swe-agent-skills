@@ -1,6 +1,6 @@
 # 計画・設計スキル (`planning-and-designing`)
 
-Spec-Driven Development（SDD: 仕様駆動開発）の**計画・設計フェーズ（フェーズA）**を担当する包括的な仕様エンジニアリングスキルです。
+Spec-Driven Development（SDD: 仕様駆動開発）の**計画・設計フェーズ**を担当する包括的な仕様エンジニアリングスキルです。
 
 ---
 

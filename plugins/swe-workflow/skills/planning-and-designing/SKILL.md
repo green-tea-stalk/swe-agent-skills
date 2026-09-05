@@ -1,7 +1,7 @@
 ---
 name: planning-and-designing
 description: >-
-  Use this skill when executing the Planning & Design phase (Phase A) of Spec-Driven Development (SDD).
+  Use this skill when executing the planning and designing phase of Spec-Driven Development (SDD).
   Engages in incremental requirements elicitation, checks task suitability, explores existing specifications
   for consolidation (duplicate, sub-scope, super-scope, new), verifies codebase feasibility to finalize inputs,
   drafts EARS/RFC 2119 requirements with Mermaid modeling, defines Component Contracts (DbC) and data models,
@@ -10,9 +10,9 @@ description: >-
   drafting-pull-request for atomic verification.
 ---
 
-# Planning & Designing (SDD Phase A)
+# Planning & Designing (Spec-Driven Development)
 
-This skill guides the end-to-end execution of the Planning & Design phase of Spec-Driven Development (SDD). It transforms user requirements into rigorous, verifiable, and bilingual specification assets (`requirements.md`, `design.md`, `tasks.md`) stored under `docs/specs/<feature-name>/`.
+This skill guides the end-to-end execution of the planning and designing phase of Spec-Driven Development (SDD). It transforms user requirements into rigorous, verifiable, and bilingual specification assets (`requirements.md`, `design.md`, `tasks.md`) stored under `docs/specs/<feature-name>/`.
 
 ---
 
