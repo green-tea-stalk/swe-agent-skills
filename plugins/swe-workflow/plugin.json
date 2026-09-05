@@ -6,12 +6,15 @@
   "skills": [
     "skills/committing-changes",
     "skills/drafting-pull-request",
+    "skills/implementing-tasks",
     "skills/planning-and-designing"
   ],
   "agents": [
+    "agents/code-reviewer.md",
     "agents/decision-analyst.md",
-    "agents/requirements-reviewer.md",
     "agents/design-reviewer.md",
+    "agents/requirements-reviewer.md",
+    "agents/security-reviewer.md",
     "agents/tasks-reviewer.md"
   ]
 }

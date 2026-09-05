@@ -34,6 +34,7 @@ Directly supported as native plugins in the following AI coding assistants:
 
 - **swe-workflow**: Comprehensive Software Engineering (SWE) and Spec-Driven Development (SDD) workflow automation and best practices.
   - [planning-and-designing](./plugins/swe-workflow/skills/planning-and-designing/README.md)
+  - [implementing-tasks](./plugins/swe-workflow/skills/implementing-tasks/README.md)
   - [committing-changes](./plugins/swe-workflow/skills/committing-changes/README.md)
   - [drafting-pull-request](./plugins/swe-workflow/skills/drafting-pull-request/README.md)
 

@@ -1,0 +1,36 @@
+{
+  "skill_name": "implementing-tasks",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement the next task from docs/specs/user-authentication/tasks.md following strict TDD and Stacked PR discipline.",
+      "expected_output": "Failing test written and verified, minimal implementation passing tests, code and security subagent audits approved, refactoring verified, atomic commit recorded, and draft PR stacked.",
+      "assertions": [
+        "The agent discovers the feature specification and identifies the first uncompleted task (- [ ]) in tasks.md",
+        "The agent sets up or verifies the appropriate Stacked PR branch based on the specification branch for PR 1",
+        "The agent writes failing tests (Red) verifying Design by Contract (DbC) rules and boundary conditions before implementation",
+        "The agent leverages testing fixtures and formats data collections with formatter protection where applicable",
+        "The agent writes minimal production code using modern non-deprecated APIs to pass all tests (Green)",
+        "The agent eliminates trivial comment narration, writes standard Doc comments, and avoids specification ID dependencies in code",
+        "The agent concurrently invokes code-reviewer and security-reviewer subagents and resolves any identified issues",
+        "The agent executes a refactoring pass to streamline code and re-verifies that all tests pass without regressions",
+        "The agent updates tasks.md to mark the task completed (- [x]) and creates an atomic Conventional Commit via committing-changes",
+        "The agent submits a Stacked Draft PR via drafting-pull-request upon reaching a PR task boundary"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "During implementation of task 2, a logical contradiction in the authentication token expiration contract is discovered.",
+      "expected_output": "Implementation is safely halted, user is notified, in-flight work is stashed, specification branch is checked out to revise specs via planning-and-designing, updates are sequentially merged, and work resumes.",
+      "assertions": [
+        "The agent halts implementation upon discovering a specification defect rather than making speculative assumptions",
+        "The agent notifies the user and proposes an upstream specification revision",
+        "The agent safely stashes uncommitted implementation changes via git stash",
+        "The agent checks out the upstream specification branch and executes specification revision",
+        "The agent sequentially merges the updated specification into the stacked implementation branches via git merge",
+        "The agent restores stashed implementation work via git stash pop and resumes the TDD cycle"
+      ]
+    }
+  ]
+}
+
