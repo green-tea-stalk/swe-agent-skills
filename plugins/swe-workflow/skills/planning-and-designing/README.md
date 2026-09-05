@@ -27,7 +27,7 @@ The `planning-and-designing` skill provides a deterministic, multi-stage workflo
 
 ---
 
-## 3. Subagents Ecosystem & Quality Gatekeeping
+## 3. Tooling & Subagent Architecture
 
 This skill coordinates dedicated subagents to enforce fail-closed quality gatekeeping:
 
@@ -45,7 +45,7 @@ plugins/swe-workflow/agents/
 
 ---
 
-## 4. End-to-End Workflow Protocol
+## 4. Sequential Workflow Protocol
 
 ```mermaid
 flowchart TD
@@ -95,7 +95,7 @@ flowchart TD
 
 ---
 
-## 5. Directory Structure & Generated Artifacts
+## 5. Output Artifacts & Structure
 
 ### Skill Assets
 ```text

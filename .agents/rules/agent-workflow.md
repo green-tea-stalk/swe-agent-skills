@@ -17,7 +17,13 @@ Operational guidelines for AI coding agents developing, maintaining, or refactor
 When authoring skills in `plugins/`:
 
 - **Portable Frontmatter (Greatest Common Denominator)**: Use ONLY `name` and `description` in `SKILL.md` frontmatter. Do NOT include agent-specific or optional fields (`allowed-tools`, `compatibility`, `metadata`, `license`) to guarantee universal cross-agent compatibility.
-- **Bilingual Documentation Policy**: When adding or updating a skill, you MUST create or update the English `README.md` file. The English `README.md` serves as the Single Source of Truth (SSOT). You must finalize the edits in the English `README.md` first, and only then reflect those finalized changes into the Japanese `README.ja.md` file.
+- **Standard 5-Section Skill Documentation Contract**: Every skill's `README.md` and `README.ja.md` MUST strictly follow this uniform 5-section architecture:
+  1. `## 1. Overview & Objectives` / `## 1. 概要と目的`
+  2. `## 2. Core Standards & Architectural Pillars` / `## 2. アーキテクチャの柱とコア標準` (includes foundational SWE standards table)
+  3. `## 3. Tooling & Subagent Architecture` / `## 3. ツールとサブエージェントアーキテクチャ` (includes directory layout and component map)
+  4. `## 4. Sequential Workflow Protocol` / `## 4. シーケンシャルワークフロープロトコル` (includes Mermaid flowchart and step breakdown)
+  5. `## 5. Output Artifacts & Verification` / `## 5. 生成成果物と検証` (includes artifact contract and verification commands)
+- **Bilingual Documentation Policy & 1:1 Parity**: When adding or updating a skill, you MUST create or update the English `README.md` first as the Single Source of Truth (SSOT). Only after finalizing the English documentation may you derive and update the Japanese `README.ja.md`. Both documents MUST maintain strict 1:1 line-by-line mirror parity (exact identical line counts) and topological parity for tables and Mermaid diagrams.
 
 ---
 

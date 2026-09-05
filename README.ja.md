@@ -30,13 +30,18 @@
 
 ---
 
-## 収録プラグイン一覧
+## プラグイン
 
-- **swe-workflow**: 包括的なソフトウェアエンジニアリング (SWE) および仕様駆動開発 (SDD) ワークフロー自動化とベストプラクティス。
-  - [planning-and-designing](./plugins/swe-workflow/skills/planning-and-designing/README.ja.md)
-  - [implementing-tasks](./plugins/swe-workflow/skills/implementing-tasks/README.ja.md)
-  - [committing-changes](./plugins/swe-workflow/skills/committing-changes/README.ja.md)
-  - [drafting-pull-request](./plugins/swe-workflow/skills/drafting-pull-request/README.ja.md)
+### `swe-workflow`
+
+包括的なソフトウェアエンジニアリング（SWE）および仕様駆動開発（SDD: Spec-Driven Development）のワークフロー自動化、品質ゲートウェイ、および Git ライフサイクル管理を提供します。
+
+| スキル | カテゴリ・役割 | 概要 |
+| :--- | :--- | :--- |
+| [`planning-and-designing`](./plugins/swe-workflow/skills/planning-and-designing/README.ja.md) | SDD 計画・設計 | インクリメンタルな要件ヒアリング、契約による設計（DbC）、および複数エージェント監査を通じて、検証可能かつバイリンガルな仕様資産（`requirements.md`, `design.md`, `tasks.md`）を策定。 |
+| [`implementing-tasks`](./plugins/swe-workflow/skills/implementing-tasks/README.ja.md) | SDD 実装 | DbC 契約に基づく厳格な TDD（Red-Green-Refactor）、コードおよびセキュリティの二重監査、リファクタリング再検証、および Stacked PR の段階的構築を推進。 |
+| [`committing-changes`](./plugins/swe-workflow/skills/committing-changes/README.ja.md) | Git 自動化 | ブランチ保護やシークレット混入などのコミット前安全検査を自動実行し、共同作成者情報を付与したコンテキスト豊かな Conventional Commit を作成。 |
+| [`drafting-pull-request`](./plugins/swe-workflow/skills/drafting-pull-request/README.ja.md) | GitHub PR 管理 | リモート同期とブランチ安全性を検証し、`decision-analyst` による客観的な設計判断・トレードオフ抽出を経て release-please 互換のドラフト PR を作成・更新。 |
 
 ---
 

@@ -29,7 +29,7 @@ The `implementing-tasks` skill provides an automated, crash-resilient, and test-
 
 ---
 
-## 3. Subagents & Review Architecture
+## 3. Tooling & Subagent Architecture
 
 To eliminate confirmation bias and prevent context window pollution, all code quality and security evaluations are delegated to specialized reviewer subagents invoked in isolated context windows:
 
@@ -78,7 +78,7 @@ flowchart TD
 
 ---
 
-## 5. Generated Artifacts & Branching Structure
+## 5. Output Artifacts & Structure
 
 ```text
 git repository:
