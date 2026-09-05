@@ -23,8 +23,7 @@ The `planning-and-designing` skill provides a deterministic, multi-stage workflo
 | **Requirements (`requirements.md`)** | **EARS** + **RFC 2119 / RFC 8174** + **ISO/IEC/IEEE 29148:2018** | Five standard EARS patterns, strict uppercase requirement keywords, 5 core quality characteristics (Unambiguous, Complete, Consistent, Verifiable, Traceable), Mermaid visual modeling. |
 | **Component Design (`design.md`)** | **DbC** + **JSON Schema** + **RFC 9457** | Public interface contracts (Preconditions, Postconditions, Invariants), data model constraints, protocols, standard Problem Details error envelope, Key Design Decisions. |
 | **Task Planning (`tasks.md`)** | **Stacked PR** + **Traceability Matrix** + **GFM Checkboxes** | Executive PR overview for human reviewers, mechanical coverage matrix (`REQ` × `COMP` × `TASK` × `PR`), progress tracking state machine, crash resiliency, full completion reset. |
-| **Metadata & Versioning** | **SemVer 2.0.0** + **ISO 8601** + **YAML Frontmatter** | Machine-readable document metadata, upstream version consistency verification (`upstream.requirements`, `upstream.design`). |
-| **Multilingual Protocol** | **Filename Suffix Convention** (`*.ja.md`) | English document as SSOT; derived translation generated after English approval using standard RFC 2119 localized mapping. |
+| **Multilingual Protocol** | **Filename Suffix Convention** (`*.<lang>.md`) | English document as SSOT; derived translation generated after English approval using target ISO 639-1 code (e.g. `*.ja.md`) and standard RFC 2119 localized mapping. |
 
 ---
 
@@ -72,7 +71,7 @@ flowchart TD
 6. **Step 6: Task Planning & Audit**:
    Drafts `tasks.md` with GFM tracking and achieves `APPROVED` verdict from `tasks-reviewer`.
 7. **Step 7: Bilingual Translation Generation**:
-   Generates faithful localized files (`requirements.ja.md`, `design.ja.md`, `tasks.ja.md`) using RFC 2119 mapping if user conversation is non-English.
+   Generates faithful localized files (e.g. `requirements.<lang>.md`, `design.<lang>.md`, `tasks.<lang>.md`) using target ISO 639-1 code and RFC 2119 mapping if user conversation is non-English.
 8. **Step 8: Delegate to `drafting-pull-request`**:
    Invokes `drafting-pull-request` to handle branch safety, Conventional Commit creation, and Draft PR submission.
 
@@ -97,11 +96,11 @@ plugins/swe-workflow/skills/planning-and-designing/
 ### Generated Specification Artifacts
 ```text
 docs/specs/<feature-name>/
-├── requirements.md        # English Requirements Specification (SSOT)
-├── requirements.ja.md     # Japanese Requirements Specification (Derived)
-├── design.md              # English Architecture & Component Design (SSOT)
-├── design.ja.md           # Japanese Architecture & Component Design (Derived)
-├── tasks.md               # English Stacked PR Task Plan & State Tracker (SSOT)
-└── tasks.ja.md            # Japanese Stacked PR Task Plan & State Tracker (Derived)
+├── requirements.md            # English Requirements Specification (SSOT)
+├── requirements.<lang>.md     # Localized Requirements Specification (Derived, e.g. *.ja.md)
+├── design.md                  # English Architecture & Component Design (SSOT)
+├── design.<lang>.md           # Localized Architecture & Component Design (Derived, e.g. *.ja.md)
+├── tasks.md                   # English Stacked PR Task Plan & State Tracker (SSOT)
+└── tasks.<lang>.md            # Localized Stacked PR Task Plan & State Tracker (Derived, e.g. *.ja.md)
 ```
 

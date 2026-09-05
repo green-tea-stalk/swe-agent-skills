@@ -13,7 +13,7 @@ Guidelines:
 1. All functional requirements MUST use standard EARS patterns combined with uppercase RFC 2119/8174 keywords (MUST, MUST NOT, SHOULD, MAY).
 2. Adhere to ISO/IEC/IEEE 29148:2018 quality characteristics: Unambiguous, Complete, Consistent, Verifiable, and Traceable.
 3. Include visual Mermaid modeling for human readability.
-4. If translating to a localized file (e.g. *.ja.md), translate accurately using standard RFC 2119 mapping after English SSOT approval.
+4. If translating to a localized file (e.g. *.<lang>.md like *.ja.md, *.fr.md), translate accurately using standard RFC 2119 mapping after English SSOT approval.
 -->
 
 ## 1. Context & Motivation

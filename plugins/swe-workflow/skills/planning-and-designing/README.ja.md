@@ -23,8 +23,7 @@ Spec-Driven Development（SDD: 仕様駆動開発）の**計画・設計フェ�
 | **要求仕様書 (`requirements.md`)** | **EARS** + **RFC 2119 / RFC 8174** + **ISO/IEC/IEEE 29148:2018** | 5つの標準 EARS パターン、大文字の厳格な要件キーワード、5大コア品質特性（非曖昧性、完全性、無矛盾性、検証可能性、追跡可能性）、Mermaid による視覚的モデリング。 |
 | **基本設計書 (`design.md`)** | **DbC** + **JSON Schema** + **RFC 9457** | 公開インターフェース契約（事前条件、事後条件、不変条件）、データモデル制約、プロトコル、RFC 9457 標準エラーエンベロープ、主要な設計判断の記録。 |
 | **タスク計画書 (`tasks.md`)** | **Stacked PR** + **トレーサビリティマトリクス** + **GFM チェックボックス** | レビュアー向け PR 全体概要、機械的カバレッジマトリクス（`REQ` × `COMP` × `TASK` × `PR`）、進捗管理ステートマシン、障害耐性、全タスク完了後のクリーン再作成。 |
-| **メタデータ・バージョニング** | **SemVer 2.0.0** + **ISO 8601** + **YAML フロントマター** | 機械可読なドキュメントメタデータ、上流バージョンの整合性検証（`upstream.requirements`, `upstream.design`）。 |
-| **多言語プロトコル** | **ファイル名サフィックス規則** (`*.ja.md`) | 英語ドキュメントを Single Source of Truth（SSOT: 信頼できる唯一の情報源）とし、英語承認後に対話言語版を RFC 2119 JIS 標準対訳に基づき派生生成。 |
+| **多言語プロトコル** | **ファイル名サフィックス規則** (`*.<lang>.md`) | 英語ドキュメントを Single Source of Truth（SSOT: 信頼できる唯一の情報源）とし、英語承認後に対話言語の ISO 639-1 コード（例: `*.ja.md`）を用いて標準 RFC 2119 対訳に基づき派生生成。 |
 
 ---
 
@@ -72,7 +71,7 @@ flowchart TD
 6. **ステップ 6: タスク計画と監査**:
    GFM 追跡を含む `tasks.md` を作成し、`tasks-reviewer` から `APPROVED` 判定を得ます。
 7. **ステップ 7: バイリンガル翻訳生成**:
-   対話言語が英語以外の場合、RFC 2119 JIS 対訳に準拠して忠実な翻訳ファイル（`requirements.ja.md`, `design.ja.md`, `tasks.ja.md`）を派生生成します。
+   対話言語が英語以外の場合、対話言語の ISO 639-1 コードを用いて標準 RFC 2119 対訳に準拠した翻訳ファイル（例: `requirements.<lang>.md`, `design.<lang>.md`, `tasks.<lang>.md`）を派生生成します。
 8. **ステップ 8: `drafting-pull-request` への委譲**:
    同一プラグイン内の `drafting-pull-request` を呼び出し、ブランチ保護、Conventional Commits 準拠のコミット作成、およびドラフトプルリクエストの作成を一気通貫で実行します。
 
@@ -97,11 +96,11 @@ plugins/swe-workflow/skills/planning-and-designing/
 ### 生成される仕様成果物
 ```text
 docs/specs/<feature-name>/
-├── requirements.md        # 英語 要求仕様書 (Single Source of Truth: SSOT)
-├── requirements.ja.md     # 日本語 要求仕様書 (派生成果物)
-├── design.md              # 英語 基本設計書 (SSOT)
-├── design.ja.md           # 日本語 基本設計書 (派生成果物)
-├── tasks.md               # 英語 Stacked PR タスク計画・状態追跡書 (SSOT)
-└── tasks.ja.md            # 日本語 Stacked PR タスク計画・状態追跡書 (派生成果物)
+├── requirements.md            # 英語 要求仕様書 (Single Source of Truth: SSOT)
+├── requirements.<lang>.md     # 対話言語版 要求仕様書 (派生成果物、例: *.ja.md)
+├── design.md                  # 英語 基本設計書 (SSOT)
+├── design.<lang>.md           # 対話言語版 基本設計書 (派生成果物、例: *.ja.md)
+├── tasks.md                   # 英語 Stacked PR タスク計画・状態追跡書 (SSOT)
+└── tasks.<lang>.md            # 対話言語版 Stacked PR タスク計画・状態追跡書 (派生成果物、例: *.ja.md)
 ```
 

@@ -144,12 +144,13 @@ Before drafting formal specifications, inspect the target project's codebase to 
 
 Once all three English SSOT documents (`requirements.md`, `design.md`, `tasks.md`) achieve **APPROVED** status:
 1. **Detect Conversation Language**:
-   - If the active user conversation is in English, skip translation.
+   - If the active user conversation is in English, skip translation (the English SSOT documents are sufficient).
 2. **Generate Localized Documents (Derived Translation)**:
-   - If the conversation is in a non-English language (e.g. Japanese):
-     - Generate `requirements.ja.md` translating `requirements.md` using standard RFC 2119 mapping (`MUST` -> 「〜しなければならない」, `MUST NOT` -> 「〜してはならない」, `SHOULD` -> 「〜することが推奨される」, `MAY` -> 「〜してもよい」).
-     - Generate `design.ja.md` translating `design.md` maintaining code signatures and translating contract clauses.
-     - Generate `tasks.ja.md` translating `tasks.md`.
+   - If the conversation is in a non-English language:
+     - Identify the ISO 639-1 language code of the user's active conversation (e.g. `ja` for Japanese, `zh` for Chinese, `fr` for French, `de` for German, `es` for Spanish, etc.).
+     - Generate `requirements.<lang>.md` translating `requirements.md` using standard RFC 2119 / 8174 localized mapping for that language (e.g. for Japanese: `MUST` -> 「〜しなければならない」, `MUST NOT` -> 「〜してはならない」, `SHOULD` -> 「〜することが推奨される」, `MAY` -> 「〜してもよい」).
+     - Generate `design.<lang>.md` translating `design.md` while maintaining code signatures and translating contract clauses.
+     - Generate `tasks.<lang>.md` translating `tasks.md` preserving checkbox states and matrix structure.
    - Maintain identical frontmatter versions and `upstream` references across language pairs.
 
 ---

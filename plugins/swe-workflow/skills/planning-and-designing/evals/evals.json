@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "We need to design and plan a new user authentication feature with OAuth2 and passkeys.",
-      "expected_output": "Comprehensive requirements.md, design.md, and tasks.md documents with subagent review approvals and Japanese derived translations.",
+      "expected_output": "Comprehensive requirements.md, design.md, and tasks.md documents with subagent review approvals and derived localized translations in the user's conversation language.",
       "assertions": [
         "The agent normalizes the feature name into a kebab-case directory under docs/specs/",
         "The agent drafts requirements.md adhering to EARS syntax, RFC 2119 / RFC 8174 keywords, and ISO/IEC/IEEE 29148 characteristics",
@@ -14,7 +14,7 @@
         "The agent validates design.md with the design-reviewer subagent until APPROVED",
         "The agent drafts tasks.md decomposing work into Stacked PRs with GFM checkbox tracking and a mechanical traceability matrix",
         "The agent validates tasks.md with the tasks-reviewer subagent until APPROVED",
-        "The agent generates derived bilingual translations (*.ja.md) using standard RFC 2119 localized mapping",
+        "The agent generates derived bilingual translations (*.<lang>.md) using standard RFC 2119 localized mapping for the conversation language",
         "The agent delegates final commit and PR creation to drafting-pull-request"
       ]
     },
