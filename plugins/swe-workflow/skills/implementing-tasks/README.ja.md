@@ -72,13 +72,13 @@ flowchart TD
 3. **ステップ3: TDD 実装サイクル**: DbC 契約とデータ集合を検証する失敗テストを作成（Red）し、非推奨 API を排除した最新構文でテストをパスさせる最小コードを実装（Green）。
 4. **ステップ4: 二重監査 & リファクタリング**: `code-reviewer` と `security-reviewer` による初回監査（Audit 1）➔ コードを整理するリファクタリング ➔ 最終再監査（Audit 2）。
 5. **ステップ5: アトミックコミット**: `tasks.md` のチェックボックス（`- [x]`）を更新し、`committing-changes` スキルでアトミックな Conventional Commit を作成。
-6. **ステップ6: PR 境界判定 & Stacked ドラフト PR 作成**: PR 境界に到達した段階でドラフト PR を提出し、次のスタックへ進行。
+6. **ステップ6: PR 境界判定 & Stacked ドラフト PR 作成**: PR 境界に到達した段階で指定ベースブランチ宛てにドラフト PR を提出し、次のスタックへ進行。
 7. **ステップ7: 仕様不備時の退避・仕様改訂・マージ反映プロトコル**: 仕様の矛盾等を検知した場合、作業を退避（`git stash`）し、上流仕様を改訂後、`git merge` で順次スタックブランチへ安全に反映。
 8. **ステップ8: 最終検証 & 完了報告**: 全タスク完了とテスト全件パスを確認し、ドラフト PR リンクをユーザーへ報告。
 
 ---
 
-## 5. 生成成果物と構造
+## 5. 生成成果物と検証
 
 ```text
 git リポジトリ:
@@ -95,5 +95,12 @@ git リポジトリ:
 └── feat/<feature-name>-part-2                # 後続のタスクを含む Stacked PR (ベース: feat/...-part-1)
     ├── src/...
     └── tests/...
+```
+
+```bash
+# 実装テストスイートの正常終了を検証
+pytest tests/
+# アクティブブランチおよび Stacked PR の状態を検証
+gh pr view --json number,title,url,baseRefName,headRefName,state
 ```
 

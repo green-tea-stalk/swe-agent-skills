@@ -40,8 +40,10 @@ plugins/swe-workflow/skills/drafting-pull-request/
 ├── evals/evals.json         # Skill evaluation test cases
 ├── references/
 │   └── pr-template.md       # Standard PR description markdown template
-└── scripts/
-    └── prepare_pr.py        # Pre-PR inspection helper script (PEP 723)
+├── scripts/
+│   └── prepare_pr.py        # Pre-PR inspection helper script (PEP 723)
+└── tests/
+    └── test_prepare_pr.py   # Unit test suite for prepare_pr.py
 ```
 
 ### Supporting Components
@@ -72,7 +74,7 @@ graph TD
     Step7 --> End([End])
 ```
 
-1. **Step 1: Pre-PR Inspection**: Runs `prepare_pr.py` to diagnose repository metadata, branch safety, uncommitted changes, remote sync status, and existing PRs.
+1. **Step 1: Pre-PR Inspection**: Runs `prepare_pr.py` (with optional target base branch) to diagnose repository metadata, branch safety, uncommitted changes, remote sync status, and existing PRs.
 2. **Step 2: Handle Branch Safety & Uncommitted Changes**: Ensures feature branch safety, commits active changes via `committing-changes`, and halts safely if zero commits exist.
 3. **Step 3: Ensure Remote Synchronization**: Synchronizes local commits with the remote tracking branch via push or fast-forward pull; halts safely on diverged branches.
 4. **Step 4: Extract Design Decisions**: Dispatches `decision-analyst` to formulate objective design decisions and trade-offs.

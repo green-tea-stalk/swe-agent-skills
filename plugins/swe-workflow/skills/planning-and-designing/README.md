@@ -95,7 +95,7 @@ flowchart TD
 
 ---
 
-## 5. Output Artifacts & Structure
+## 5. Output Artifacts & Verification
 
 ### Skill Assets
 ```text
@@ -120,5 +120,13 @@ docs/specs/<feature-name>/
 ├── design.<lang>.md           # Localized Architecture & Component Design (Derived, e.g. *.ja.md)
 ├── tasks.md                   # English Stacked PR Task Plan & State Tracker (SSOT)
 └── tasks.<lang>.md            # Localized Stacked PR Task Plan & State Tracker (Derived, e.g. *.ja.md)
+```
+
+### Verification Commands
+```bash
+# Verify specification directory contains all required English and localized documents
+ls -la docs/specs/<feature-name>/
+# Verify specification Draft PR status on GitHub
+gh pr view --json number,title,url,isDraft,state
 ```
 

@@ -147,9 +147,9 @@ Execute strict Test-Driven Development for the current task (`TASK-xxx`):
    - If uncompleted tasks remain in the current PR, loop back to **Step 3** for the next task.
 2. **Submit Stacked Draft PR**:
    - If all tasks for the current PR are complete, invoke the `drafting-pull-request` skill:
-     - Push branch to remote.
-     - Create a Draft PR targeting the designated base branch (Spec branch for `PR-1`; `PR-N-1` for `PR-N`).
-     - Link stack via `gh stack link` if `gh-stack` is installed.
+     - Identify the target base branch for the current PR from `tasks.md` (for `PR-1`, this MUST be the upstream specification branch, e.g. `docs/<feature>-spec`; for `PR-N`, it is `PR-N-1`'s branch).
+     - Delegate to `drafting-pull-request` with the identified base branch as context to perform pre-PR inspection (`prepare_pr.py <base-branch>`), remote sync, design decision extraction, and draft PR submission targeting the base branch.
+     - Link stack via `gh stack link <base-branch> <current-branch>` if `gh-stack` is installed.
 3. **Advance to Next Stacked PR**:
    - If subsequent PRs and tasks remain in `tasks.md`, loop back to **Step 2** to establish the next branch.
 

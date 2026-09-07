@@ -24,7 +24,7 @@ Guidelines:
 
 | PR # | Target Branch | Phase / Purpose | Key Components | Dependencies | Merge Order |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **PR 1** | `feat/<feature>-phase1-interfaces` | Core Interface & Contracts | `COMP-001`, `COMP-002` | `main` | 1 |
+| **PR 1** | `feat/<feature>-phase1-interfaces` | Core Interface & Contracts | `COMP-001`, `COMP-002` | `docs/<feature>-spec` | 1 |
 | **PR 2** | `feat/<feature>-phase2-core-logic` | Domain Logic & Storage | `COMP-002`, `COMP-003` | `PR 1` | 2 |
 | **PR 3** | `feat/<feature>-phase3-cli-integration` | End-to-End Integration & CLI | `COMP-001` | `PR 2` | 3 |
 
@@ -56,7 +56,7 @@ Implementation agents execute tasks sequentially using the **Atomic Commit Loop*
 
 ### PR 1: Core Interfaces & Contract Definitions
 - **Branch**: `feat/<feature>-phase1-interfaces`
-- **Merge Target**: `<default-branch>`
+- **Merge Target**: `docs/<feature>-spec`
 
 #### Tasks
 - [ ] **TASK-001**: Define data models, schemas, and public signatures

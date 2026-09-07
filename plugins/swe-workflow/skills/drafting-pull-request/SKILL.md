@@ -18,8 +18,10 @@ Follow these sequential steps whenever drafting or updating a Pull Request:
 Execute the deterministic helper script from the skill directory to inspect repository metadata, branch safety, uncommitted changes, remote sync status, and existing PRs:
 
 ```bash
-python3 scripts/prepare_pr.py
+python3 scripts/prepare_pr.py [<base-branch>]
 ```
+
+Pass `<base-branch>` explicitly when creating a Stacked PR or targeting a branch other than the default branch (e.g. `docs/<feature>-spec` or `feat/<feature>-part-1`). If omitted, it defaults to the repository default branch.
 
 Inspect the generated report carefully:
 1. **Target Repository**: Verify the working repository NWO (`owner/repo`) and default branch.
@@ -102,14 +104,14 @@ If an open PR already exists for the current branch, update its title and body w
 gh pr edit <pr-url> --title "<title>" --body "<body>"
 ```
 
-#### Scenario C: Create Stacked Draft PR (when `gh-stack` is available)
-If the base branch has an open PR and the `gh-stack` extension is installed:
+#### Scenario C: Create Stacked Draft PR (Targeting Base / Parent Branch)
+When targeting a base branch other than the default branch (such as an upstream specification branch or a preceding PR branch in a stack):
 ```bash
-# 1. Create the draft PR targeting the parent base branch
-gh pr create --repo <owner/repo> --base <parent-branch> --draft --title "<title>" --body "<body>"
+# 1. Create the draft PR targeting the base branch
+gh pr create --repo <owner/repo> --base <base-branch> --draft --title "<title>" --body "<body>"
 
-# 2. Link the new PR with the parent branch into a GitHub stack
-gh stack link <parent-branch> <current-branch>
+# 2. Link the new PR into a GitHub stack (if gh-stack extension is installed)
+gh stack link <base-branch> <current-branch>
 ```
 
 ---

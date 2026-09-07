@@ -387,7 +387,62 @@ def check_gh_stack_availability(base_branch: str, default_branch: str) -> tuple[
     return False, f"gh-stack is installed, but base branch '{base_branch}' has no open PR (Stacked PR not applicable)."
 
 
-def main() -> int:
+def generate_recommendations(
+    branch_info: BranchInfo,
+    total_uncommitted: int,
+    sync_info: SyncInfo,
+    existing_pr: ExistingPRInfo,
+    base_branch: str,
+    repo_info: TargetRepoInfo,
+    stack_ready: bool,
+    current_branch: str,
+) -> list[str]:
+    """Synthesize actionable terminal command recommendations for the user.
+
+    Parameters:
+        branch_info: Protection status and metadata of the current branch.
+        total_uncommitted: Total count of staged, unstaged, and untracked changes.
+        sync_info: Upstream tracking branch synchronization status.
+        existing_pr: Existing open PR details if one exists for the branch.
+        base_branch: Target base branch to compare against and merge into.
+        repo_info: Repository metadata including NWO and default branch.
+        stack_ready: Whether gh-stack extension is installed and ready for linking.
+        current_branch: Current active working branch name.
+
+    Returns:
+        A list of formatted recommendation string lines.
+    """
+    recs: list[str] = []
+    if branch_info.is_protected:
+        recs.append("  1. Switch to a feature branch: `git checkout -b feat/<name>`")
+    if total_uncommitted > 0:
+        recs.append("  2. Resolve uncommitted changes before proceeding.")
+    if sync_info.status == "NO_UPSTREAM":
+        recs.append(f"  3. Push branch to remote: `git push -u origin {current_branch}`")
+    elif sync_info.status == "AHEAD":
+        recs.append("  3. Push local commits to remote: `git push`")
+
+    if existing_pr.exists:
+        recs.append("  4. Invoke `decision-analyst` and UPDATE PR via:")
+        recs.append(f"     `gh pr edit {existing_pr.url} --title \"...\" --body \"...\"`")
+    elif base_branch != repo_info.default_branch:
+        recs.append(f"  4. Invoke `decision-analyst` and CREATE Stacked draft PR targeting '{base_branch}' via:")
+        recs.append(f"     `gh pr create --repo {repo_info.nwo} --base {base_branch} --draft --title \"...\" --body \"...\"`")
+        if stack_ready:
+            recs.append(f"     `gh stack link {base_branch} {current_branch}`")
+    else:
+        recs.append("  4. Invoke `decision-analyst` and CREATE draft PR via:")
+        recs.append(f"     `gh pr create --repo {repo_info.nwo} --draft --title \"...\" --body \"...\"`")
+
+    return recs
+
+
+def build_parser() -> argparse.ArgumentParser:
+    """Construct and configure command-line argument parser for prepare_pr.
+
+    Returns:
+        Configured ArgumentParser instance.
+    """
     parser = argparse.ArgumentParser(
         description="Pre-PR inspection script to verify repository state, branch protection, uncommitted changes, and PR readiness.",
         epilog="""Examples:
@@ -408,6 +463,11 @@ def main() -> int:
         action="store_true",
         help="Output structured inspection report as JSON to stdout.",
     )
+    return parser
+
+
+def main() -> int:
+    parser = build_parser()
     args = parser.parse_args()
 
     if not is_git_repository():
@@ -557,25 +617,18 @@ def main() -> int:
     # 9. Next Steps
     print("\n" + "=" * 60)
     print("Actionable Recommendations:")
-    if branch_info.is_protected:
-        print("  1. Switch to a feature branch: `git checkout -b feat/<name>`")
-    if total_uncommitted > 0:
-        print("  2. Resolve uncommitted changes before proceeding.")
-    if sync_info.status == "NO_UPSTREAM":
-        print(f"  3. Push branch to remote: `git push -u origin {current_branch}`")
-    elif sync_info.status == "AHEAD":
-        print(f"  3. Push local commits to remote: `git push`")
-
-    if existing_pr.exists:
-        print(f"  4. Invoke `decision-analyst` and UPDATE PR via:")
-        print(f"     `gh pr edit {existing_pr.url} --title \"...\" --body \"...\"`")
-    elif base_branch != repo_info.default_branch and stack_ready:
-        print(f"  4. Invoke `decision-analyst` and CREATE Stacked draft PR via:")
-        print(f"     `gh pr create --repo {repo_info.nwo} --base {base_branch} --draft --title \"...\" --body \"...\"`")
-        print(f"     `gh stack link {base_branch} {current_branch}`")
-    else:
-        print(f"  4. Invoke `decision-analyst` and CREATE draft PR via:")
-        print(f"     `gh pr create --repo {repo_info.nwo} --draft --title \"...\" --body \"...\"`")
+    recs = generate_recommendations(
+        branch_info=branch_info,
+        total_uncommitted=total_uncommitted,
+        sync_info=sync_info,
+        existing_pr=existing_pr,
+        base_branch=base_branch,
+        repo_info=repo_info,
+        stack_ready=stack_ready,
+        current_branch=current_branch,
+    )
+    for line in recs:
+        print(line)
     print("=" * 60)
 
     return 0

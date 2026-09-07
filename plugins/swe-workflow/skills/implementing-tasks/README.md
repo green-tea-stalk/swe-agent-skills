@@ -17,7 +17,7 @@ The `implementing-tasks` skill provides an automated, crash-resilient, and test-
 
 ---
 
-## 2. Architectural Pillars & Core Standards
+## 2. Core Standards & Architectural Pillars
 
 | Architectural Pillar | Core Standards & Methodologies | Key Responsibilities |
 | :--- | :--- | :--- |
@@ -72,13 +72,13 @@ flowchart TD
 3. **Step 3: TDD Implementation Cycle**: Writes failing unit/contract tests verifying DbC rules and data collections (Red), then writes minimal production code using modern non-deprecated APIs to pass the tests (Green).
 4. **Step 4: Dual Audit & Refactor Phase**: Audits diff via `code-reviewer` and `security-reviewer` (Audit 1), refactors for simplicity, and conducts final re-audit (Audit 2).
 5. **Step 5: Atomic Progress Commit**: Updates `tasks.md` checkbox (`- [x]`) and creates an atomic Conventional Commit via `committing-changes`.
-6. **Step 6: PR Boundary & Stacked PR Submission**: Submits Stacked Draft PRs upon completing PR task boundaries and advances to the next stack.
+6. **Step 6: PR Boundary & Stacked PR Submission**: Submits Stacked Draft PRs targeting designated base branches upon completing PR task boundaries and advances to the next stack.
 7. **Step 7: Specification Defect Stash & Merge Protocol**: If specification inconsistencies emerge, stashes work, executes upstream spec revisions, and sequentially merges updates into stacked branches.
 8. **Step 8: Final Verification & Completion**: Confirms all tasks and test suites pass and reports draft PR links to the user.
 
 ---
 
-## 5. Output Artifacts & Structure
+## 5. Output Artifacts & Verification
 
 ```text
 git repository:
@@ -95,5 +95,12 @@ git repository:
 └── feat/<feature-name>-part-2                # Second implementation Stacked PR (base: feat/...-part-1)
     ├── src/...
     └── tests/...
+```
+
+```bash
+# Verify implementation test suites pass cleanly
+pytest tests/
+# Verify active branch and stacked PR status
+gh pr view --json number,title,url,baseRefName,headRefName,state
 ```
 
