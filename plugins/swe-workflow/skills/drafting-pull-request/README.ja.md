@@ -40,8 +40,10 @@ plugins/swe-workflow/skills/drafting-pull-request/
 ├── evals/evals.json         # スキル評価スイート
 ├── references/
 │   └── pr-template.md       # 標準 PR 説明文マークダウンテンプレート
-└── scripts/
-    └── prepare_pr.py        # PR 前検査スクリプト (PEP 723)
+├── scripts/
+│   └── prepare_pr.py        # PR 前検査スクリプト (PEP 723)
+└── tests/
+    └── test_prepare_pr.py   # prepare_pr.py 向け単体テストスイート
 ```
 
 ### 構成要素の責務
@@ -72,7 +74,7 @@ graph TD
     Step7 --> End([完了])
 ```
 
-1. **ステップ1: PR 前検査**: `prepare_pr.py` を実行し、リポジトリメタデータ、ブランチ安全性、未コミット変更、同期ステータス、既存 PR を診断。
+1. **ステップ1: PR 前検査**: `prepare_pr.py`（対象ベースブランチを任意指定可能）を実行し、リポジトリメタデータ、ブランチ安全性、未コミット変更、同期ステータス、既存 PR を診断。
 2. **ステップ2: ブランチ安全性と未コミット変更の処理**: フィーチャーブランチの安全性を確保し、作業ツリーの変更を `committing-changes` でコミット。コミット 0 件の場合は安全に停止。
 3. **ステップ3: リモート同期の確保**: プッシュまたは fast-forward プルによってリモート追跡ブランチと同期。乖離時は安全に停止。
 4. **ステップ4: 設計判断の抽出**: `decision-analyst` を呼び出し、客観的な設計判断とトレードオフを抽出。

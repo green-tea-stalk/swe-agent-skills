@@ -16,7 +16,7 @@ Spec-Driven Development（SDD: 仕様駆動開発）の**計画・設計フェ�
 
 ---
 
-## 2. コア標準とアーキテクチャの柱
+## 2. アーキテクチャの柱とコア標準
 
 | 仕様成果物 | 準拠標準・仕様 | 主な責務 |
 | :--- | :--- | :--- |
@@ -95,7 +95,7 @@ flowchart TD
 
 ---
 
-## 5. 生成成果物と構造
+## 5. 生成成果物と検証
 
 ### スキル内アセット
 ```text
@@ -120,5 +120,13 @@ docs/specs/<feature-name>/
 ├── design.<lang>.md           # 対話言語版 基本設計書 (派生成果物、例: *.ja.md)
 ├── tasks.md                   # 英語 Stacked PR タスク計画・状態追跡書 (SSOT)
 └── tasks.<lang>.md            # 対話言語版 Stacked PR タスク計画・状態追跡書 (派生成果物、例: *.ja.md)
+```
+
+### 検証コマンド
+```bash
+# 仕様ディレクトリに英語および対話言語の全ドキュメントが存在することを検証
+ls -la docs/specs/<feature-name>/
+# GitHub 上の仕様ドラフト PR ステータスを検証
+gh pr view --json number,title,url,isDraft,state
 ```
 

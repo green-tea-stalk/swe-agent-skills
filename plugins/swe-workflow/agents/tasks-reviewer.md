@@ -45,6 +45,7 @@ Evaluate `tasks.md` against the following mandatory axes:
 ### Axis 5: Stacked PR Atomicity & Dependency Integrity
 - **Atomic Units**: Each planned PR must be independently buildable and testable (no broken intermediate states).
 - **Acyclic Sequencing**: Branch targets and merge sequences must form a clean, acyclic dependency chain (e.g. PR 1 Interfaces -> PR 2 Core Logic -> PR 3 Integration/CLI).
+- **Target Branch & Specification Isolation**: For PR 1, the `Merge Target` / `Dependencies` MUST point to the upstream specification branch (e.g. `docs/<feature>-spec`), NEVER the repository default branch (`main`). This prevents specification commits and documents from duplicating into the implementation PR diff.
 
 ### Axis 6: Tasks Lifecycle on Revisions (Reset on Full Completion)
 - If auditing a revision:
