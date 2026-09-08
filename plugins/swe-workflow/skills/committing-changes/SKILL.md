@@ -34,49 +34,43 @@ Inspect the generated report:
 ---
 
 ### Step 2: Construct Context-Rich Conventional Commit Message
-Formulate the commit message using **Conventional Commits** format combined with the **conversation context (the "Why")** and a model-specific **Co-Authored-By** trailer:
+Formulate the commit message conforming to **Conventional Commits 1.0.0** and project release guidelines:
+
+#### Reference Template & Specification
+Consult the canonical template, full specification rules, and concrete examples:
+👉 [`./references/commit-template.md`](./references/commit-template.md)
 
 #### Structure
 ```text
-<type>(<scope>): <imperative subject summary (max 50 chars)>
+<type>(<scope>)[!]: <imperative subject summary (max 50-72 chars)>
 
 <body explaining WHY this change was made, referencing user requests, design decisions, or problem context>
 
+[BREAKING CHANGE: <description of breaking changes>]
+[Closes #<issue-number>]
 Co-Authored-By: <AgentName> <ModelName> <<email>>
 ```
 
-#### Co-Author Trailer Guidelines
-Append the co-author trailer matching the active AI coding agent and specific model:
-- **Format**: `Co-Authored-By: <AgentName> <ModelName> <<email>>`
-  - *Note: If the model name contains parentheses (e.g., `Gemini 3.1 Pro (High)`), you MUST enclose the entire author name in double quotes to prevent breaking Git/GitHub parsing. (e.g. `Co-Authored-By: "Antigravity Gemini 3.1 Pro (High)" <gemini@google.com>`)*
-- **Examples**:
-  - **Claude Code**: `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`
-  - **Google Antigravity**: `Co-Authored-By: "Antigravity Gemini 3.1 Pro (High)" <gemini@google.com>`
-  - **OpenAI Codex**: `Co-Authored-By: Codex GPT-5.6 Sol <codex@openai.com>`
-
-#### Type Selection Guidelines
-- `feat`: New feature or user-facing capability.
-
-- `fix`: Bug fix.
-- `refactor`: Code change that neither fixes a bug nor adds a feature.
-- `perf`: Performance improvement.
-- `test`: Adding or correcting tests.
-- `docs`: Documentation only changes.
-- `build`: Build system or external dependency changes.
-- `ci`: CI configuration files and scripts.
-- `chore`: Maintenance tasks, repo tooling, or housekeeping.
-
-- **Subject**: Imperative mood, present tense (e.g. `add user authentication`, not `added` or `adds`). No trailing period.
-- **Body**: Essential context derived from user conversations (the motivation, alternative considerations, or problem background).
+#### Commit Construction Protocol
+1. **Type & SemVer Impact**: Select the type matching the code modification (`feat` for new features/MINOR, `fix` for bug fixes/PATCH, `refactor`, `perf`, `test`, `docs`, `style`, `build`, `ci`, `chore`, `revert` per reference).
+2. **Scope**: Identify the specific component, package, or subsystem in lowercase `kebab-case` (e.g. `swe-workflow`, `backend`, `auth`). Never omit in component-tracked or monorepo projects.
+3. **Breaking Changes**: Append `!` before the colon (e.g. `feat(api)!: ...`) or supply a `BREAKING CHANGE:` footer for breaking API changes (SemVer MAJOR).
+4. **Subject**: Imperative mood, present tense (e.g. `add user authentication`, NOT `added` or `adds`), lowercase start recommended, no trailing period.
+5. **Body (Required Blank Line)**: Separate from header by exactly one blank line. Detail the motivation, the "Why", and contrast with previous behavior.
+6. **Footers (Required Blank Line)**: Separate from body by exactly one blank line. Include issue closure (`Closes #<id>`) and the model-specific `Co-Authored-By` trailer (enclose in double quotes if model name contains parentheses):
+   - **Claude Code**: `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`
+   - **Google Antigravity**: `Co-Authored-By: "Antigravity Gemini 3.1 Pro (High)" <gemini@google.com>`
+   - **OpenAI Codex**: `Co-Authored-By: Codex GPT-5.6 Sol <codex@openai.com>`
 
 ---
 
 ### Step 3: Execute Commit
-Run the commit command with the constructed message and Co-Author trailer:
+Run the commit command with the constructed message components:
 
 ```bash
 git commit -m "<type>(<scope>): <subject>" -m "<body explaining why and what>" -m 'Co-Authored-By: <AgentName> <ModelName> <<email>>'
 ```
+*(Note: If footers like `BREAKING CHANGE:` or `Closes #123` are needed, append them via additional `-m` flags or combine within the footer paragraph)*
 
 
 ---

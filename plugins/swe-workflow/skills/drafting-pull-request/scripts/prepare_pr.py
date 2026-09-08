@@ -424,15 +424,15 @@ def generate_recommendations(
 
     if existing_pr.exists:
         recs.append("  4. Invoke `decision-analyst` and UPDATE PR via:")
-        recs.append(f"     `gh pr edit {existing_pr.url} --title \"...\" --body \"...\"`")
+        recs.append(f"     `gh pr edit {existing_pr.url} --title \"<type>(<scope>): <subject>\" --body \"...\"`")
     elif base_branch != repo_info.default_branch:
         recs.append(f"  4. Invoke `decision-analyst` and CREATE Stacked draft PR targeting '{base_branch}' via:")
-        recs.append(f"     `gh pr create --repo {repo_info.nwo} --base {base_branch} --draft --title \"...\" --body \"...\"`")
+        recs.append(f"     `gh pr create --repo {repo_info.nwo} --base {base_branch} --draft --title \"<type>(<scope>): <subject>\" --body \"...\"`")
         if stack_ready:
             recs.append(f"     `gh stack link {base_branch} {current_branch}`")
     else:
         recs.append("  4. Invoke `decision-analyst` and CREATE draft PR via:")
-        recs.append(f"     `gh pr create --repo {repo_info.nwo} --draft --title \"...\" --body \"...\"`")
+        recs.append(f"     `gh pr create --repo {repo_info.nwo} --draft --title \"<type>(<scope>): <subject>\" --body \"...\"`")
 
     return recs
 
@@ -467,6 +467,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
+    """Execute pre-PR repository inspection and report findings."""
     parser = build_parser()
     args = parser.parse_args()
 

@@ -10,17 +10,19 @@ execution stops immediately with an error rather than risking incorrect assumpti
 """
 
 # /// script
-# requires-python = ">=3.9"
+# requires-python = ">=3.10"
+# dependencies = []
 # ///
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import shutil
 import subprocess
 import sys
-import argparse
+import urllib.parse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -162,12 +164,14 @@ def check_branch_protection(branch: str) -> BranchStatus:
         is_protected = True
 
     # 2. Query explicit branch protection rules
-    prot_code, prot_out, _ = run_gh_cmd(["api", f"repos/:owner/:repo/branches/{branch}/protection"])
+    encoded_branch = urllib.parse.quote(branch, safe="")
+    prot_code, prot_out, _ = run_gh_cmd(["api", f"repos/:owner/:repo/branches/{encoded_branch}/protection"])
     if prot_code == 0 and prot_out:
         try:
             prot_data: dict[str, Any] = json.loads(prot_out)
             is_protected = True
-            allow_force = prot_data.get("allow_force_pushes", {}).get("enabled", False)
+            allow_force_data = prot_data.get("allow_force_pushes") or {}
+            allow_force = allow_force_data.get("enabled", False) if isinstance(allow_force_data, dict) else False
             force_push_restricted = not allow_force
         except json.JSONDecodeError:
             pass
@@ -255,15 +259,31 @@ def get_diff_stat() -> str:
     return out if code == 0 else ""
 
 
-def main() -> int:
+def build_parser() -> argparse.ArgumentParser:
+    """Construct and configure command-line argument parser for prepare_commit.
+
+    Returns:
+        Configured ArgumentParser instance.
+    """
     parser = argparse.ArgumentParser(
         description="Pre-commit inspection script to verify branch safety, secrets, and staged files.",
         epilog="""Examples:
   python3 scripts/prepare_commit.py
-  (No flags are currently supported; the script evaluates the current git repository state.)""",
-        formatter_class=argparse.RawDescriptionHelpFormatter
+  python3 scripts/prepare_commit.py --json""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.parse_args()
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output structured inspection report as JSON to stdout.",
+    )
+    return parser
+
+
+def main() -> int:
+    """Execute pre-commit repository inspection and report findings."""
+    parser = build_parser()
+    args = parser.parse_args()
 
     if not is_git_repository():
         print("[ERROR] Current directory is not a Git repository.", file=sys.stderr)
@@ -279,6 +299,25 @@ def main() -> int:
     sensitive_warnings = check_sensitive_files(staged_files)
     noise_warnings = check_noise_files(staged_files)
     diff_stat = get_diff_stat()
+
+    report_data = {
+        "branch_status": {
+            "branch": branch,
+            "is_protected": branch_info.is_protected,
+            "is_default": branch_info.is_default,
+            "force_push_restricted": branch_info.force_push_restricted,
+            "message": branch_info.message,
+        },
+        "staged_files": [{"status": s, "path": p} for s, p in staged_files],
+        "unstaged_summary": unstaged_summary,
+        "sensitive_warnings": sensitive_warnings,
+        "noise_warnings": noise_warnings,
+        "diff_stat": diff_stat,
+    }
+
+    if args.json:
+        print(json.dumps(report_data, indent=2))
+        return 0
 
     print("=" * 60, file=sys.stderr)
     print("Pre-Commit Inspection Report", file=sys.stderr)
@@ -330,32 +369,17 @@ def main() -> int:
             print(f"  ... and {len(unstaged_summary) - 10} more items.", file=sys.stderr)
 
     print("\n" + "=" * 60, file=sys.stderr)
-    print("Ready to construct Conventional Commit message:", file=sys.stderr)
-    print("  Format : <type>(<scope>): <subject>", file=sys.stderr)
+    print("Ready to construct Conventional Commit message (see references/commit-template.md):", file=sys.stderr)
+    print("  Format : <type>(<scope>)[!]: <subject>", file=sys.stderr)
     print("           <blank line>", file=sys.stderr)
     print("           <body describing WHY and WHAT based on conversation context>", file=sys.stderr)
     print("           <blank line>", file=sys.stderr)
+    print("           [BREAKING CHANGE: <description if breaking change>]", file=sys.stderr)
+    print("           [Closes #<issue-number>]", file=sys.stderr)
     print("           Co-Authored-By: <AgentName> <ModelName> <<email>>", file=sys.stderr)
     print("           (Enclose model name in double quotes if it contains parentheses)", file=sys.stderr)
     print("=" * 60, file=sys.stderr)
 
-    report_data = {
-        "branch_status": {
-            "branch": branch,
-            "is_protected": branch_info.is_protected,
-            "is_default": branch_info.is_default,
-            "force_push_restricted": branch_info.force_push_restricted,
-            "message": branch_info.message
-        },
-        "staged_files": [{"status": s, "path": p} for s, p in staged_files],
-        "unstaged_summary": unstaged_summary,
-        "sensitive_warnings": sensitive_warnings,
-        "noise_warnings": noise_warnings,
-        "diff_stat": diff_stat
-    }
-    
-    print(json.dumps(report_data, indent=2))
-    
     return 0
 
 if __name__ == "__main__":

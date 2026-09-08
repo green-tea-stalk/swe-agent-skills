@@ -10,7 +10,7 @@
         "The agent checks branch protection and switches to a feature branch if protected",
         "The agent verifies remote synchronization before pushing",
         "The agent extracts design decisions and trade-offs via the decision-analyst subagent",
-        "The agent formats a release-please compatible PR title",
+        "The agent formats a Conventional Commits PR title with component scope matching the commit history (release-please compatible)",
         "The agent creates or updates the pull request via gh pr create or gh pr edit"
       ]
     }

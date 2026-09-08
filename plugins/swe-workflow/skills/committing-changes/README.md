@@ -20,7 +20,7 @@ The `committing-changes` skill provides a deterministic, fail-closed workflow th
 
 | Architectural Pillar | Core Standards & Specifications | Key Responsibilities |
 | :--- | :--- | :--- |
-| **Conventional Commits** | **Conventional Commits 1.0.0** | Formats commit messages with valid type (`feat`, `fix`, `docs`, `refactor`, `test`, `chore`), optional scope, clear imperative subject, and structured explanatory body. |
+| **Conventional Commits** | **Conventional Commits 1.0.0** | Formats commit messages with valid type, component scope, breaking indicators, clear imperative subject, and structured explanatory body per references/commit-template.md. |
 | **Safety & Secret Prevention** | **Fail-Closed Inspection Script** | Inspects branch safety (protected branch blocking), blocks staging of sensitive credentials (`.env`, certificates, private keys), and warns on OS/build noise. |
 | **Co-Author Attribution** | **Git Co-Author Protocol** | Appends standardized `Co-Authored-By: <AgentName> <ModelName> <<email>>` trailer to preserve provenance in agentic pair programming. |
 
@@ -36,8 +36,12 @@ plugins/swe-workflow/skills/committing-changes/
 ├── README.md                # English documentation (SSOT)
 ├── README.ja.md             # Japanese derived documentation
 ├── evals/evals.json         # Skill evaluation test cases
-└── scripts/
-    └── prepare_commit.py    # Pre-commit inspection helper script (PEP 723)
+├── references/
+│   └── commit-template.md   # Canonical message template & CC 1.0.0 rules
+├── scripts/
+│   └── prepare_commit.py    # Pre-commit inspection helper script (PEP 723)
+└── tests/
+    └── test_prepare_commit.py # Unit test suite for prepare_commit.py
 ```
 
 ### `prepare_commit.py` Script Capabilities
@@ -67,7 +71,7 @@ graph TD
 
 1. **Step 1: Pre-Commit Inspection**: Executes `python3 scripts/prepare_commit.py` to inspect repository branch status, staged diff, and sensitive file warnings.
 2. **Step 2: Handle Branch Safety & Warnings**: Switches to a feature branch if on a protected branch; unstages sensitive files or updates `.gitignore` if warnings exist.
-3. **Step 3: Construct Conventional Commit**: Synthesizes a structured Conventional Commit message explaining the technical rationale ("Why") with co-author attribution.
+3. **Step 3: Construct Conventional Commit**: Synthesizes a structured Conventional Commit adhering to references/commit-template.md with component scope and co-author attribution.
 4. **Step 4: Execute & Verify Commit**: Commits changes via `git commit` and verifies clean status via `git log -n 1` and `git status`.
 
 ---
