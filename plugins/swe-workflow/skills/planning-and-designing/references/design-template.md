@@ -17,6 +17,7 @@ Guidelines:
 3. Express all contract assertions (DbC) using uppercase RFC 2119/8174 keywords (MUST, MUST NOT, SHALL).
 4. Comply with RFC 9457 for error definitions.
 5. Upstream requirements version MUST match the current version of requirements.md.
+6. Frontmatter Status Lifecycle: Initialized as `status: draft`. Transitions to `status: in-review` when submitting for subagent review, `status: approved` upon reviewer APPROVED verdict, and `status: superseded` if replaced or consolidated. Always update `updated_at` (ISO 8601 `YYYY-MM-DD`) whenever `status` transitions.
 -->
 
 ## 1. Component Boundaries & Scope Overview

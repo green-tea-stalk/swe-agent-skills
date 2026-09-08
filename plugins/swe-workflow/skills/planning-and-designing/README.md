@@ -83,11 +83,11 @@ flowchart TD
 4. **Step 4: Codebase Reconnaissance & Technical Feasibility Verification**:
    Inspects codebase conventions, tech stack, and patterns. Verifies technical feasibility, conducts gap-filling dialogue with user, and finalizes authoring inputs.
 5. **Step 5: Requirements Specification & Audit**:
-   Drafts `requirements.md` (with robust Mermaid modeling) and achieves `APPROVED` verdict from `requirements-reviewer`.
+   Drafts `requirements.md` (with robust Mermaid modeling), audits via `requirements-reviewer`, and transitions to `status: approved`.
 6. **Step 6: Component Design & Audit**:
-   Drafts `design.md` (with robust interaction modeling), extracts design decisions via `decision-analyst`, and achieves `APPROVED` verdict from `design-reviewer`.
+   Drafts `design.md` (with robust interaction modeling), extracts design decisions, and transitions to `status: approved` upon `design-reviewer` approval.
 7. **Step 7: Task Planning & Audit**:
-   Drafts `tasks.md` with GFM tracking and achieves `APPROVED` verdict from `tasks-reviewer`.
+   Drafts `tasks.md` with GFM tracking and transitions to `status: approved` upon receiving `APPROVED` verdict from `tasks-reviewer`.
 8. **Step 8: Bilingual Translation Generation**:
    Generates faithful localized files (e.g. `requirements.<lang>.md`, `design.<lang>.md`, `tasks.<lang>.md`) using target ISO 639-1 code and RFC 2119 mapping if user conversation is non-English.
 9. **Step 9: Delegate to `drafting-pull-request`**:
@@ -105,10 +105,12 @@ plugins/swe-workflow/skills/planning-and-designing/
 ├── README.ja.md
 ├── evals/
 │   └── evals.json
-└── references/
-    ├── requirements-template.md
-    ├── design-template.md
-    └── tasks-template.md
+├── references/
+│   ├── requirements-template.md
+│   ├── design-template.md
+│   └── tasks-template.md
+└── tests/
+    └── test_spec_templates.py
 ```
 
 ### Generated Specification Artifacts

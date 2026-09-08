@@ -6,7 +6,7 @@
       "prompt": "Implement the next task from docs/specs/user-authentication/tasks.md following strict TDD and Stacked PR discipline.",
       "expected_output": "Failing test written and verified, minimal implementation passing tests, code and security subagent audits approved, refactoring verified, atomic commit recorded, and draft PR stacked.",
       "assertions": [
-        "The agent discovers the feature specification and identifies the first uncompleted task (- [ ]) in tasks.md",
+        "The agent discovers the feature specification, verifies approved frontmatter status, and identifies the first uncompleted task (- [ ]) in tasks.md",
         "The agent sets up or verifies the appropriate Stacked PR branch based on the specification branch for PR 1",
         "The agent writes failing tests (Red) verifying Design by Contract (DbC) rules and boundary conditions before implementation",
         "The agent leverages testing fixtures and formats data collections with formatter protection where applicable",

@@ -14,6 +14,7 @@ Guidelines:
 2. Adhere to ISO/IEC/IEEE 29148:2018 quality characteristics: Unambiguous, Complete, Consistent, Verifiable, and Traceable.
 3. Include visual Mermaid modeling for human readability.
 4. If translating to a localized file (e.g. *.<lang>.md like *.ja.md, *.fr.md), translate accurately using standard RFC 2119 mapping after English SSOT approval.
+5. Frontmatter Status Lifecycle: Initialized as `status: draft`. Transitions to `status: in-review` when submitting for subagent review, `status: approved` upon reviewer APPROVED verdict, and `status: superseded` if replaced or consolidated. Always update `updated_at` (ISO 8601 `YYYY-MM-DD`) whenever `status` transitions.
 -->
 
 ## 1. Context & Motivation

@@ -18,6 +18,7 @@ Guidelines:
 3. Every task MUST map back to both `REQ-xxx` and `COMP-xxx` in the Traceability Matrix.
 4. Upstream versions MUST match latest requirements.md and design.md.
 5. On revisions, if all tasks are completed, the plan may be reset and recreated for the new revision.
+6. Frontmatter Status Lifecycle: Initialized as `status: draft`. Transitions to `status: in-review` when submitting for subagent review, `status: approved` upon reviewer APPROVED verdict, and `status: superseded` if replaced or consolidated. Always update `updated_at` (ISO 8601 `YYYY-MM-DD`) whenever `status` transitions.
 -->
 
 ## 1. Executive Stacked PR Overview

@@ -67,13 +67,13 @@ flowchart TD
     Step6_Submit -- "All tasks complete" --> Step8
 ```
 
-1. **Step 1: Specification & Task Discovery**: Identifies target feature, verifies existence of `requirements.md`, `design.md`, and `tasks.md`, and finds the first uncompleted task (`- [ ]`).
+1. **Step 1: Specification & Task Discovery**: Identifies target feature, verifies approved status of `requirements.md`, `design.md`, and `tasks.md`, and finds the first uncompleted task (`- [ ]`).
 2. **Step 2: Stacked PR Branch Setup**: Creates or switches to the designated feature branch (`PR-1` based on spec branch; `PR-N` based on `PR-N-1`).
 3. **Step 3: TDD Implementation Cycle**: Writes failing unit/contract tests verifying DbC rules and data collections (Red), then writes minimal production code using modern non-deprecated APIs to pass the tests (Green).
 4. **Step 4: Dual Audit & Refactor Phase**: Audits diff via `code-reviewer` and `security-reviewer` (Audit 1), refactors for simplicity, and conducts final re-audit (Audit 2).
 5. **Step 5: Atomic Progress Commit**: Updates `tasks.md` checkbox (`- [x]`) and creates an atomic Conventional Commit via `committing-changes`.
 6. **Step 6: PR Boundary & Stacked PR Submission**: Submits Stacked Draft PRs targeting designated base branches upon completing PR task boundaries and advances to the next stack.
-7. **Step 7: Specification Defect Stash & Merge Protocol**: If specification inconsistencies emerge, stashes work, executes upstream spec revisions, and sequentially merges updates into stacked branches.
+7. **Step 7: Specification Defect Stash & Merge Protocol**: If specification inconsistencies emerge, stashes work, executes upstream spec revision lifecycle, and sequentially merges updates into stacked branches.
 8. **Step 8: Final Verification & Completion**: Confirms all tasks and test suites pass and reports draft PR links to the user.
 
 ---

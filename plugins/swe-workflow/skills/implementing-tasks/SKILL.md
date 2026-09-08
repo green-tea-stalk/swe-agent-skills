@@ -62,9 +62,10 @@ flowchart TD
 
 ### Step 1: Specification & Task Discovery
 
-1. **Target Feature Identification**:
+1. **Target Feature Identification & Specification Gate**:
    - Determine `<feature-name>` from explicit user argument, current branch name (e.g. `feat/<feature-name>-...`), or by scanning `docs/specs/`.
    - Verify that `docs/specs/<feature-name>/tasks.md`, `design.md`, and `requirements.md` exist.
+   - **Approved Status Gate (Fail-Closed)**: Inspect the YAML frontmatter of `tasks.md`, `design.md`, and `requirements.md`. All documents MUST have `status: approved`. If any document is in `status: draft` or `status: in-review`, **HALT safely (Fail-Closed)** and instruct the user to complete subagent review approval via `planning-and-designing` first.
    - If specifications do not exist or are incomplete, **HALT safely (Fail-Closed)** and instruct the user to execute the `planning-and-designing` skill first.
 
 2. **Locate Target Spec Branch & Next Task**:
@@ -173,7 +174,7 @@ If a fundamental specification defect, logical contradiction, or insurmountable 
      git checkout <spec-branch>
      ```
    - Invoke the `planning-and-designing` skill in **Revision Mode**.
-   - Update `requirements.md`, `design.md`, and `tasks.md`, run reviewer audits, update bilingual translations, and commit/push to update the specification Draft PR.
+   - The revision cycle increments the SemVer version, transitions status (`approved` ➔ `draft` ➔ `in-review` ➔ `approved`), simultaneously updates `updated_at` on every status transition, updates bilingual translations, and commits/pushes to update the specification Draft PR.
 4. **Sequentially Merge Spec Changes into Stacked PRs**:
    - Propagate the updated specification into the stacked implementation branches using non-destructive merge commits:
      ```bash

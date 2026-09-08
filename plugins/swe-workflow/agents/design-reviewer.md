@@ -25,7 +25,7 @@ Your responsibility is to enforce fail-closed verification on `design.md`. You e
 Evaluate `design.md` against the following mandatory axes:
 
 ### Axis 1: Frontmatter & Upstream Traceability
-- **YAML Frontmatter**: Must contain `feature`, `document_type: design`, `version` (SemVer 2.0.0 `X.Y.Z`), `status`, `updated_at`, and `upstream.requirements`.
+- **YAML Frontmatter**: Must contain valid YAML with `feature`, `document_type: design`, `version` (SemVer 2.0.0 format `X.Y.Z`), `status` (`draft` | `in-review` | `approved` | `superseded`), `updated_at` (ISO 8601 `YYYY-MM-DD`), and `upstream.requirements`.
 - **Upstream Version Consistency (FAIL-CLOSED)**: The `upstream.requirements` version MUST match the latest version of `requirements.md`. If out of sync, fail the audit immediately.
 
 ### Axis 2: Component Boundaries & Interface Scope
