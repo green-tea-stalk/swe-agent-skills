@@ -20,7 +20,7 @@ Git バージョン管理におけるコミット前自動安全検査および 
 
 | アーキテクチャの柱 | 準拠標準・仕様 | 主な責務 |
 | :--- | :--- | :--- |
-| **Conventional Commits** | **Conventional Commits 1.0.0** | 正しいコミット種別（`feat`, `fix`, `docs`, `refactor`, `test`, `chore`）、任意のスコープ、命令形の簡潔な件名、および詳細な説明本文を構築。 |
+| **Conventional Commits** | **Conventional Commits 1.0.0** | references/commit-template.md に従い、有効なコミット種別、コンポーネントスコープ、破壊的変更、命令形件名、および構造化説明本文を構築。 |
 | **安全性とシークレット防止** | **Fail-Closed 検査スクリプト** | ブランチ安全性（保護ブランチへのコミット防止）、機密ファイル（`.env`, 証明書, 秘密鍵）のステージング検知・遮断、および OS / ビルドノイズの警告。 |
 | **共同作成者情報 (Co-Author)** | **Git Co-Author プロトコル** | ペアプログラミングの出所追跡を担保するため、`Co-Authored-By: <AgentName> <ModelName> <<email>>` トレーラーを付与。 |
 
@@ -36,8 +36,12 @@ plugins/swe-workflow/skills/committing-changes/
 ├── README.md                # 英語ドキュメント（SSOT）
 ├── README.ja.md             # 日本語派生ドキュメント
 ├── evals/evals.json         # スキル評価スイート
-└── scripts/
-    └── prepare_commit.py    # コミット前検査スクリプト (PEP 723)
+├── references/
+│   └── commit-template.md   # 標準コミットテンプレート & CC 1.0.0 規約
+├── scripts/
+│   └── prepare_commit.py    # コミット前検査スクリプト (PEP 723)
+└── tests/
+    └── test_prepare_commit.py # prepare_commit.py 向け単体テストスイート
 ```
 
 ### `prepare_commit.py` スクリプトの機能
@@ -67,7 +71,7 @@ graph TD
 
 1. **ステップ1: コミット前検査**: `python3 scripts/prepare_commit.py` を実行し、リポジトリのブランチ状態、ステージング差分、機密ファイル警告を診断。
 2. **ステップ2: ブランチ安全性と警告の解消**: 保護ブランチにいる場合はフィーチャーブランチへ切り替え、警告がある場合は機密ファイルのアンステージや `.gitignore` への追記を実施。
-3. **ステップ3: Conventional Commit の構築**: 変更の技術的根拠（Why）を説明する構造化メッセージと Co-Author 情報を組み立て。
+3. **ステップ3: Conventional Commit の構築**: references/commit-template.md に準拠し、コンポーネントスコープと Co-Author 情報を付加した技術的根拠（Why）を説明するメッセージを組み立て。
 4. **ステップ4: コミット実行と検証**: `git commit` を実行し、`git log -n 1` および `git status` でコミットの成立とクリーンな作業ツリーを確認。
 
 ---

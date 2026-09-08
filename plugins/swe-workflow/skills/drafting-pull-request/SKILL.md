@@ -72,20 +72,24 @@ Invoke the dedicated `decision-analyst` subagent to analyze the session context 
 
 ### Step 5: Construct PR Title & Structured Body
 
-Formulate the PR title and body following the specification in [`pr-template.md`](./references/pr-template.md):
+Formulate the PR title and body following the canonical template and specifications in [`pr-template.md`](./references/pr-template.md):
 
-1. **PR Title (`release-please` compatible)**:
-   - Format: `<type>(<scope>): <subject>` (e.g. `feat(swe-workflow): add drafting-pull-request skill`)
-2. **PR Body Structure**:
-   - **Summary**: High-level bullet points.
-   - **Context & Motivation**: The problem and why this change was made.
-   - **Key Design Decisions & Trade-offs**: Extracted by `decision-analyst`.
-   - **Changes Made**: Structured technical breakdown.
-   - **Related Issues**: `Closes #<id>`, `Fixes #<id>`, or `Relates to #<id>`.
-   - **Verification & Testing**: Commands and validation steps performed.
-3. **Conversation Language Dynamic Folding**:
-   - If the user conversation is in English: Omit the `<details>` block.
-   - If the conversation is in any other language (e.g. Japanese, Chinese, Spanish, French): Append the `<details>` section containing full translations.
+#### 1. PR Title Protocol (`release-please` compatible Conventional Commits)
+- **Syntax**: `<type>(<scope>)[!]: <imperative subject summary>` (see [`./references/pr-template.md`](./references/pr-template.md))
+- **Type Derivation (SemVer Priority)**: Inspect branch commits from Step 1 (`[5] Commits & Diff vs Base`). Inherit the highest SemVer impact present (MAJOR (`!`) > MINOR (`feat`) > PATCH (`fix`) > others).
+- **Scope Derivation (Mandatory Component Attribution)**: Derive `<scope>` directly from the underlying branch commits. In component-tracked repositories, `release-please` uses this scope to determine package changelog and version bumps upon merge. Never omit the scope (e.g., use `feat(backend): ...`, not `feat: ...`).
+- **Breaking Change Indicator (`!`)**: If the changes introduce breaking API changes, append `!` before the colon (e.g. `feat(swe-workflow)!: ...`).
+- **Subject**: Imperative mood, present tense, lowercase start recommended, no trailing period.
+
+#### 2. PR Body Structure
+Construct the body adhering to [`pr-template.md`](./references/pr-template.md):
+- **Summary & Motivation**: Objective bullet points and problem context.
+- **Key Design Decisions & Trade-offs**: Integrate findings from `decision-analyst`.
+- **Changes Made**: Technical component breakdown.
+- **Breaking Changes**: Include `## Breaking Changes` section with `BREAKING CHANGE: <description>` if breaking changes exist.
+- **Related Issues**: Link issues via `Closes #<id>` or `Fixes #<id>`.
+- **Verification & Testing**: Commands and validation steps performed.
+- **Language Folding**: Append `<details>` with full translations if user conversation is not in English.
 
 ---
 

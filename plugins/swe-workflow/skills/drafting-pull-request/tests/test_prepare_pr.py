@@ -8,15 +8,12 @@ of gh-stack extension availability.
 
 from __future__ import annotations
 
-import os
 import sys
 import unittest
-from unittest.mock import MagicMock, patch
+from pathlib import Path
 
 # Ensure the scripts directory is in sys.path for importing prepare_pr
-SCRIPT_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "scripts")
-)
+SCRIPT_DIR = str(Path(__file__).resolve().parent.parent / "scripts")
 if SCRIPT_DIR not in sys.path:
     sys.path.insert(0, SCRIPT_DIR)
 
@@ -149,6 +146,75 @@ class TestGenerateRecommendations(unittest.TestCase):
                         )
                     else:
                         self.assertNotIn("gh stack link", combined_output)
+
+    def test_recommendation_title_placeholder(self) -> None:
+        """Verify that PR recommendation commands provide the Conventional Commits title placeholder."""
+        repo_info = prepare_pr.TargetRepoInfo(
+            owner="test-owner",
+            name="test-repo",
+            nwo="test-owner/test-repo",
+            default_branch="main",
+            is_fork=False,
+        )
+        branch_info = prepare_pr.BranchInfo(
+            name="feat/feature-1",
+            is_protected=False,
+            is_default=False,
+            message="SAFE",
+        )
+        sync_info = prepare_pr.SyncInfo(
+            status="UP_TO_DATE",
+            ahead=0,
+            behind=0,
+            upstream="origin/feat/feature-1",
+            message="Up to date",
+        )
+
+        test_scenarios = [
+            {
+                "name": "New standard PR creation recommendation contains Conventional Commits title placeholder",
+                "base_branch": "main",
+                "existing_pr": prepare_pr.ExistingPRInfo(
+                    exists=False, number=None, url=None, title=None, is_draft=None
+                ),
+            },
+            {
+                "name": "New Stacked PR creation recommendation contains Conventional Commits title placeholder",
+                "base_branch": "docs/feature-spec",
+                "existing_pr": prepare_pr.ExistingPRInfo(
+                    exists=False, number=None, url=None, title=None, is_draft=None
+                ),
+            },
+            {
+                "name": "Existing PR edit recommendation contains Conventional Commits title placeholder",
+                "base_branch": "main",
+                "existing_pr": prepare_pr.ExistingPRInfo(
+                    exists=True,
+                    number=10,
+                    url="https://github.com/test-owner/test-repo/pull/10",
+                    title="WIP",
+                    is_draft=True,
+                ),
+            },
+        ]
+
+        for sc in test_scenarios:
+            with self.subTest(msg=sc["name"]):
+                recs = prepare_pr.generate_recommendations(
+                    branch_info=branch_info,
+                    total_uncommitted=0,
+                    sync_info=sync_info,
+                    existing_pr=sc["existing_pr"],
+                    base_branch=sc["base_branch"],
+                    repo_info=repo_info,
+                    stack_ready=False,
+                    current_branch="feat/feature-1",
+                )
+                self.assertIn(
+                    '--title "<type>(<scope>): <subject>"',
+                    "\n".join(recs),
+                    f"Placeholder missing in: {sc['name']}",
+                )
 
 
 class TestArgumentParser(unittest.TestCase):
