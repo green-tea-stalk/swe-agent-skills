@@ -83,11 +83,11 @@ flowchart TD
 4. **ステップ 4: コードベース調査とフィジビリティ検証**:
    対象リポジトリの開発規約、技術スタック、既存パターンを調査し、技術的実現可能性を検証します。技術的トレードオフや不明点をユーザーと対話して埋め切り（ギャップフィリング）、仕様策定のための入力を最終確定します。
 5. **ステップ 5: 要求仕様化と監査**:
-   確定した入力を元に `requirements.md`（堅牢な Mermaid モデリング含む）を作成し、`requirements-reviewer` から `APPROVED`（承認）判定を得ます。
+   確定した入力を元に `requirements.md`（堅牢な Mermaid モデリング含む）を作成し、`requirements-reviewer` の承認を経て `status: approved` へ遷移させます。
 6. **ステップ 6: 基本設計と監査**:
-   `design.md`（堅牢な相互作用モデリング含む）を作成し、`decision-analyst` で設計判断を記録した上で、`design-reviewer` から `APPROVED` 判定を得ます。
+   `design.md`（堅牢な相互作用モデリング含む）を作成し、設計判断を記録して `design-reviewer` の承認を経て `status: approved` へ遷移させます。
 7. **ステップ 7: タスク計画と監査**:
-   GFM 追跡を含む `tasks.md` を作成し、`tasks-reviewer` から `APPROVED` 判定を得ます。
+   GFM 追跡を含む `tasks.md` を作成し、`tasks-reviewer` からの `APPROVED` 判定を経て `status: approved` へ遷移させます。
 8. **ステップ 8: バイリンガル翻訳生成**:
    対話言語が英語以外の場合、対話言語の ISO 639-1 コードを用いて標準 RFC 2119 対訳に準拠した翻訳ファイル（例: `requirements.<lang>.md`, `design.<lang>.md`, `tasks.<lang>.md`）を派生生成します。
 9. **ステップ 9: `drafting-pull-request` への委譲**:
@@ -105,10 +105,12 @@ plugins/swe-workflow/skills/planning-and-designing/
 ├── README.ja.md
 ├── evals/
 │   └── evals.json
-└── references/
-    ├── requirements-template.md
-    ├── design-template.md
-    └── tasks-template.md
+├── references/
+│   ├── requirements-template.md
+│   ├── design-template.md
+│   └── tasks-template.md
+└── tests/
+    └── test_spec_templates.py
 ```
 
 ### 生成される仕様成果物

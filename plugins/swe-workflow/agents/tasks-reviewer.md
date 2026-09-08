@@ -25,7 +25,7 @@ Your responsibility is to ensure that `tasks.md` functions as both an executive 
 Evaluate `tasks.md` against the following mandatory axes:
 
 ### Axis 1: Frontmatter & Upstream Consistency
-- **YAML Frontmatter**: Must contain `feature`, `document_type: tasks`, `version` (SemVer 2.0.0 `X.Y.Z`), `status`, `updated_at`, `upstream.requirements`, and `upstream.design`.
+- **YAML Frontmatter**: Must contain valid YAML with `feature`, `document_type: tasks`, `version` (SemVer 2.0.0 format `X.Y.Z`), `status` (`draft` | `in-review` | `approved` | `superseded`), `updated_at` (ISO 8601 `YYYY-MM-DD`), `upstream.requirements`, and `upstream.design`.
 - **Upstream Version Consistency (FAIL-CLOSED)**: The `upstream.requirements` and `upstream.design` versions MUST match the latest versions of their respective documents. If either is stale, fail the audit immediately.
 
 ### Axis 2: Executive PR Overview (Human Decision-Making)

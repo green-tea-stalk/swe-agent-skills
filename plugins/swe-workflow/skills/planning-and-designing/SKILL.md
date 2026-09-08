@@ -49,6 +49,18 @@ flowchart TD
 
 ---
 
+### Specification Frontmatter Lifecycle & Timestamp Invariant
+
+All specification documents (`requirements.md`, `design.md`, `tasks.md`, and derived translations) strictly adhere to this frontmatter lifecycle state machine:
+- `status: draft`: Initial authoring or active revision drafting before review.
+- `status: in-review`: Formal subagent audit review in progress.
+- `status: approved`: Objective subagent reviewer approval granted (`APPROVED` verdict).
+- `status: superseded`: Specification consolidated or replaced by a super-scope specification or retired.
+
+**Strict Timestamp Invariant**: Whenever `status` transitions (`draft` ➔ `in-review`, `in-review` ➔ `draft`, `in-review` ➔ `approved`, `approved` ➔ `superseded`, `approved` ➔ `draft`), the frontmatter `updated_at` MUST be simultaneously updated to the current date in ISO 8601 format (`YYYY-MM-DD`).
+
+---
+
 ### Step 1: Incremental Requirements Elicitation
 
 Users typically cannot convey full requirements in a single initial prompt. Step 1 conducts an interactive, multi-turn elicitation dialogue to crystallize ambiguous or high-level user ideas into robust requirements before any repository inspection occurs:
@@ -91,7 +103,7 @@ Once concrete requirements are elicited, inspect the full specification landscap
    Compare the elicited requirements against all existing specification directories under `docs/specs/` and classify into one of four patterns:
    - **Duplicate**: An existing spec covers the exact same scope -> Propose revising/updating the existing spec.
    - **Sub-scope**: The requirements represent a sub-feature or extension of an existing, broader spec -> Propose integrating into the existing spec as an added module or revision.
-   - **Super-scope**: The requirements encompass or unify multiple smaller, existing specs -> Propose consolidating and superseding those existing specs.
+   - **Super-scope**: The requirements encompass or unify multiple smaller, existing specs -> Propose consolidating and superseding those existing specs. When consolidating, update the YAML frontmatter of the superseded specification documents to `status: superseded` and update their `updated_at` to the current date (`YYYY-MM-DD`).
    - **New Feature**: The requirements represent an entirely independent feature -> Establish a new feature directory.
 
 2. **Mandatory User Confirmation & Decision Authority**:
@@ -103,8 +115,8 @@ Once concrete requirements are elicited, inspect the full specification landscap
    - Normalize the confirmed feature name to lowercase kebab-case (`^[a-z0-9-]+$`, e.g. `user-authentication`, `csv-exporter`).
    - The canonical target directory is `docs/specs/<feature-name>/`.
    - Inspect `docs/specs/<feature-name>/` to determine mode:
-     - **Initial Mode (0 existing files)**: Start at version `1.0.0`.
-     - **Revision Mode (complete existing files exist)**: Inspect YAML frontmatter (`version`, `status`, `upstream`) and track revision type.
+     - **Initial Mode (0 existing files)**: Start at version `1.0.0` with `status: draft` and `updated_at` set to current date.
+     - **Revision Mode (complete existing files exist)**: Inspect YAML frontmatter (`version`, `status`, `upstream`), determine SemVer increment (`MAJOR.MINOR.PATCH`), and initialize revised documents with incremented version, `status: draft`, and `updated_at` set to current date.
      - **Resume Mode (partial files exist)**: Resume execution from the first uncompleted step.
 
 ---
@@ -131,7 +143,7 @@ Ground the elicited requirements and architecture in the technical realities of 
 ### Step 5: Draft & Audit Requirements Specification (`requirements.md`)
 
 1. **Draft English SSOT**:
-   - Create or update `docs/specs/<feature-name>/requirements.md` conforming strictly to [`references/requirements-template.md`](./references/requirements-template.md) using the finalized inputs.
+   - Create or update `docs/specs/<feature-name>/requirements.md` conforming strictly to [`references/requirements-template.md`](./references/requirements-template.md) using the finalized inputs, initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
    - Enforce standard EARS syntax patterns (Ubiquitous, Event-driven, State-driven, Unwanted behavior, Optional feature, Complex).
    - Apply uppercase RFC 2119 / RFC 8174 keywords (`MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, `MAY`).
    - Satisfy ISO/IEC/IEEE 29148:2018 quality characteristics (Unambiguous, Complete, Consistent, Verifiable, Traceable).
@@ -139,18 +151,19 @@ Ground the elicited requirements and architecture in the technical realities of 
    - Assign unique, immutable requirement IDs (`REQ-001`, `REQ-002`, etc.).
 
 2. **Audit via `requirements-reviewer` Subagent (Max 3 Iterations)**:
+   - **Transition to In-Review**: Set frontmatter to `status: in-review` and update `updated_at` to the current date (`YYYY-MM-DD`) before invoking the reviewer.
    - **Invocation**: Invoke the dedicated `requirements-reviewer` subagent to audit `requirements.md`.
    - **Convergence**:
-     - If `CHANGES_REQUIRED`: address all identified defects and re-audit (up to 3 total iterations).
+     - If `CHANGES_REQUIRED`: set `status: draft` and update `updated_at` while resolving defects, then set `status: in-review` and update `updated_at` upon re-audit (up to 3 total iterations).
      - If unresolved after 3 iterations: **HALT safely (Fail-Closed)** and escalate specific blocker findings to the user.
-     - Proceed to Step 6 only upon receiving **APPROVED**.
+     - Upon receiving **APPROVED**: Immediately update frontmatter to `status: approved` and update `updated_at` to the current date (`YYYY-MM-DD`). Proceed to Step 6 only upon receiving **APPROVED**.
 
 ---
 
 ### Step 6: Draft & Audit Architecture & Component Design (`design.md`)
 
 1. **Draft English SSOT**:
-   - Create or update `docs/specs/<feature-name>/design.md` conforming strictly to [`references/design-template.md`](./references/design-template.md).
+   - Create or update `docs/specs/<feature-name>/design.md` conforming strictly to [`references/design-template.md`](./references/design-template.md), initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
    - Set frontmatter `upstream.requirements` to match the approved `requirements.md` version.
    - **Component Boundaries**: Define component IDs (`COMP-001`, `COMP-002`, etc.) covering external exposed interfaces (CLI, API) and major internal software boundaries (classes, domain services, repositories). Exclude private implementation details.
    - **Data Models**: Specify input/output schemas using standard JSON Schema constraint vocabulary (`type`, `required`, `minLength`, `maximum`, `pattern`, `enum`).
@@ -164,16 +177,19 @@ Ground the elicited requirements and architecture in the technical realities of 
    - Embed extracted decisions into Section 7 of `design.md`.
 
 3. **Audit via `design-reviewer` Subagent (Max 3 Iterations)**:
-   - Invoke the dedicated `design-reviewer` subagent to audit `design.md`.
-   - Enforce fail-closed convergence (max 3 iterations; escalate if unresolved).
-   - Proceed to Step 7 only upon receiving **APPROVED**.
+   - **Transition to In-Review**: Set frontmatter to `status: in-review` and update `updated_at` to the current date (`YYYY-MM-DD`) before invoking the reviewer.
+   - **Invocation**: Invoke the dedicated `design-reviewer` subagent to audit `design.md`.
+   - **Convergence**:
+     - If `CHANGES_REQUIRED`: set `status: draft` and update `updated_at` while resolving defects, then set `status: in-review` and update `updated_at` upon re-audit (up to 3 total iterations).
+     - If unresolved after 3 iterations: **HALT safely (Fail-Closed)** and escalate specific blocker findings to the user.
+     - Upon receiving **APPROVED**: Immediately update frontmatter to `status: approved` and update `updated_at` to the current date (`YYYY-MM-DD`). Proceed to Step 7 only upon receiving **APPROVED**.
 
 ---
 
 ### Step 7: Draft & Audit Implementation Task Plan (`tasks.md`)
 
 1. **Draft English SSOT**:
-   - Create or update `docs/specs/<feature-name>/tasks.md` conforming strictly to [`references/tasks-template.md`](./references/tasks-template.md).
+   - Create or update `docs/specs/<feature-name>/tasks.md` conforming strictly to [`references/tasks-template.md`](./references/tasks-template.md), initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
    - Set frontmatter `upstream.requirements` and `upstream.design` to match current versions.
    - **Executive PR Overview**: Provide a structured summary of planned Stacked PRs, target branches, scope, and merge order for human review.
    - **Traceability Matrix**: Complete mapping table covering `REQ-xxx` × `COMP-xxx` × `TASK-xxx` × `PR-x` with zero gaps.
@@ -182,9 +198,12 @@ Ground the elicited requirements and architecture in the technical realities of 
    - **Lifecycle on Revision**: If all previous tasks were completed, cleanly reset/recreate the task list for the new revision.
 
 2. **Audit via `tasks-reviewer` Subagent (Max 3 Iterations)**:
-   - Invoke the dedicated `tasks-reviewer` subagent to audit `tasks.md`.
-   - Enforce fail-closed convergence (max 3 iterations; escalate if unresolved).
-   - Proceed to Step 8 only upon receiving **APPROVED**.
+   - **Transition to In-Review**: Set frontmatter to `status: in-review` and update `updated_at` to the current date (`YYYY-MM-DD`) before invoking the reviewer.
+   - **Invocation**: Invoke the dedicated `tasks-reviewer` subagent to audit `tasks.md`.
+   - **Convergence**:
+     - If `CHANGES_REQUIRED`: set `status: draft` and update `updated_at` while resolving defects, then set `status: in-review` and update `updated_at` upon re-audit (up to 3 total iterations).
+     - If unresolved after 3 iterations: **HALT safely (Fail-Closed)** and escalate specific blocker findings to the user.
+     - Upon receiving **APPROVED**: Immediately update frontmatter to `status: approved` and update `updated_at` to the current date (`YYYY-MM-DD`). Proceed to Step 8 only upon receiving **APPROVED**.
 
 ---
 
@@ -199,7 +218,7 @@ Once all three English SSOT documents (`requirements.md`, `design.md`, `tasks.md
      - Generate `requirements.<lang>.md` translating `requirements.md` using standard RFC 2119 / 8174 localized mapping for that language (e.g. for Japanese: `MUST` -> 「〜しなければならない」, `MUST NOT` -> 「〜してはならない」, `SHOULD` -> 「〜することが推奨される」, `MAY` -> 「〜してもよい」).
      - Generate `design.<lang>.md` translating `design.md` while maintaining code signatures and translating contract clauses.
      - Generate `tasks.<lang>.md` translating `tasks.md` preserving checkbox states and matrix structure.
-   - Maintain identical frontmatter versions and `upstream` references across language pairs.
+   - Maintain identical frontmatter versions, `status: approved`, `updated_at`, and `upstream` references across language pairs.
 
 ---
 
@@ -208,7 +227,7 @@ Once all three English SSOT documents (`requirements.md`, `design.md`, `tasks.md
 Do NOT perform manual Git branching or piecemeal commits during this skill. Instead, delegate the finalized assets to the existing `drafting-pull-request` skill within the same plugin:
 
 1. **Execute `drafting-pull-request`**:
-   - The `drafting-pull-request` skill automatically inspects branch safety, switches to an appropriate feature branch if on a protected branch, groups uncommitted specification files into an atomic Conventional Commit (`docs(specs): add planning and design specification for <feature-name>`), and creates a GitHub Draft PR with folded bilingual details.
+   - The `drafting-pull-request` skill automatically inspects branch safety, switches to an appropriate feature branch if on a protected branch, groups uncommitted specification files (all verified in `status: approved`) into an atomic Conventional Commit (`docs(specs): add planning and design specification for <feature-name>`), and creates a GitHub Draft PR with folded bilingual details.
 2. **Review Output**:
    - Confirm Draft PR URL and present the completed specification assets and PR link to the user for human review.
 
