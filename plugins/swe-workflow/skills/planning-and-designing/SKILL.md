@@ -135,7 +135,7 @@ Ground the elicited requirements and architecture in the technical realities of 
    - Enforce standard EARS syntax patterns (Ubiquitous, Event-driven, State-driven, Unwanted behavior, Optional feature, Complex).
    - Apply uppercase RFC 2119 / RFC 8174 keywords (`MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, `MAY`).
    - Satisfy ISO/IEC/IEEE 29148:2018 quality characteristics (Unambiguous, Complete, Consistent, Verifiable, Traceable).
-   - Include valid Mermaid diagrams (use cases or flowcharts) for human visual modeling.
+   - Include valid Mermaid diagrams (use cases, flowcharts, or sequence diagrams) for human visual modeling. In sequence diagrams, omit manual activation boxes (`activate`/`deactivate` or `+`/`-` shortcuts) to prevent GitHub rendering errors (`Trying to inactivate an inactive participant`) caused by linear parsing across conditional branches (`alt`/`else`).
    - Assign unique, immutable requirement IDs (`REQ-001`, `REQ-002`, etc.).
 
 2. **Audit via `requirements-reviewer` Subagent (Max 3 Iterations)**:
@@ -157,7 +157,7 @@ Ground the elicited requirements and architecture in the technical realities of 
    - **Protocols**: Specify transport protocols, CLI exit codes, HTTP status mappings, timeouts, and retry policies.
    - **Design by Contract (DbC)**: Express Preconditions, Postconditions, and Invariants using uppercase RFC 2119 / 8174 keywords.
    - **Error Handling**: Specify RFC 9457 Problem Details for external interfaces and structured exception hierarchies for internal components.
-   - **Visual Modeling**: Include Mermaid sequence diagrams and/or state machines.
+   - **Visual Modeling**: Include Mermaid sequence diagrams and/or state machines. In sequence diagrams, omit manual activation boxes (`activate`/`deactivate` or `+`/`-` shortcuts) to prevent activation stack mismatch errors during GitHub rich display rendering.
 
 2. **Extract Design Decisions via `decision-analyst` Subagent**:
    - Invoke the `decision-analyst` subagent to extract non-trivial architectural decisions and trade-offs.

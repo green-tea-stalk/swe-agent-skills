@@ -51,6 +51,12 @@ Guidelines:
 
 ## 3. Visual Modeling
 
+<!--
+Guidelines for Mermaid Diagrams:
+- If authoring sequence diagrams (sequenceDiagram), omit manual activation boxes (activate/deactivate or +/- shortcuts).
+- Never use activation boxes across branching constructs (alt/else, opt, par, loop). Mermaid parses linearly without branch-isolated stacks; deactivating in multiple branches causes fatal GitHub rendering errors ("Trying to inactivate an inactive participant").
+-->
+
 ```mermaid
 graph TD
     %% Insert Mermaid diagram (flowchart, sequence, or state diagram) clarifying workflows

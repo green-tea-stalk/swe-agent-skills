@@ -50,7 +50,11 @@ Evaluate `requirements.md` against the following mandatory axes:
 ### Axis 4: Human Readability & Visual Modeling
 - **Context & Motivation**: Background, user personas/actors, and business objectives must be clearly articulated.
 - **Use Case Descriptions**: Detailed flows including actor, preconditions, main flow, alternative flows, and postconditions.
-- **Mermaid Visualizations**: Must include appropriate diagrams (use case diagrams, activity flowcharts, or sequence diagrams) with valid Mermaid syntax that visually clarify complex flows for human readers.
+- **Mermaid Visualizations & GitHub Rendering Robustness (FAIL-CLOSED)**:
+  - Must include appropriate diagrams (use case diagrams, activity flowcharts, or sequence diagrams) that visually clarify complex flows for human readers.
+  - All Mermaid syntax MUST be valid and strictly renderable on GitHub without errors.
+  - **Sequence Diagram Activation Safety**: In sequence diagrams (`sequenceDiagram`), manual activation boxes (`activate` / `deactivate`) and shorthand activation modifiers (`+` / `-`) MUST NOT be used across branching constructs (`alt` / `else`, `opt`, `par`, `loop`). Deactivating an already-inactive participant across conditional branches triggers GitHub rendering failure (`Trying to inactivate an inactive participant`).
+  - **Robustness Standard**: Strongly recommend clean, activation-free sequence diagrams (`A->>B: message`, `B-->>A: response`), which are completely immune to activation stack mismatch errors. Any diagram containing activation mismatches or deactivations across branches MUST receive `CHANGES_REQUIRED`.
 
 ### Axis 5: Identifier Immutability (Applicable on Revisions)
 - If auditing a revision (`version` > 1.0.0):
