@@ -74,21 +74,48 @@ sequenceDiagram
 
 ## 3. Data Models & Schema Constraints
 
-All input payloads, domain structures, and output responses are defined using standard constraint vocabulary.
+All input payloads, domain structures, output responses, and database entity models are defined using structured Markdown tables conforming to standard constraint vocabulary.
 
-### 3.1 `<DataModelName>` (Input / Payload)
+<!--
+Guidelines for Data Model Modeling & Hierarchical Fields:
+1. Flat / Shallow Nesting (1-2 levels): Use dot notation within the same table:
+   e.g. `parent.child` for objects, or `items[].property` for arrays of objects.
+2. Deep Nesting / Reused Models: Decompose into separate sub-model tables (e.g. `### 3.1.1 <SubModelName>`)
+   and reference them by model name in the parent table's `Type` column (e.g. `AddressModel`, `array<OrderItemModel>`).
+3. Standard Constraint Vocabulary: Use JSON Schema terms (`minLength`, `maxLength`, `minimum`, `maximum`, `pattern`, `enum`, `format`).
+-->
+
+### 3.1 `<InputDataModelName>` (Input / Payload)
 - **Format**: JSON Schema / Project Type Signature
-- **Fields**:
-  - `field_a` (string, required): `minLength: 1`, `maxLength: 255`, `pattern: "^[a-z0-9-]+$"` - <Description>
-  - `field_b` (integer, optional): `minimum: 0`, `maximum: 1000`, `default: 10` - <Description>
-  - `field_c` (enum, required): `["active", "suspended", "archived"]` - <Description>
+
+| Field Name | Type | Required / Optional | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `field_a` | `string` | Required | `minLength: 1`, `maxLength: 255`, `pattern: "^[a-z0-9-]+$"` | Primary identifier or slug |
+| `field_b` | `integer` | Optional | `minimum: 0`, `maximum: 1000`, `default: 10` | Page size or quantity limit |
+| `field_c` | `string` (enum) | Required | `enum: ["active", "suspended", "archived"]` | Lifecycle status indicator |
+| `nested` | `object` | Optional | - | Nested object payload |
+| `nested.sub_field` | `string` | Required | `minLength: 1` | Inline sub-field using dot notation |
+| `items` | `array<object>` | Optional | `maxItems: 50` | List of line items |
+| `items[].item_id` | `string` | Required | `format: "uuid"` | Item identifier within array |
 
 ### 3.2 `<OutputDataModelName>` (Output / Result)
 - **Format**: JSON Schema / Project Type Signature
-- **Fields**:
-  - `id` (string, required): Unique identifier format `UUIDv4`.
-  - `status` (string, required): Status indicator conforming to enum.
-  - `created_at` (string, required): ISO 8601 UTC timestamp format `date-time`.
+
+| Field Name | Type | Required / Optional | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `id` | `string` | Required | `format: "uuid"` (UUIDv4) | Unique resource identifier |
+| `status` | `string` | Required | `enum: ["active", "suspended", "archived"]` | Execution status indicator |
+| `created_at` | `string` | Required | `format: "date-time"` (ISO 8601 UTC) | Timestamp of resource creation |
+
+### 3.3 `<DatabaseEntityModelName>` (Database Entity / Persistence - Optional)
+- **Storage Target**: Relational Database / Persistent Store (e.g. PostgreSQL, SQLite)
+
+| Column Name | Data Type | Nullable | Key / Default | Indexes | Description |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `id` | `VARCHAR(36)` | No | PK / UUIDv4 | Primary | Primary record identifier |
+| `name` | `VARCHAR(255)` | No | None | None | Display name of the entity |
+| `status` | `VARCHAR(32)` | No | Default: `'active'` | Index: `idx_status` | Current lifecycle state |
+| `created_at` | `TIMESTAMPTZ` | No | Default: `CURRENT_TIMESTAMP` | Index: `idx_created_at` | Record creation timestamp |
 
 ---
 

@@ -209,6 +209,53 @@ class TestSpecificationTemplates(unittest.TestCase):
                     f"{filename} guidelines must mandate updating updated_at.",
                 )
 
+    def test_design_template_data_models_table_structure(self) -> None:
+        """Verify design-template.md Section 3 specifies data models using structured Markdown tables."""
+        design_path = self.references_dir / "design-template.md"
+        content = design_path.read_text(encoding="utf-8")
+
+        # Extract Section 3 content up to Section 4
+        section_match = re.search(
+            r"## 3\. Data Models & Schema Constraints\s*\n(.*?)\n## 4\.",
+            content,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(
+            section_match,
+            "design-template.md must contain '## 3. Data Models & Schema Constraints'",
+        )
+        assert section_match is not None
+        section_3_content = section_match.group(1)
+
+        # Expected table column sets for data models
+        expected_table_headers = [
+            (
+                "Input/Output Model Table",
+                ["Field Name", "Type", "Required / Optional", "Constraints", "Description"],
+            ),
+            (
+                "Database Entity Table",
+                ["Column Name", "Data Type", "Nullable", "Key / Default", "Indexes", "Description"],
+            ),
+        ]
+
+        for table_label, columns in expected_table_headers:
+            with self.subTest(table=table_label):
+                for col in columns:
+                    self.assertIn(
+                        col,
+                        section_3_content,
+                        f"design-template.md Section 3 must contain column header '{col}' for {table_label}",
+                    )
+
+        # Verify guidance for hierarchical / nested fields is present
+        self.assertIn(
+            "dot notation",
+            section_3_content.lower(),
+            "design-template.md Section 3 must provide guidance on hierarchical fields using dot notation.",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
+

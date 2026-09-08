@@ -32,9 +32,15 @@ Evaluate `design.md` against the following mandatory axes:
 - **Component Scope**: Components (`COMP-001`, `COMP-002`, etc.) must represent meaningful architectural boundaries—either external exposed interfaces (CLI, REST API, Webhooks) or major internal software components (domain models, service layers, repository interfaces, or public classes).
 - **Exclusion of Private Details**: The document MUST NOT specify private algorithmic logic, internal loop implementations, or local scratch variables. It must focus strictly on public contracts.
 
-### Axis 3: Input & Output Data Models (JSON Schema Vocabulary)
+### Axis 3: Input & Output Data Models (JSON Schema Vocabulary & Structured Tables)
 - **Data Model Completeness**: All input arguments/payloads and output responses/results must be rigorously specified.
-- **Explicit Constraints**: Must define field names, data types, nullability, required vs. optional, and validation rules using standard constraint vocabulary (`minLength`, `maximum`, `pattern`, `enum`, etc.).
+- **Structured Markdown Tables (FAIL-CLOSED)**: Data models (input payloads, output resources, and database entity models) MUST be specified using structured Markdown tables rather than raw bullet lists.
+  - Input/Output Models MUST use table columns: `Field Name`, `Type`, `Required / Optional`, `Constraints`, `Description`.
+  - Database Entity Models (where applicable) MUST use table columns: `Column Name`, `Data Type`, `Nullable`, `Key / Default`, `Indexes`, `Description`.
+- **Hierarchical Modeling Conventions**: Nested structures MUST be clearly expressed using either:
+  - Dot notation (`parent.child`, `items[].property`) for inline/shallow nesting, OR
+  - Explicit sub-model tables with model type references (e.g. `Type: AddressModel`) for deep or reused models.
+- **Explicit Constraints**: Must define field names, data types, nullability, required vs. optional, and validation rules using standard constraint vocabulary (`minLength`, `maximum`, `pattern`, `enum`, etc.) within table cells.
 
 ### Axis 4: Protocols & Communication Procedures (Where Applicable)
 - **CLI Protocols**: Exit codes (0 = success, non-zero categories), stdio separation (`stdout` for data, `stderr` for logs/errors), and signal handling.
