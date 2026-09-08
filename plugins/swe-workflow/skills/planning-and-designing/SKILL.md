@@ -166,7 +166,7 @@ Ground the elicited requirements and architecture in the technical realities of 
    - Create or update `docs/specs/<feature-name>/design.md` conforming strictly to [`references/design-template.md`](./references/design-template.md), initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
    - Set frontmatter `upstream.requirements` to match the approved `requirements.md` version.
    - **Component Boundaries**: Define component IDs (`COMP-001`, `COMP-002`, etc.) covering external exposed interfaces (CLI, API) and major internal software boundaries (classes, domain services, repositories). Exclude private implementation details.
-   - **Data Models**: Specify input/output schemas using standard JSON Schema constraint vocabulary (`type`, `required`, `minLength`, `maximum`, `pattern`, `enum`).
+   - **Data Models**: Specify input/output schemas and database entity models using structured Markdown tables conforming to standard JSON Schema constraint vocabulary (`type`, `required`, `minLength`, `maximum`, `pattern`, `enum`). Represent nested structures using dot notation (`parent.child`, `items[].property`) or dedicated sub-model tables.
    - **Protocols**: Specify transport protocols, CLI exit codes, HTTP status mappings, timeouts, and retry policies.
    - **Design by Contract (DbC)**: Express Preconditions, Postconditions, and Invariants using uppercase RFC 2119 / 8174 keywords.
    - **Error Handling**: Specify RFC 9457 Problem Details for external interfaces and structured exception hierarchies for internal components.
