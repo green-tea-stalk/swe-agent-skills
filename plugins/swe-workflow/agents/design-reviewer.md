@@ -53,6 +53,10 @@ Every component interface MUST explicitly document:
 
 ### Axis 7: Human Readability & Visual Modeling
 - Must include valid Mermaid sequence diagrams, state transition models, or component boundary diagrams that visually clarify interaction flows.
+- **Mermaid Syntax & GitHub Rendering Robustness (FAIL-CLOSED)**:
+  - All diagrams MUST be syntactically valid and strictly renderable on GitHub without errors.
+  - In sequence diagrams (`sequenceDiagram`), manual activation boxes (`activate` / `deactivate`) and shorthand activation modifiers (`+` / `-`) MUST NOT be used across branching constructs (`alt` / `else`, `opt`, `par`, `loop`). Deactivating an inactive participant across branches triggers GitHub rendering failure (`Trying to inactivate an inactive participant`).
+  - Recommend omitting activation boxes entirely (`A->>B: message`, `B-->>A: response`) for maximum robustness and visual clarity. Any diagram containing activation mismatches or deactivations across branches MUST receive `CHANGES_REQUIRED`.
 
 ### Axis 8: Traceability & Key Design Decisions
 - Every component must link back to corresponding requirement IDs (`REQ-xxx`).

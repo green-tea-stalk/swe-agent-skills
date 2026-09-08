@@ -20,7 +20,7 @@ The `planning-and-designing` skill provides a deterministic, multi-stage workflo
 
 | Specification Asset | Standards & Specifications | Key Responsibilities |
 | :--- | :--- | :--- |
-| **Requirements (`requirements.md`)** | **EARS** + **RFC 2119 / RFC 8174** + **ISO/IEC/IEEE 29148:2018** | Five standard EARS patterns, strict uppercase requirement keywords, 5 core quality characteristics (Unambiguous, Complete, Consistent, Verifiable, Traceable), Mermaid visual modeling. |
+| **Requirements (`requirements.md`)** | **EARS** + **RFC 2119 / RFC 8174** + **ISO/IEC/IEEE 29148:2018** | Five standard EARS patterns, strict uppercase requirement keywords, 5 core quality characteristics (Unambiguous, Complete, Consistent, Verifiable, Traceable), robust Mermaid visual modeling. |
 | **Component Design (`design.md`)** | **DbC** + **JSON Schema** + **RFC 9457** | Public interface contracts (Preconditions, Postconditions, Invariants), data model constraints, protocols, standard Problem Details error envelope, Key Design Decisions. |
 | **Task Planning (`tasks.md`)** | **Stacked PR** + **Traceability Matrix** + **GFM Checkboxes** | Executive PR overview for human reviewers, mechanical coverage matrix (`REQ` × `COMP` × `TASK` × `PR`), progress tracking state machine, crash resiliency, full completion reset. |
 | **Multilingual Protocol** | **Filename Suffix Convention** (`*.<lang>.md`) | English document as SSOT; derived translation generated after English approval using target ISO 639-1 code (e.g. `*.ja.md`) and standard RFC 2119 localized mapping. |
@@ -83,9 +83,9 @@ flowchart TD
 4. **Step 4: Codebase Reconnaissance & Technical Feasibility Verification**:
    Inspects codebase conventions, tech stack, and patterns. Verifies technical feasibility, conducts gap-filling dialogue with user, and finalizes authoring inputs.
 5. **Step 5: Requirements Specification & Audit**:
-   Drafts `requirements.md` and achieves `APPROVED` verdict from `requirements-reviewer`.
+   Drafts `requirements.md` (with robust Mermaid modeling) and achieves `APPROVED` verdict from `requirements-reviewer`.
 6. **Step 6: Component Design & Audit**:
-   Drafts `design.md`, extracts design decisions via `decision-analyst`, and achieves `APPROVED` verdict from `design-reviewer`.
+   Drafts `design.md` (with robust interaction modeling), extracts design decisions via `decision-analyst`, and achieves `APPROVED` verdict from `design-reviewer`.
 7. **Step 7: Task Planning & Audit**:
    Drafts `tasks.md` with GFM tracking and achieves `APPROVED` verdict from `tasks-reviewer`.
 8. **Step 8: Bilingual Translation Generation**:

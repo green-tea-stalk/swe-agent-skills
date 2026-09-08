@@ -44,6 +44,14 @@ graph LR
 
 ## 2. Interaction Modeling
 
+<!--
+Guidelines for Sequence Diagrams:
+1. Omit manual activation boxes (activate/deactivate or +/- shortcuts) by default.
+2. Never use activation boxes across branching constructs (alt/else, opt, par, loop).
+   Mermaid parses diagrams linearly without branch-isolated stacks; deactivating in multiple
+   branches causes fatal GitHub rendering errors ("Trying to inactivate an inactive participant").
+-->
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -53,18 +61,12 @@ sequenceDiagram
     participant Adapter as Adapter (COMP-003)
 
     Caller->>Gateway: Request Operation
-    activate Gateway
     Gateway->>Gateway: Validate Preconditions (Input Schema)
     Gateway->>Service: Execute Command
-    activate Service
     Service->>Adapter: Query / Mutate Data
-    activate Adapter
     Adapter-->>Service: Return State / Error
-    deactivate Adapter
     Service-->>Gateway: Return Domain Result
-    deactivate Service
     Gateway-->>Caller: Guaranteed Postconditions Response
-    deactivate Gateway
 ```
 
 ---
