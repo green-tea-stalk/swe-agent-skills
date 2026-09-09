@@ -99,7 +99,10 @@ plugins/<plugin-name>/
 
 ## 7. Release Management
 
-This repository uses **[release-please](https://github.com/googleapis/release-please)** for automated changelog generation and release creation. All releases are created via GitHub Actions based on Conventional Commits. Agents should format their commits correctly to ensure releases are generated accurately.
+This repository uses **[release-please](https://github.com/googleapis/release-please)** for automated changelog generation, release creation, and version management.
+- **Manifest-Driven Configuration**: Releases are tracked via `release-please-config.json` and `.release-please-manifest.json` at the repository root.
+- **Plugin Manifest Synchronization**: Each plugin's `plugin.json` manifests (for Google Antigravity, Claude Code, and Codex CLI) are registered under `extra-files` with JSONPath `$.version`. Whenever release-please creates or updates a release pull request, plugin version numbers are automatically incremented to match the root release version.
+- **Conventional Commits**: All releases are driven by Conventional Commits (`feat:`, `fix:`, `chore:`, etc.). Agents must format commits accurately to ensure version increments and changelog entries are calculated correctly.
 
 ---
 
