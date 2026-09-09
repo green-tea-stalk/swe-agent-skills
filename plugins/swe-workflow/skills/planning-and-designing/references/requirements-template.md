@@ -1,12 +1,12 @@
 ---
-feature: <feature-name>
+feature: {feature-name}
 document_type: requirements
 version: 1.0.0
 status: draft
-updated_at: <YYYY-MM-DD>
+updated_at: {YYYY-MM-DD}
 ---
 
-# Requirements Specification: <Feature Name>
+# Requirements Specification: {Feature Name}
 
 <!--
 Guidelines:
@@ -14,40 +14,40 @@ Guidelines:
 2. Adhere to ISO/IEC/IEEE 29148:2018 quality characteristics: Unambiguous, Complete, Consistent, Verifiable, and Traceable.
 3. Specify black-box externally observable requirements: Describe system behavior strictly from the perspective of external actors (stimulus and observable response/feedback at boundary). Do NOT include implementation details (e.g. no HTTP methods/routes, HTTP status codes, SQL queries, database table/column names, or framework classes/annotations); reserve solution architecture for design.md.
 4. Include visual Mermaid modeling strictly depicting interactions between external actors and the system boundary. Do NOT model internal components, pipelines, or data store entities.
-5. If translating to a localized file (e.g. *.<lang>.md like *.ja.md, *.fr.md), translate accurately using standard RFC 2119 mapping after English SSOT approval.
+5. If translating to a localized file (e.g. *.{lang}.md like *.ja.md, *.fr.md), translate accurately using standard RFC 2119 mapping after English SSOT approval.
 6. Frontmatter Status Lifecycle: Initialized as `status: draft`. Transitions to `status: in-review` when submitting for subagent review, `status: approved` upon reviewer APPROVED verdict, and `status: superseded` if replaced or consolidated. Always update `updated_at` (ISO 8601 `YYYY-MM-DD`) whenever `status` transitions.
 -->
 
 ## 1. Context & Motivation
 
 ### 1.1 Problem Statement
-<Describe the core problem, user pain points, and why this initiative is necessary.>
+{Describe the core problem, user pain points, and why this initiative is necessary.}
 
 ### 1.2 Business & Technical Goals
-- <Goal 1: Measurable outcome or capability delivered>
-- <Goal 2: Architectural or operational improvement>
+- {Goal 1: Measurable outcome or capability delivered}
+- {Goal 2: Architectural or operational improvement}
 
 ### 1.3 Target Personas & Stakeholders
-- **<Persona/Role 1>**: <Description and expectations>
-- **<System Actor 2>**: <External service or subsystem interacting with this feature>
+- **{Persona/Role 1}**: {Description and expectations}
+- **{System Actor 2}**: {External service or subsystem interacting with this feature}
 
 ---
 
 ## 2. User Scenarios & Use Cases
 
-### 2.1 Use Case 1: <Use Case Title>
-- **Actor**: <Primary actor or initiating service>
-- **Preconditions**: <System state or prerequisites required before execution>
-- **Trigger**: <Event that initiates the use case>
+### 2.1 Use Case 1: {Use Case Title}
+- **Actor**: {Primary actor or initiating service}
+- **Preconditions**: {System state or prerequisites required before execution}
+- **Trigger**: {Event that initiates the use case}
 - **Basic Flow**:
-  1. <Step 1: Actor action>
-  2. <Step 2: System response or processing>
-  3. <Step 3: Successful completion outcome>
+  1. {Step 1: Actor action}
+  2. {Step 2: System response or processing}
+  3. {Step 3: Successful completion outcome}
 - **Alternative Flows**:
-  - <Alternative condition and deviation flow>
+  - {Alternative condition and deviation flow}
 - **Exception Flows**:
-  - <Error or boundary condition and system recovery behavior>
-- **Postconditions**: <Guaranteed system state upon successful completion>
+  - {Error or boundary condition and system recovery behavior}
+- **Postconditions**: {Guaranteed system state upon successful completion}
 
 ---
 
@@ -75,12 +75,12 @@ All functional requirements are defined using standard EARS patterns and upperca
 
 | Requirement ID | EARS Pattern Type | Specification Statement (RFC 2119 / 8174) | Verification Method |
 | :--- | :--- | :--- | :--- |
-| **REQ-001** | Ubiquitous | The system MUST <action / property>. | Automated Test |
-| **REQ-002** | Event-driven | When <trigger>, the system MUST <action>. | Integration Test |
-| **REQ-003** | State-driven | While <in state>, the system MUST <action>. | Automated Test |
-| **REQ-004** | Unwanted Behavior | If <error condition>, then the system MUST <error handling action> and MUST NOT <undesired side effect>. | Unit / Fault Test |
-| **REQ-005** | Optional Feature | Where <optional feature is enabled>, the system MAY <optional action>. | Integration Test |
-| **REQ-006** | Complex | While <state>, when <trigger>, the system MUST <action>. | Scenario Test |
+| **REQ-001** | Ubiquitous | The system MUST {action / property}. | Automated Test |
+| **REQ-002** | Event-driven | When {trigger}, the system MUST {action}. | Integration Test |
+| **REQ-003** | State-driven | While {in state}, the system MUST {action}. | Automated Test |
+| **REQ-004** | Unwanted Behavior | If {error condition}, then the system MUST {error handling action} and MUST NOT {undesired side effect}. | Unit / Fault Test |
+| **REQ-005** | Optional Feature | Where {optional feature is enabled}, the system MAY {optional action}. | Integration Test |
+| **REQ-006** | Complex | While {state}, when {trigger}, the system MUST {action}. | Scenario Test |
 
 <!--
 On revisions:
@@ -93,9 +93,9 @@ On revisions:
 
 ## 5. Non-Functional Requirements
 
-- **NFR-PERF-001 (Performance)**: The system MUST process operations within <threshold, e.g. 200ms>.
+- **NFR-PERF-001 (Performance)**: The system MUST process operations within {threshold, e.g. 200ms}.
 - **NFR-SEC-001 (Security)**: The system MUST validate all inputs and MUST NOT leak sensitive data.
-- **NFR-COMP-001 (Compatibility)**: The system MUST maintain compatibility with <runtime/dependencies>.
+- **NFR-COMP-001 (Compatibility)**: The system MUST maintain compatibility with {runtime/dependencies}.
 - **NFR-REL-001 (Reliability)**: The system MUST fail safely (Fail-Closed) in the event of unexpected exceptions.
 
 ---
@@ -103,6 +103,6 @@ On revisions:
 ## 6. Out of Scope
 
 The following items are explicitly excluded from this specification:
-- <Item 1: Capability deliberately deferred to future phases>
-- <Item 2: Out-of-boundary integration or platform variation>
+- {Item 1: Capability deliberately deferred to future phases}
+- {Item 2: Out-of-boundary integration or platform variation}
 

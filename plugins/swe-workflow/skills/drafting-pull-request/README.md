@@ -21,7 +21,7 @@ The `drafting-pull-request` skill provides an automated, fail-closed workflow th
 
 | Architectural Pillar | Core Standards & Specifications | Key Responsibilities |
 | :--- | :--- | :--- |
-| **Release Automation** | **`release-please` Compatibility** | Enforces Conventional Commit PR titles (`<type>(<scope>)[!]: <subject>`) with commit-derived scopes and SemVer priority to drive automated releases upon merge. |
+| **Release Automation** | **`release-please` Compatibility** | Enforces Conventional Commit PR titles (`{type}({scope})[!]: {subject}`) with commit-derived scopes and SemVer priority to drive automated releases upon merge. |
 | **Architectural Transparency** | **`decision-analyst` Subagent** | Evaluates session context and diffs to document chosen solutions, considered alternatives, and explicit trade-offs. |
 | **Fail-Closed Inspection** | **Safe Synchronization Protocol** | Halts on unclassified uncommitted changes, zero diff commits against base, or diverged remote states. |
 | **Standardized Descriptions** | **Narrative Summary & Test Records** | Enforces third-person narrative summaries (Why + What), eliminates redundant diff listings, and records actual test execution evidence. |

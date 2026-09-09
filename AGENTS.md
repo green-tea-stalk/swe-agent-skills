@@ -65,6 +65,12 @@ To prevent rule drift and ensure continuous compliance with the evolving Agent S
 ### Key Architectural Decisions
 - **Unified Rule-Driven Workflow over Runtime Hooks**: Lifecycle hooks (`hooks.json`) are restricted to executing deterministic shell commands and cannot invoke AI prompt workflows or reviewer subagents. Splitting automated checks across hooks while leaving qualitative AI reviews to explicit rules creates fragmented responsibility. Therefore, we deliberately rely on a unified rule-driven workflow (`.agents/rules/`) that orchestrates cache management scripts (`manage_validation_cache.py`), specification analysis (`skill-spec-analyst.md`), and reviewer subagents (`skill-reviewer.md`, `python-reviewer.md`) in a single consistent framework.
 
+### Universal Placeholder Standard (Curly Braces)
+All template placeholders, dynamic tokens, and variable parameters across all skills, templates (`references/`), subagents (`agents/`), scripts (`scripts/`), and documentation MUST consistently use curly braces (`{placeholder}`).
+- **Elimination of Pseudo-HTML Ambiguity**: Raw angle brackets (`<placeholder>`) are strictly prohibited in Markdown files, templates, and instructions because Markdown and HTML parsers (such as GitHub Flavored Markdown) treat them as pseudo-HTML tags, causing stripped tokens, corrupted rendering, or syntax breakages.
+- **Git Co-Author Trailer Exemption**: The Git `Co-Authored-By` trailer follows Git and RFC 5322 syntax where email addresses must be enclosed in angle brackets. The standard format separates syntax from the placeholder: `Co-Authored-By: {AgentName} {ModelName} <{email}>`.
+- **Programming Language Generics**: Language type parameters (e.g. `array<object>`) represent type signatures rather than template substitution tokens and remain in language syntax.
+
 ---
 
 ## 5. Plugin Architecture
@@ -73,19 +79,19 @@ To prevent rule drift and ensure continuous compliance with the evolving Agent S
 Plugins are packaged units distributing skills and subagents together.
 
 ```text
-plugins/<plugin-name>/
+plugins/{plugin-name}/
 ├── plugin.json                # Google Antigravity manifest
 ├── .claude-plugin/
 │   └── plugin.json            # Claude Code manifest
 ├── .codex-plugin/
 │   └── plugin.json            # Codex CLI manifest
 ├── skills/                    # Skills (kebab-case gerund directories)
-│   └── <skill-name>/
+│   └── {skill-name}/
 │       ├── SKILL.md
 │       ├── scripts/           # Optional
 │       └── references/        # Optional
 └── agents/                    # Subagents (role-based .md files)
-    └── <agent-role>.md
+    └── {agent-role}.md
 ```
 
 ---

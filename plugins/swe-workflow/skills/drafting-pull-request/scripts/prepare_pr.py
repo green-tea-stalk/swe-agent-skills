@@ -191,7 +191,7 @@ def check_branch_protection(branch: str, default_branch: str) -> BranchInfo:
     if is_protected:
         message = (
             f"WARNING: Branch '{branch}' is protected or default on GitHub.\n"
-            "         You must create and switch to a feature branch (`git checkout -b <name>`) before creating a PR."
+            "         You must create and switch to a feature branch (`git checkout -b {name}`) before creating a PR."
         )
     else:
         message = f"SAFE (Working on non-protected branch '{branch}')"
@@ -414,7 +414,7 @@ def generate_recommendations(
     """
     recs: list[str] = []
     if branch_info.is_protected:
-        recs.append("  1. Switch to a feature branch: `git checkout -b feat/<name>`")
+        recs.append("  1. Switch to a feature branch: `git checkout -b feat/{name}`")
     if total_uncommitted > 0:
         recs.append("  2. Resolve uncommitted changes before proceeding.")
     if sync_info.status == "NO_UPSTREAM":
@@ -424,15 +424,15 @@ def generate_recommendations(
 
     if existing_pr.exists:
         recs.append("  4. Invoke `decision-analyst` and UPDATE PR via:")
-        recs.append(f"     `gh pr edit {existing_pr.url} --title \"<type>(<scope>): <subject>\" --body \"...\"`")
+        recs.append(f"     `gh pr edit {existing_pr.url} --title \"{{type}}({{scope}}): {{subject}}\" --body \"...\"`")
     elif base_branch != repo_info.default_branch:
         recs.append(f"  4. Invoke `decision-analyst` and CREATE Stacked draft PR targeting '{base_branch}' via:")
-        recs.append(f"     `gh pr create --repo {repo_info.nwo} --base {base_branch} --draft --title \"<type>(<scope>): <subject>\" --body \"...\"`")
+        recs.append(f"     `gh pr create --repo {repo_info.nwo} --base {base_branch} --draft --title \"{{type}}({{scope}}): {{subject}}\" --body \"...\"`")
         if stack_ready:
             recs.append(f"     `gh stack link {base_branch} {current_branch}`")
     else:
         recs.append("  4. Invoke `decision-analyst` and CREATE draft PR via:")
-        recs.append(f"     `gh pr create --repo {repo_info.nwo} --draft --title \"<type>(<scope>): <subject>\" --body \"...\"`")
+        recs.append(f"     `gh pr create --repo {repo_info.nwo} --draft --title \"{{type}}({{scope}}): {{subject}}\" --body \"...\"`")
 
     return recs
 

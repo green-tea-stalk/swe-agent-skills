@@ -22,7 +22,7 @@ The `committing-changes` skill provides a deterministic, fail-closed workflow th
 | :--- | :--- | :--- |
 | **Conventional Commits** | **Conventional Commits 1.0.0** | Formats commit messages with valid type, component scope, breaking indicators, clear imperative subject, and structured explanatory body per references/commit-template.md. |
 | **Safety & Secret Prevention** | **Fail-Closed Inspection Script** | Inspects branch safety (protected branch blocking), blocks staging of sensitive credentials (`.env`, certificates, private keys), and warns on OS/build noise. |
-| **Co-Author Attribution** | **Git Co-Author Protocol** | Appends standardized `Co-Authored-By: <AgentName> <ModelName> <<email>>` trailer to preserve provenance in agentic pair programming. |
+| **Co-Author Attribution** | **Git Co-Author Protocol** | Appends standardized `Co-Authored-By: {AgentName} {ModelName} <{email}>` trailer to preserve provenance in agentic pair programming. |
 
 ---
 

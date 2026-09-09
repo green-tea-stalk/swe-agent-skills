@@ -18,7 +18,7 @@
 
 Directly supported as native plugins in the following AI coding assistants:
 
-- **Google Antigravity (AGY)**: Native plugin discovery via `plugins/<name>/plugin.json`.
+- **Google Antigravity (AGY)**: Native plugin discovery via `plugins/{name}/plugin.json`.
 - **Claude Code**: Native plugin discovery via `.claude-plugin/plugin.json` and Plugin Marketplace.
 - **Codex CLI**: Native plugin discovery via `.codex-plugin/plugin.json` and plugin management via `/plugins`.
 
@@ -68,7 +68,7 @@ git clone https://github.com/green-tea-stalk/swe-agent-skills.git ~/git/swe-agen
   ]
 }
 ```
-*(Or symlink plugins directly: `ln -s ~/git/swe-agent-skills/plugins/<plugin-name> ~/.gemini/config/plugins/<plugin-name>`)*
+*(Or symlink plugins directly: `ln -s ~/git/swe-agent-skills/plugins/{plugin-name} ~/.gemini/config/plugins/{plugin-name}`)*
 
 ### 2. Claude Code
 
@@ -78,7 +78,7 @@ Add this repository as a marketplace and install the desired plugin globally:
 /plugin marketplace add https://github.com/green-tea-stalk/swe-agent-skills
 
 # Install a plugin (e.g., general-swe)
-/plugin install <plugin-name>@swe-agent-skills
+/plugin install {plugin-name}@swe-agent-skills
 ```
 
 ### 3. Codex CLI

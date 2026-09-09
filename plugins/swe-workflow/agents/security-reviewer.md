@@ -68,23 +68,23 @@ You must output your audit report conforming to the following structure:
 
 ```markdown
 ## Security Review Summary
-- **Target Files**: <list of audited implementation and test files>
-- **Verdict**: <APPROVED | CHANGES_REQUIRED>
+- **Target Files**: {list of audited implementation and test files}
+- **Verdict**: {APPROVED | CHANGES_REQUIRED}
 
 ## Findings
 
 ### Critical Issues (Must Fix)
-- [<Axis Name>] `<file_path>:<line>`: <threat description>
-  - **Correction**: <actionable remediation instructions>
+- [{Axis Name}] `{file_path}:{line}`: {threat description}
+  - **Correction**: {actionable remediation instructions}
 
 ### Warnings & Security Smells (Should Fix)
-- [<Axis Name>] `<file_path>:<line>`: <issue description>
-  - **Correction**: <actionable remediation instructions>
+- [{Axis Name}] `{file_path}:{line}`: {issue description}
+  - **Correction**: {actionable remediation instructions}
 
 ### Suggestions & Hardening (Optional)
-- <minor non-blocking defense-in-depth suggestions>
+- {minor non-blocking defense-in-depth suggestions}
 
 ## Decision
-<APPROVED: All code and tests strictly comply with security standards, secret protection, and input sanitization. | CHANGES_REQUIRED: <Count> vulnerabilities must be resolved before progression.>
+{APPROVED: All code and tests strictly comply with security standards, secret protection, and input sanitization. | CHANGES_REQUIRED: {Count} vulnerabilities must be resolved before progression.}
 ```
 

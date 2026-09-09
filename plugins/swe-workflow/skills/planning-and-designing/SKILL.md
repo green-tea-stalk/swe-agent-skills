@@ -12,7 +12,7 @@ description: >-
 
 # Planning & Designing (Spec-Driven Development)
 
-This skill guides the end-to-end execution of the planning and designing phase of Spec-Driven Development (SDD). It transforms user requirements into rigorous, verifiable, and bilingual specification assets (`requirements.md`, `design.md`, `tasks.md`) stored under `docs/specs/<feature-name>/`.
+This skill guides the end-to-end execution of the planning and designing phase of Spec-Driven Development (SDD). It transforms user requirements into rigorous, verifiable, and bilingual specification assets (`requirements.md`, `design.md`, `tasks.md`) stored under `docs/specs/{feature-name}/`.
 
 ---
 
@@ -22,27 +22,21 @@ Follow these sequential steps whenever planning and designing a new feature or s
 
 ```mermaid
 flowchart TD
-    subgraph P1["Phase 1: Requirements Elicitation & Suitability"]
+    subgraph Phase1["Phase 1: Discovery & Input Finalization"]
         S1["Step 1: Incremental Requirements Elicitation<br>(Interactive dialogue until mutual completion)"] --> S2{"Step 2: Task Suitability Check<br>(Check heavyweight suitability & bypass confirmation)"}
-        S2 -- "Bypass accepted" --> EXIT["Exit Skill (Proceed to Direct Implementation)"]
-        S2 -- "Proceed with SDD" --> S3
-    end
-
-    subgraph P2["Phase 2: Spec Discovery & Consolidation"]
+        S2 -- "Heavyweight Task / User Confirmed" --> S3
+        S2 -- "Lightweight Task / Bypass Confirmed" --> Bypass["Bypass to TDD Direct Execution<br>(Follow user instructions / quick bugfix)"]
         S3["Step 3: Spec Exploration & Consolidation<br>(Duplicate, sub-scope, super-scope, or new feature)"] --> S4
-    end
-
-    subgraph P3["Phase 3: Codebase Reconnaissance & Input Finalization"]
         S4["Step 4: Codebase Reconnaissance & Feasibility<br>(Verify feasibility, fill gaps, finalize inputs)"] --> S5
     end
 
-    subgraph P4["Phase 4: Specification Drafting & Review Audits"]
+    subgraph Phase2["Phase 2: Progressive Authoring & Multi-Stage Auditing"]
         S5["Step 5: Draft & Audit Requirements Specification<br>(requirements.md + requirements-reviewer)"] --> S6["Step 6: Draft & Audit Component Design<br>(design.md + decision-analyst + design-reviewer)"]
         S6 --> S7["Step 7: Draft & Audit Implementation Task Plan<br>(tasks.md + tasks-reviewer)"]
     end
 
-    subgraph P5["Phase 5: Localization & PR Delegation"]
-        S7 --> S8["Step 8: Bilingual Translation Generation<br>(Derive *.<lang>.md using ISO 639-1 code)"]
+    subgraph Phase3["Phase 3: Localization & Pull Request Delegation"]
+        S7 --> S8["Step 8: Bilingual Translation Generation<br>(Derive *.{lang}.md using ISO 639-1 code)"]
         S8 --> S9["Step 9: Delegate to drafting-pull-request<br>(Branch safety, atomic commit, draft PR creation)"]
     end
 ```
@@ -113,8 +107,8 @@ Once concrete requirements are elicited, inspect the full specification landscap
 
 3. **Normalize Feature Name & Determine Execution Mode**:
    - Normalize the confirmed feature name to lowercase kebab-case (`^[a-z0-9-]+$`, e.g. `user-authentication`, `csv-exporter`).
-   - The canonical target directory is `docs/specs/<feature-name>/`.
-   - Inspect `docs/specs/<feature-name>/` to determine mode:
+   - The canonical target directory is `docs/specs/{feature-name}/`.
+   - Inspect `docs/specs/{feature-name}/` to determine mode:
      - **Initial Mode (0 existing files)**: Start at version `1.0.0` with `status: draft` and `updated_at` set to current date.
      - **Revision Mode (complete existing files exist)**: Inspect YAML frontmatter (`version`, `status`, `upstream`), determine SemVer increment (`MAJOR.MINOR.PATCH`), and initialize revised documents with incremented version, `status: draft`, and `updated_at` set to current date.
      - **Resume Mode (partial files exist)**: Resume execution from the first uncompleted step.
@@ -143,7 +137,7 @@ Ground the elicited requirements and architecture in the technical realities of 
 ### Step 5: Draft & Audit Requirements Specification (`requirements.md`)
 
 1. **Draft English SSOT**:
-   - Create or update `docs/specs/<feature-name>/requirements.md` conforming strictly to [`references/requirements-template.md`](./references/requirements-template.md) using the finalized inputs, initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
+   - Create or update `docs/specs/{feature-name}/requirements.md` conforming strictly to [`references/requirements-template.md`](./references/requirements-template.md) using the finalized inputs, initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
    - Enforce standard EARS syntax patterns (Ubiquitous, Event-driven, State-driven, Unwanted behavior, Optional feature, Complex).
    - Apply uppercase RFC 2119 / RFC 8174 keywords (`MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, `MAY`).
    - Satisfy ISO/IEC/IEEE 29148:2018 quality characteristics (Unambiguous, Complete, Consistent, Verifiable, Traceable).
@@ -164,7 +158,7 @@ Ground the elicited requirements and architecture in the technical realities of 
 ### Step 6: Draft & Audit Architecture & Component Design (`design.md`)
 
 1. **Draft English SSOT**:
-   - Create or update `docs/specs/<feature-name>/design.md` conforming strictly to [`references/design-template.md`](./references/design-template.md), initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
+   - Create or update `docs/specs/{feature-name}/design.md` conforming strictly to [`references/design-template.md`](./references/design-template.md), initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
    - Set frontmatter `upstream.requirements` to match the approved `requirements.md` version.
    - **Component Boundaries**: Define component IDs (`COMP-001`, `COMP-002`, etc.) covering external exposed interfaces (CLI, API) and major internal software boundaries (classes, domain services, repositories). Exclude private implementation details.
    - **Data Models**: Specify input/output schemas and database entity models using structured Markdown tables conforming to standard JSON Schema constraint vocabulary (`type`, `required`, `minLength`, `maximum`, `pattern`, `enum`, `minItems`, `maxItems`). Represent nested structures using dot notation (`parent.child`, `items[].property`) or dedicated sub-model tables. Explicitly define empty collection and absence safety semantics (strictly guaranteeing empty collection `[]` vs. absent/omitted properties or nullable values).
@@ -190,7 +184,7 @@ Ground the elicited requirements and architecture in the technical realities of 
 ### Step 7: Draft & Audit Implementation Task Plan (`tasks.md`)
 
 1. **Draft English SSOT**:
-   - Create or update `docs/specs/<feature-name>/tasks.md` conforming strictly to [`references/tasks-template.md`](./references/tasks-template.md), initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
+   - Create or update `docs/specs/{feature-name}/tasks.md` conforming strictly to [`references/tasks-template.md`](./references/tasks-template.md), initialized with `status: draft` and `updated_at` set to the current date (`YYYY-MM-DD`).
    - Set frontmatter `upstream.requirements` and `upstream.design` to match current versions.
    - **Executive PR Overview**: Provide a structured summary of planned Stacked PRs, target branches, scope, and merge order for human review.
    - **Traceability Matrix**: Complete mapping table covering `REQ-xxx` × `COMP-xxx` × `TASK-xxx` × `PR-x` with zero gaps.
@@ -216,9 +210,9 @@ Once all three English SSOT documents (`requirements.md`, `design.md`, `tasks.md
 2. **Generate Localized Documents (Derived Translation)**:
    - If the conversation is in a non-English language:
      - Identify the ISO 639-1 language code of the user's active conversation (e.g. `ja` for Japanese, `zh` for Chinese, `fr` for French, `de` for German, `es` for Spanish, etc.).
-     - Generate `requirements.<lang>.md` translating `requirements.md` using standard RFC 2119 / 8174 localized mapping for that language (e.g. for Japanese: `MUST` -> 「〜しなければならない」, `MUST NOT` -> 「〜してはならない」, `SHOULD` -> 「〜することが推奨される」, `MAY` -> 「〜してもよい」).
-     - Generate `design.<lang>.md` translating `design.md` while maintaining code signatures and translating contract clauses.
-     - Generate `tasks.<lang>.md` translating `tasks.md` preserving checkbox states and matrix structure.
+     - Generate `requirements.{lang}.md` translating `requirements.md` using standard RFC 2119 / 8174 localized mapping for that language (e.g. for Japanese: `MUST` -> 「〜しなければならない」, `MUST NOT` -> 「〜してはならない」, `SHOULD` -> 「〜することが推奨される」, `MAY` -> 「〜してもよい」).
+     - Generate `design.{lang}.md` translating `design.md` while maintaining code signatures and translating contract clauses.
+     - Generate `tasks.{lang}.md` translating `tasks.md` preserving checkbox states and matrix structure.
    - Maintain identical frontmatter versions, `status: approved`, `updated_at`, and `upstream` references across language pairs.
 
 ---
@@ -228,7 +222,7 @@ Once all three English SSOT documents (`requirements.md`, `design.md`, `tasks.md
 Do NOT perform manual Git branching or piecemeal commits during this skill. Instead, delegate the finalized assets to the existing `drafting-pull-request` skill within the same plugin:
 
 1. **Execute `drafting-pull-request`**:
-   - The `drafting-pull-request` skill automatically inspects branch safety, switches to an appropriate feature branch if on a protected branch, groups uncommitted specification files (all verified in `status: approved`) into an atomic Conventional Commit (`docs(specs): add planning and design specification for <feature-name>`), and creates a GitHub Draft PR with folded bilingual details.
+   - The `drafting-pull-request` skill automatically inspects branch safety, switches to an appropriate feature branch if on a protected branch, groups uncommitted specification files (all verified in `status: approved`) into an atomic Conventional Commit (`docs(specs): add planning and design specification for {feature-name}`), and creates a GitHub Draft PR with folded bilingual details.
 2. **Review Output**:
    - Confirm Draft PR URL and present the completed specification assets and PR link to the user for human review.
 

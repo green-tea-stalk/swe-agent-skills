@@ -11,7 +11,7 @@ description: >-
 
 # Implementing Tasks (Spec-Driven Development)
 
-This skill guides the end-to-end execution of the implementation phase of Spec-Driven Development (SDD). It reads task planning and design specifications from `docs/specs/<feature-name>/`, drives strict Test-Driven Development (TDD: Red-Green-Refactor) against component contracts (DbC), enforces isolated reviewer audits, maintains an atomic progress tracking state machine, and stacks Draft Pull Requests against the upstream specification branch.
+This skill guides the end-to-end execution of the implementation phase of Spec-Driven Development (SDD). It reads task planning and design specifications from `docs/specs/{feature-name}/`, drives strict Test-Driven Development (TDD: Red-Green-Refactor) against component contracts (DbC), enforces isolated reviewer audits, maintains an atomic progress tracking state machine, and stacks Draft Pull Requests against the upstream specification branch.
 
 ---
 
@@ -63,14 +63,14 @@ flowchart TD
 ### Step 1: Specification & Task Discovery
 
 1. **Target Feature Identification & Specification Gate**:
-   - Determine `<feature-name>` from explicit user argument, current branch name (e.g. `feat/<feature-name>-...`), or by scanning `docs/specs/`.
-   - Verify that `docs/specs/<feature-name>/tasks.md`, `design.md`, and `requirements.md` exist.
+   - Determine `{feature-name}` from explicit user argument, current branch name (e.g. `feat/{feature-name}-...`), or by scanning `docs/specs/`.
+   - Verify that `docs/specs/{feature-name}/tasks.md`, `design.md`, and `requirements.md` exist.
    - **Approved Status Gate (Fail-Closed)**: Inspect the YAML frontmatter of `tasks.md`, `design.md`, and `requirements.md`. All documents MUST have `status: approved`. If any document is in `status: draft` or `status: in-review`, **HALT safely (Fail-Closed)** and instruct the user to complete subagent review approval via `planning-and-designing` first.
    - If specifications do not exist or are incomplete, **HALT safely (Fail-Closed)** and instruct the user to execute the `planning-and-designing` skill first.
 
 2. **Locate Target Spec Branch & Next Task**:
-   - Identify the canonical upstream specification branch (e.g. `feat/<feature-name>` or `specs/<feature-name>`).
-   - Read `docs/specs/<feature-name>/tasks.md` and find the first uncompleted task checkbox (`- [ ]`).
+   - Identify the canonical upstream specification branch (e.g. `feat/{feature-name}` or `specs/{feature-name}`).
+   - Read `docs/specs/{feature-name}/tasks.md` and find the first uncompleted task checkbox (`- [ ]`).
    - Identify the PR group to which the task belongs (e.g. `PR-1`, `PR-2`) and the associated component (`COMP-xxx`) and requirements (`REQ-xxx`).
 
 ---
@@ -80,11 +80,11 @@ flowchart TD
 Establish or switch to the correct feature branch according to the Stacked PR structure:
 
 1. **Initial Implementation PR (`PR-1`)**:
-   - Base branch: **Upstream specification branch** (the branch containing the approved `docs/specs/<feature-name>/`).
-   - Create branch: `git checkout -b feat/<feature-name>-part-1 <spec-branch>` (or project-standard naming).
+   - Base branch: **Upstream specification branch** (the branch containing the approved `docs/specs/{feature-name}/`).
+   - Create branch: `git checkout -b feat/{feature-name}-part-1 {spec-branch}` (or project-standard naming).
 2. **Subsequent Stacked PRs (`PR-N`)**:
-   - Base branch: **Preceding PR branch** (`feat/<feature-name>-part-<N-1>`).
-   - Create branch: `git checkout -b feat/<feature-name>-part-<N> feat/<feature-name>-part-<N-1>`.
+   - Base branch: **Preceding PR branch** (`feat/{feature-name}-part-{N-1}`).
+   - Create branch: `git checkout -b feat/{feature-name}-part-{N} feat/{feature-name}-part-{N-1}`.
 3. **Resumption**:
    - If already on the matching branch, ensure the working tree is clean and continue.
 
@@ -136,9 +136,9 @@ Execute strict Test-Driven Development for the current task (`TASK-xxx`):
 ### Step 5: Atomic Progress Commit
 
 1. **Update Execution State Machine**:
-   - Update `docs/specs/<feature-name>/tasks.md`, toggling the completed task checkbox from `- [ ]` to `- [x]`.
+   - Update `docs/specs/{feature-name}/tasks.md`, toggling the completed task checkbox from `- [ ]` to `- [x]`.
 2. **Execute Atomic Commit**:
-   - Delegate to the `committing-changes` skill to inspect staging safety and generate an atomic Conventional Commit (e.g. `feat(<scope>): implement <task-description>`).
+   - Delegate to the `committing-changes` skill to inspect staging safety and generate an atomic Conventional Commit (e.g. `feat({scope}): implement {task-description}`).
    - Ensure the modified code, tests, and updated `tasks.md` are committed together in a single atomic unit.
 
 ---
@@ -150,9 +150,9 @@ Execute strict Test-Driven Development for the current task (`TASK-xxx`):
    - If uncompleted tasks remain in the current PR, loop back to **Step 3** for the next task.
 2. **Submit Stacked Draft PR**:
    - If all tasks for the current PR are complete, invoke the `drafting-pull-request` skill:
-     - Identify the target base branch for the current PR from `tasks.md` (for `PR-1`, this MUST be the upstream specification branch, e.g. `docs/<feature>-spec`; for `PR-N`, it is `PR-N-1`'s branch).
-     - Delegate to `drafting-pull-request` with the identified base branch as context to perform pre-PR inspection (`prepare_pr.py <base-branch>`), remote sync, design decision extraction, and draft PR submission targeting the base branch.
-     - Link stack via `gh stack link <base-branch> <current-branch>` if `gh-stack` is installed.
+     - Identify the target base branch for the current PR from `tasks.md` (for `PR-1`, this MUST be the upstream specification branch, e.g. `docs/{feature}-spec`; for `PR-N`, it is `PR-N-1`'s branch).
+     - Delegate to `drafting-pull-request` with the identified base branch as context to perform pre-PR inspection (`prepare_pr.py {base-branch}`), remote sync, design decision extraction, and draft PR submission targeting the base branch.
+     - Link stack via `gh stack link {base-branch} {current-branch}` if `gh-stack` is installed.
 3. **Advance to Next Stacked PR**:
    - If subsequent PRs and tasks remain in `tasks.md`, loop back to **Step 2** to establish the next branch.
 
@@ -168,12 +168,12 @@ If a fundamental specification defect, logical contradiction, or insurmountable 
 2. **Stash Implementation Work**:
    - Once the user approves the revision proposal, safely stash uncommitted work:
      ```bash
-     git stash push -m "wip: implementation before spec revision for <feature-name>"
+     git stash push -m "wip: implementation before spec revision for {feature-name}"
      ```
 3. **Checkout Spec Branch & Revise Specifications**:
    - Switch back to the root specification branch:
      ```bash
-     git checkout <spec-branch>
+     git checkout {spec-branch}
      ```
    - Invoke the `planning-and-designing` skill in **Revision Mode**.
    - The revision cycle increments the SemVer version, transitions status (`approved` ➔ `draft` ➔ `in-review` ➔ `approved`), simultaneously updates `updated_at` on every status transition, updates bilingual translations, and commits/pushes to update the specification Draft PR.
@@ -181,13 +181,13 @@ If a fundamental specification defect, logical contradiction, or insurmountable 
    - Propagate the updated specification into the stacked implementation branches using non-destructive merge commits:
      ```bash
      # Merge into PR 1
-     git checkout feat/<feature-name>-part-1
-     git merge <spec-branch> -m "chore(specs): sync revised specifications"
+     git checkout feat/{feature-name}-part-1
+     git merge {spec-branch} -m "chore(specs): sync revised specifications"
      git push
 
      # Merge into PR 2 (and subsequent PRs in order)
-     git checkout feat/<feature-name>-part-2
-     git merge feat/<feature-name>-part-1 -m "chore(specs): sync revised specifications"
+     git checkout feat/{feature-name}-part-2
+     git merge feat/{feature-name}-part-1 -m "chore(specs): sync revised specifications"
      git push
      ```
    - **Fail-Closed Conflict Rule**: If a merge conflict occurs, do NOT guess resolution. Stop immediately and escalate to the user with conflict details.

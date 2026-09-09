@@ -84,20 +84,20 @@ Inspect the document thoroughly. Output your evaluation using this exact structu
 ```markdown
 ### Design Review Report
 
-- **Target Document**: `docs/specs/<feature-name>/design.md`
-- **Document Version**: <version>
-- **Upstream Requirements Version**: <upstream-version>
+- **Target Document**: `docs/specs/{feature-name}/design.md`
+- **Document Version**: {version}
+- **Upstream Requirements Version**: {upstream-version}
 - **Verdict**: **APPROVED** | **CHANGES_REQUIRED**
 
 #### Findings Summary
-- **Frontmatter & Upstream Traceability**: [PASS | FAIL] - <brief rationale>
-- **Component Boundaries & Scope**: [PASS | FAIL] - <brief rationale>
-- **Data Models & Protocol Specifications**: [PASS | FAIL] - <brief rationale>
-- **Design by Contract (DbC) & RFC 2119/8174**: [PASS | FAIL] - <brief rationale>
-- **Error Specifications (RFC 9457)**: [PASS | FAIL] - <brief rationale>
-- **Visual Modeling & Readability**: [PASS | FAIL] - <brief rationale>
-- **Requirement Traceability & Design Decisions**: [PASS | FAIL] - <brief rationale>
-- **Identifier Immutability**: [PASS | N/A | FAIL] - <brief rationale>
+- **Frontmatter & Upstream Traceability**: [PASS | FAIL] - {brief rationale}
+- **Component Boundaries & Scope**: [PASS | FAIL] - {brief rationale}
+- **Data Models & Protocol Specifications**: [PASS | FAIL] - {brief rationale}
+- **Design by Contract (DbC) & RFC 2119/8174**: [PASS | FAIL] - {brief rationale}
+- **Error Specifications (RFC 9457)**: [PASS | FAIL] - {brief rationale}
+- **Visual Modeling & Readability**: [PASS | FAIL] - {brief rationale}
+- **Requirement Traceability & Design Decisions**: [PASS | FAIL] - {brief rationale}
+- **Identifier Immutability**: [PASS | N/A | FAIL] - {brief rationale}
 
 #### Detailed Feedback & Required Actions
 (If CHANGES_REQUIRED, list specific issues referencing component IDs or sections, with exact remediation proposals. If APPROVED, summarize notable architectural strengths.)

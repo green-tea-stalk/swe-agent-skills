@@ -30,11 +30,11 @@ Evaluate `requirements.md` against the following mandatory axes:
 
 ### Axis 2: EARS Syntax & RFC 2119 / RFC 8174 Compliance
 - **Structured EARS Patterns**: Every functional requirement MUST strictly follow one of the standard EARS (Easy Approach to Requirements Syntax) patterns:
-  1. **Ubiquitous**: `The <system> MUST <action>.`
-  2. **Event-driven**: `When <trigger>, the <system> MUST <action>.`
-  3. **State-driven**: `While <state>, the <system> MUST <action>.`
-  4. **Unwanted Behavior**: `If <condition>, then the <system> MUST <action>.`
-  5. **Optional Feature**: `Where <feature is included>, the <system> MAY <action>.`
+  1. **Ubiquitous**: `The {system} MUST {action}.`
+  2. **Event-driven**: `When {trigger}, the {system} MUST {action}.`
+  3. **State-driven**: `While {state}, the {system} MUST {action}.`
+  4. **Unwanted Behavior**: `If {condition}, then the {system} MUST {action}.`
+  5. **Optional Feature**: `Where {feature is included}, the {system} MAY {action}.`
   6. **Complex**: Combines state, trigger, and/or unwanted condition prefixes.
 - **RFC 2119 / 8174 Keywords**: Requirement statements MUST use standard uppercase keywords (`MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, `MAY`).
 - **Prohibited Ambiguity**: Expressions such as "can", "should be able to", "might", "as needed", "etc.", or "user-friendly" are strictly forbidden.
@@ -86,17 +86,17 @@ Inspect the document thoroughly. When your evaluation is complete, output your r
 ```markdown
 ### Requirements Review Report
 
-- **Target Document**: `docs/specs/<feature-name>/requirements.md`
-- **Document Version**: <version>
+- **Target Document**: `docs/specs/{feature-name}/requirements.md`
+- **Document Version**: {version}
 - **Verdict**: **APPROVED** | **CHANGES_REQUIRED**
 
 #### Findings Summary
-- **Frontmatter & Metadata**: [PASS | FAIL] - <brief rationale>
-- **EARS & RFC 2119/8174 Compliance**: [PASS | FAIL] - <brief rationale>
-- **Black-Box Externally Observable Requirements**: [PASS | FAIL] - <brief rationale>
-- **ISO/IEC/IEEE 29148 Quality**: [PASS | FAIL] - <brief rationale>
-- **Visual Modeling & Readability**: [PASS | FAIL] - <brief rationale>
-- **Identifier Immutability**: [PASS | N/A | FAIL] - <brief rationale>
+- **Frontmatter & Metadata**: [PASS | FAIL] - {brief rationale}
+- **EARS & RFC 2119/8174 Compliance**: [PASS | FAIL] - {brief rationale}
+- **Black-Box Externally Observable Requirements**: [PASS | FAIL] - {brief rationale}
+- **ISO/IEC/IEEE 29148 Quality**: [PASS | FAIL] - {brief rationale}
+- **Visual Modeling & Readability**: [PASS | FAIL] - {brief rationale}
+- **Identifier Immutability**: [PASS | N/A | FAIL] - {brief rationale}
 
 #### Detailed Feedback & Required Actions
 (If CHANGES_REQUIRED, list concrete, actionable issues referencing requirement IDs or sections, with exact remediation proposals. If APPROVED, summarize notable strengths.)

@@ -1,14 +1,14 @@
 ---
-feature: <feature-name>
+feature: {feature-name}
 document_type: design
 version: 1.0.0
 status: draft
-updated_at: <YYYY-MM-DD>
+updated_at: {YYYY-MM-DD}
 upstream:
   requirements: 1.0.0
 ---
 
-# Architecture & Component Design: <Feature Name>
+# Architecture & Component Design: {Feature Name}
 
 <!--
 Guidelines:
@@ -23,7 +23,7 @@ Guidelines:
 ## 1. Component Boundaries & Scope Overview
 
 ### 1.1 Architecture & Component Map
-<Describe the major components, modules, classes, and service boundaries involved in this feature.>
+{Describe the major components, modules, classes, and service boundaries involved in this feature.}
 
 ```mermaid
 graph LR
@@ -37,9 +37,9 @@ graph LR
 ### 1.2 Component Inventory
 | Component ID | Component / Class Name | Scope / Boundary | Linked Requirements |
 | :--- | :--- | :--- | :--- |
-| **COMP-001** | `<Gateway/Controller/CLI>` | External Exposed Interface | `REQ-001`, `REQ-002` |
-| **COMP-002** | `<DomainService/Class>` | Internal Core Component | `REQ-003`, `REQ-004` |
-| **COMP-003** | `<Repository/Client>` | Internal Integration Boundary | `REQ-005`, `REQ-006` |
+| **COMP-001** | `{Gateway/Controller/CLI}` | External Exposed Interface | `REQ-001`, `REQ-002` |
+| **COMP-002** | `{DomainService/Class}` | Internal Core Component | `REQ-003`, `REQ-004` |
+| **COMP-003** | `{Repository/Client}` | Internal Integration Boundary | `REQ-005`, `REQ-006` |
 
 ---
 
@@ -80,13 +80,13 @@ All input payloads, domain structures, output responses, and database entity mod
 Guidelines for Data Model Modeling & Hierarchical Fields:
 1. Flat / Shallow Nesting (1-2 levels): Use dot notation within the same table:
    e.g. `parent.child` for objects, or `items[].property` for arrays of objects.
-2. Deep Nesting / Reused Models: Decompose into separate sub-model tables (e.g. `### 3.1.1 <SubModelName>`)
+2. Deep Nesting / Reused Models: Decompose into separate sub-model tables (e.g. `### 3.1.1 {SubModelName}`)
    and reference them by model name in the parent table's `Type` column (e.g. `AddressModel`, `array<OrderItemModel>`).
 3. Standard Constraint Vocabulary: Use JSON Schema terms (`minLength`, `maxLength`, `minimum`, `maximum`, `pattern`, `enum`, `format`, `minItems`, `maxItems`).
 4. Collection & Absence Safety: For array/collection fields, explicitly define whether 0-element results yield an empty collection (`[]`), an absent/omitted property, or a nullable value. In output models, always guarantee an empty collection `[]` (e.g. `minItems: 0 (guaranteed [] on empty)`) rather than omission or absent values to prevent client-side template or runtime crashes.
 -->
 
-### 3.1 `<InputDataModelName>` (Input / Payload)
+### 3.1 `{InputDataModelName}` (Input / Payload)
 - **Format**: JSON Schema / Project Type Signature
 
 | Field Name | Type | Required / Optional | Constraints | Description |
@@ -99,7 +99,7 @@ Guidelines for Data Model Modeling & Hierarchical Fields:
 | `items` | `array<object>` | Optional | `minItems: 0 (guaranteed [] on empty)`, `maxItems: 50` | List of line items |
 | `items[].item_id` | `string` | Required | `format: "uuid"` | Item identifier within array |
 
-### 3.2 `<OutputDataModelName>` (Output / Result)
+### 3.2 `{OutputDataModelName}` (Output / Result)
 - **Format**: JSON Schema / Project Type Signature
 
 | Field Name | Type | Required / Optional | Constraints | Description |
@@ -109,7 +109,7 @@ Guidelines for Data Model Modeling & Hierarchical Fields:
 | `items` | `array<object>` | Required | `minItems: 0 (guaranteed [] on empty)` | List of result items (never omitted or absent) |
 | `created_at` | `string` | Required | `format: "date-time"` (ISO 8601 UTC) | Timestamp of resource creation |
 
-### 3.3 `<DatabaseEntityModelName>` (Database Entity / Persistence - Optional)
+### 3.3 `{DatabaseEntityModelName}` (Database Entity / Persistence - Optional)
 - **Storage Target**: Relational Database / Persistent Store (e.g. PostgreSQL, SQLite)
 
 | Column Name | Data Type | Nullable | Key / Default | Indexes | Description |
@@ -134,7 +134,7 @@ Guidelines for Data Model Modeling & Hierarchical Fields:
 ### 4.2 Network / API Protocol (If applicable)
 - **Transport**: `HTTP/1.1` or `HTTP/2` over TLS.
 - **Headers**:
-  - Request: `Content-Type: application/json`, `Authorization: Bearer <token>`, `Idempotency-Key: <UUID>`
+  - Request: `Content-Type: application/json`, `Authorization: Bearer {token}`, `Idempotency-Key: {UUID}`
   - Response: `Content-Type: application/json` or `application/problem+json`
 - **Timeouts & Resilience**: Connect timeout: 5s, Read timeout: 30s. Exponential backoff retry on 503 / network drop.
 
@@ -142,16 +142,16 @@ Guidelines for Data Model Modeling & Hierarchical Fields:
 
 ## 5. Component Contracts (Design by Contract - RFC 2119 / RFC 8174)
 
-### 5.1 COMP-001: `<ComponentName / ClassName>`
-- **Role**: <Primary responsibility and boundary>
-- **Public Signature**: `<language-native signature, e.g. execute(param: InputModel): OutputModel>`
+### 5.1 COMP-001: `{ComponentName / ClassName}`
+- **Role**: {Primary responsibility and boundary}
+- **Public Signature**: `{language-native signature, e.g. execute(param: InputModel): OutputModel}`
 - **Preconditions (Caller Obligations)**:
-  - Caller MUST supply valid arguments conforming strictly to `<DataModelName>` schema.
+  - Caller MUST supply valid arguments conforming strictly to `{DataModelName}` schema.
   - Caller MUST establish authenticated session state prior to invocation.
   - Caller MUST NOT invoke this component concurrently with the same idempotency key.
 - **Postconditions (Callee Guarantees)**:
-  - On success, the component MUST return an instance of `<OutputDataModelName>` with status `200` / success code. On empty collections, it MUST return an empty collection `[]` rather than omitting the property or returning an absent value.
-  - On precondition failure, the component MUST throw `<ValidationError>` or return RFC 9457 error details.
+  - On success, the component MUST return an instance of `{OutputDataModelName}` with status `200` / success code. On empty collections, it MUST return an empty collection `[]` rather than omitting the property or returning an absent value.
+  - On precondition failure, the component MUST throw `{ValidationError}` or return RFC 9457 error details.
   - On failure, the component MUST NOT mutate persistent state.
 - **Invariants (State Consistency)**:
   - The component instance MUST remain thread-safe and re-entrant.
@@ -180,9 +180,9 @@ External endpoints and gateways return error details conforming to RFC 9457:
 ```
 
 ### 6.2 Internal Domain Exceptions
-- **`<BaseDomainException>`**: Base class for all feature-specific errors.
-  - **`<PreconditionViolationException>`**: Thrown when caller violates input invariants.
-  - **`<ResourceConflictException>`**: Thrown on state collision or uniqueness violation.
+- **`{BaseDomainException}`**: Base class for all feature-specific errors.
+  - **`{PreconditionViolationException}`**: Thrown when caller violates input invariants.
+  - **`{ResourceConflictException}`**: Thrown on state collision or uniqueness violation.
 
 ---
 
@@ -193,8 +193,8 @@ Populated via `decision-analyst` subagent.
 Focuses strictly on genuine architectural choices where multiple viable alternatives existed.
 -->
 
-- **<Decision Topic 1>**:
-  - **Selected Approach**: <Adopted technical solution>
-  - **Alternative Considered**: <Viable alternative that was also evaluated>
-  - **Rationale & Trade-off**: <Why this was selected over the alternative, highlighting what was gained and what trade-off was accepted>
+- **{Decision Topic 1}**:
+  - **Selected Approach**: {Adopted technical solution}
+  - **Alternative Considered**: {Viable alternative that was also evaluated}
+  - **Rationale & Trade-off**: {Why this was selected over the alternative, highlighting what was gained and what trade-off was accepted}
 

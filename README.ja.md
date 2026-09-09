@@ -17,7 +17,7 @@
 
 以下のモダンな AI コーディングエージェントにおいて、プラグインとして直接導入・利用できます。
 
-- **Google Antigravity (AGY)**: `plugins/<name>/plugin.json` による自動プラグイン認識
+- **Google Antigravity (AGY)**: `plugins/{name}/plugin.json` による自動プラグイン認識
 
 - **Claude Code**: `.claude-plugin/plugin.json` によるプラグイン導入・Marketplace 対応
 - **Codex CLI**: `.codex-plugin/plugin.json` によるプラグイン認識、`/plugins` コマンドによるプラグイン管理
@@ -69,7 +69,7 @@ git clone https://github.com/green-tea-stalk/swe-agent-skills.git ~/git/swe-agen
   ]
 }
 ```
-*(または `ln -s ~/git/swe-agent-skills/plugins/<plugin-name> ~/.gemini/config/plugins/<plugin-name>` でシンボリックリンクを作成)*
+*(または `ln -s ~/git/swe-agent-skills/plugins/{plugin-name} ~/.gemini/config/plugins/{plugin-name}` でシンボリックリンクを作成)*
 
 ### ② Claude Code
 マーケットプレイスを追加し、必要なプラグインをグローバルにインストールします。
@@ -79,7 +79,7 @@ git clone https://github.com/green-tea-stalk/swe-agent-skills.git ~/git/swe-agen
 /plugin marketplace add https://github.com/green-tea-stalk/swe-agent-skills
 
 # プラグインのインストール（例: general-swe）
-/plugin install <plugin-name>@swe-agent-skills
+/plugin install {plugin-name}@swe-agent-skills
 ```
 
 ### ③ Codex CLI

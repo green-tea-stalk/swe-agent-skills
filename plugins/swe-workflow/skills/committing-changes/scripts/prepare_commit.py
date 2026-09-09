@@ -180,12 +180,12 @@ def check_branch_protection(branch: str) -> BranchStatus:
         if force_push_restricted:
             message = (
                 f"WARNING! Branch '{branch}' is protected on GitHub (Force Push is FORBIDDEN).\n"
-                "                     Consider switching to a feature branch (`git checkout -b feat/<name>`)."
+                "                     Consider switching to a feature branch (`git checkout -b feat/{name}`)."
             )
         else:
             message = (
                 f"WARNING! Branch '{branch}' is a default/protected branch on GitHub.\n"
-                "                     Consider creating a feature branch (`git checkout -b feat/<name>`)."
+                "                     Consider creating a feature branch (`git checkout -b feat/{name}`)."
             )
 
     return BranchStatus(
@@ -333,7 +333,7 @@ def main() -> int:
     print("\n[2] Staging & Safety Inspection", file=sys.stderr)
     if not staged_files:
         print("  * Staged Files   : None (No changes staged for commit).", file=sys.stderr)
-        print("  * Action Needed  : Run `git add <files>` to stage specific atomic changes before committing.", file=sys.stderr)
+        print("  * Action Needed  : Run `git add {files}` to stage specific atomic changes before committing.", file=sys.stderr)
     else:
         print(f"  * Staged Count   : {len(staged_files)} file(s)", file=sys.stderr)
         for status, path in staged_files:
@@ -344,7 +344,7 @@ def main() -> int:
         print("\n  [!] SECURITY WARNING - Sensitive files detected in staging:", file=sys.stderr)
         for path in sensitive_warnings:
             print(f"      - {path}", file=sys.stderr)
-        print("      Action: Run `git reset HEAD <file>` to unstage sensitive files before committing.", file=sys.stderr)
+        print("      Action: Run `git reset HEAD {file}` to unstage sensitive files before committing.", file=sys.stderr)
 
     if noise_warnings:
         print("\n  [!] NOISE WARNING - Build artifacts/OS noise detected in staging:", file=sys.stderr)
@@ -370,13 +370,13 @@ def main() -> int:
 
     print("\n" + "=" * 60, file=sys.stderr)
     print("Ready to construct Conventional Commit message (see references/commit-template.md):", file=sys.stderr)
-    print("  Format : <type>(<scope>)[!]: <subject>", file=sys.stderr)
-    print("           <blank line>", file=sys.stderr)
-    print("           <body describing WHY and WHAT based on conversation context>", file=sys.stderr)
-    print("           <blank line>", file=sys.stderr)
-    print("           [BREAKING CHANGE: <description if breaking change>]", file=sys.stderr)
-    print("           [Closes #<issue-number>]", file=sys.stderr)
-    print("           Co-Authored-By: <AgentName> <ModelName> <<email>>", file=sys.stderr)
+    print("  Format : {type}({scope})[!]: {subject}", file=sys.stderr)
+    print("           {blank line}", file=sys.stderr)
+    print("           {body describing WHY and WHAT based on conversation context}", file=sys.stderr)
+    print("           {blank line}", file=sys.stderr)
+    print("           [BREAKING CHANGE: {description if breaking change}]", file=sys.stderr)
+    print("           [Closes #{issue-number}]", file=sys.stderr)
+    print("           Co-Authored-By: {AgentName} {ModelName} <{email}>", file=sys.stderr)
     print("           (Enclose model name in double quotes if it contains parentheses)", file=sys.stderr)
     print("=" * 60, file=sys.stderr)
 

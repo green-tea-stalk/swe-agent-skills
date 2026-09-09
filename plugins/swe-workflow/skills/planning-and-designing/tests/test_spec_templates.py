@@ -8,7 +8,7 @@ from pathlib import Path
 
 VALID_STATUSES = {"draft", "in-review", "approved", "superseded"}
 SEMVER_REGEX = re.compile(r"^\d+\.\d+\.\d+$")
-DATE_REGEX = re.compile(r"^(\d{4}-\d{2}-\d{2}|<YYYY-MM-DD>)$")
+DATE_REGEX = re.compile(r"^(\d{4}-\d{2}-\d{2}|\{YYYY-MM-DD\})$")
 
 
 def parse_frontmatter(content: str) -> dict[str, str | dict[str, str]]:
@@ -366,6 +366,34 @@ class TestSpecificationTemplates(unittest.TestCase):
                         matched_text,
                         f"requirements-template.md '{case_label}' must NOT contain implementation detail '{phrase}'",
                     )
+
+
+    def test_no_angle_bracket_placeholders_in_markdown(self) -> None:
+        """Verify that all template placeholders use curly braces ({...}) instead of confusing angle brackets (<...>)."""
+        allowed_type_signatures = {"<object>", "<OrderItemModel>"}
+        template_files = [
+            "requirements-template.md",
+            "design-template.md",
+            "tasks-template.md",
+        ]
+
+        for filename in template_files:
+            with self.subTest(template=filename):
+                template_path = self.references_dir / filename
+                content = template_path.read_text(encoding="utf-8")
+                # Strip HTML comments before tag scanning
+                content_without_comments = re.sub(r"<!--.*?-->", "", content, flags=re.DOTALL)
+                raw_tags = re.findall(r"<[^>]+>", content_without_comments)
+                unallowed_pseudo_tags = [
+                    tag
+                    for tag in raw_tags
+                    if not any(tag == sig for sig in allowed_type_signatures)
+                ]
+                self.assertEqual(
+                    unallowed_pseudo_tags,
+                    [],
+                    f"Found confusing pseudo-HTML angle bracket placeholders in {filename}: {unallowed_pseudo_tags}. Use {{...}} instead.",
+                )
 
 
 if __name__ == "__main__":
