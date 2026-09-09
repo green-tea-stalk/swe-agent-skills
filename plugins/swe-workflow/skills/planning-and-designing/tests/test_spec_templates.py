@@ -255,7 +255,49 @@ class TestSpecificationTemplates(unittest.TestCase):
             "design-template.md Section 3 must provide guidance on hierarchical fields using dot notation.",
         )
 
+    def test_design_template_collection_absence_safety_guidance(self) -> None:
+        """Verify design-template.md enforces empty collection and absence safety defense in Section 3 and Section 5."""
+        design_path = self.references_dir / "design-template.md"
+        content = design_path.read_text(encoding="utf-8")
+
+        # Table-driven test cases for absence safety and empty collection guidance
+        verification_cases = [
+            (
+                "Section 3 Guidelines: Collection & Absence Safety Rule",
+                r"## 3\. Data Models & Schema Constraints\s*\n(.*?)\n### 3\.1",
+                ["collection & absence safety", "minitems", "empty collection `[]`"],
+            ),
+            (
+                "Section 3.1 & 3.2 Tables: minItems Empty Collection Constraints",
+                r"## 3\. Data Models & Schema Constraints\s*\n(.*?)\n## 4\.",
+                ["minitems: 0 (guaranteed [] on empty)"],
+            ),
+            (
+                "Section 5.1 Postconditions: Empty Collection Guarantee",
+                r"### 5\.1 COMP-001.*?- \*\*Postconditions \(Callee Guarantees\)\*\*:\s*\n(.*?)\n- \*\*Invariants",
+                ["empty collection `[]`"],
+            ),
+        ]
+
+        for case_label, section_pattern, expected_phrases in verification_cases:
+            with self.subTest(case=case_label):
+                match = re.search(section_pattern, content, re.DOTALL | re.IGNORECASE)
+                self.assertIsNotNone(
+                    match,
+                    f"design-template.md must contain section matching pattern for '{case_label}'",
+                )
+                assert match is not None
+                matched_text = match.group(1).lower()
+
+                for phrase in expected_phrases:
+                    self.assertIn(
+                        phrase.lower(),
+                        matched_text,
+                        f"design-template.md '{case_label}' must contain '{phrase}'",
+                    )
+
 
 if __name__ == "__main__":
     unittest.main()
+
 

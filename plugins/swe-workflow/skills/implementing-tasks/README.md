@@ -11,7 +11,7 @@ In agentic software development, implementing features without strict contract v
 The `implementing-tasks` skill provides an automated, crash-resilient, and test-driven workflow that turns specifications (`requirements.md`, `design.md`, `tasks.md`) under `docs/specs/<feature-name>/` into production-grade software:
 
 1. **Strict Test-Driven Development (TDD)**: Drives the Red-Green-Refactor cycle grounded in Design by Contract (DbC) preconditions, postconditions, and invariants.
-2. **Dual-Agent Quality & Security Gate**: Dispatches isolated reviewer subagents (`code-reviewer` and `security-reviewer`) to enforce anti-weakened assertions, clean commenting, zero deprecated APIs, and OWASP defense-in-depth before refactoring.
+2. **Dual-Agent Quality & Security Gate**: Dispatches isolated reviewer subagents (`code-reviewer` and `security-reviewer`) to enforce anti-weakened assertions, API boundary absence safety, clean commenting, zero deprecated APIs, and OWASP defense-in-depth before refactoring.
 3. **Stacked PR Execution & Atomic Tracking**: Organizes implementation into progressive, stacked feature branches starting directly on the specification branch, updating the GFM checkbox state machine atomically alongside each commit.
 4. **Resilient Specification Gap Recovery**: Provides a standardized stash, upstream specification revision, and sequential merge protocol whenever specification inconsistencies or implementation blockers emerge.
 
@@ -22,7 +22,7 @@ The `implementing-tasks` skill provides an automated, crash-resilient, and test-
 | Architectural Pillar | Core Standards & Methodologies | Key Responsibilities |
 | :--- | :--- | :--- |
 | **Test-Driven Development (TDD)** | **Red-Green-Refactor** + **DbC Verification** | Writes failing contract tests (Red) before writing production code (Green), leveraging fixtures and table-driven tests; cleans and streamlines code during the Refactor phase. |
-| **Code Review Audit** | **`code-reviewer` Subagent** | Audits DbC alignment, prevents assertion weakening, eliminates trivial line-by-line comment narration, verifies language-standard Doc comments, enforces self-contained readability without spec IDs, eliminates deprecated APIs, and validates collection formatting and formatter protection. |
+| **Code Review Audit** | **`code-reviewer` Subagent** | Audits DbC alignment, prevents assertion weakening, verifies API boundary absence safety and empty collection defense, eliminates trivial comment narration, verifies Doc comments, enforces self-contained readability, eliminates deprecated APIs, and validates collection formatting and formatter protection. |
 | **Security Audit** | **`security-reviewer` Subagent** | Audits input validation, injection vectors (SQL, command, path traversal), secret leakage prevention, safe cryptographic primitives, and resource lifecycle management. |
 | **Stacked PR Architecture** | **GitHub Stacked Branches** + **Atomic Commits** | Stacks implementation branches sequentially starting on the specification branch (`spec` ➔ `PR-1` ➔ `PR-2`), committing atomically alongside `tasks.md` updates. |
 | **Spec Defect Protocol** | **Non-Destructive Merge Propagation** | Safely stashes in-flight work, checks out the spec branch to execute revisions via `planning-and-designing`, and sequentially merges updates into stacked branches without destructive rebases. |

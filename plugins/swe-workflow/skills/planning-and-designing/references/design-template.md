@@ -82,7 +82,8 @@ Guidelines for Data Model Modeling & Hierarchical Fields:
    e.g. `parent.child` for objects, or `items[].property` for arrays of objects.
 2. Deep Nesting / Reused Models: Decompose into separate sub-model tables (e.g. `### 3.1.1 <SubModelName>`)
    and reference them by model name in the parent table's `Type` column (e.g. `AddressModel`, `array<OrderItemModel>`).
-3. Standard Constraint Vocabulary: Use JSON Schema terms (`minLength`, `maxLength`, `minimum`, `maximum`, `pattern`, `enum`, `format`).
+3. Standard Constraint Vocabulary: Use JSON Schema terms (`minLength`, `maxLength`, `minimum`, `maximum`, `pattern`, `enum`, `format`, `minItems`, `maxItems`).
+4. Collection & Absence Safety: For array/collection fields, explicitly define whether 0-element results yield an empty collection (`[]`), an absent/omitted property, or a nullable value. In output models, always guarantee an empty collection `[]` (e.g. `minItems: 0 (guaranteed [] on empty)`) rather than omission or absent values to prevent client-side template or runtime crashes.
 -->
 
 ### 3.1 `<InputDataModelName>` (Input / Payload)
@@ -95,7 +96,7 @@ Guidelines for Data Model Modeling & Hierarchical Fields:
 | `field_c` | `string` (enum) | Required | `enum: ["active", "suspended", "archived"]` | Lifecycle status indicator |
 | `nested` | `object` | Optional | - | Nested object payload |
 | `nested.sub_field` | `string` | Required | `minLength: 1` | Inline sub-field using dot notation |
-| `items` | `array<object>` | Optional | `maxItems: 50` | List of line items |
+| `items` | `array<object>` | Optional | `minItems: 0 (guaranteed [] on empty)`, `maxItems: 50` | List of line items |
 | `items[].item_id` | `string` | Required | `format: "uuid"` | Item identifier within array |
 
 ### 3.2 `<OutputDataModelName>` (Output / Result)
@@ -105,6 +106,7 @@ Guidelines for Data Model Modeling & Hierarchical Fields:
 | :--- | :--- | :--- | :--- | :--- |
 | `id` | `string` | Required | `format: "uuid"` (UUIDv4) | Unique resource identifier |
 | `status` | `string` | Required | `enum: ["active", "suspended", "archived"]` | Execution status indicator |
+| `items` | `array<object>` | Required | `minItems: 0 (guaranteed [] on empty)` | List of result items (never omitted or absent) |
 | `created_at` | `string` | Required | `format: "date-time"` (ISO 8601 UTC) | Timestamp of resource creation |
 
 ### 3.3 `<DatabaseEntityModelName>` (Database Entity / Persistence - Optional)
@@ -148,7 +150,7 @@ Guidelines for Data Model Modeling & Hierarchical Fields:
   - Caller MUST establish authenticated session state prior to invocation.
   - Caller MUST NOT invoke this component concurrently with the same idempotency key.
 - **Postconditions (Callee Guarantees)**:
-  - On success, the component MUST return an instance of `<OutputDataModelName>` with status `200` / success code.
+  - On success, the component MUST return an instance of `<OutputDataModelName>` with status `200` / success code. On empty collections, it MUST return an empty collection `[]` rather than omitting the property or returning an absent value.
   - On precondition failure, the component MUST throw `<ValidationError>` or return RFC 9457 error details.
   - On failure, the component MUST NOT mutate persistent state.
 - **Invariants (State Consistency)**:
