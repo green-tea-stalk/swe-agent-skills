@@ -22,7 +22,7 @@ Git バージョン管理におけるコミット前自動安全検査および 
 | :--- | :--- | :--- |
 | **Conventional Commits** | **Conventional Commits 1.0.0** | references/commit-template.md に従い、有効なコミット種別、コンポーネントスコープ、破壊的変更、命令形件名、および構造化説明本文を構築。 |
 | **安全性とシークレット防止** | **Fail-Closed 検査スクリプト** | ブランチ安全性（保護ブランチへのコミット防止）、機密ファイル（`.env`, 証明書, 秘密鍵）のステージング検知・遮断、および OS / ビルドノイズの警告。 |
-| **共同作成者情報 (Co-Author)** | **Git Co-Author プロトコル** | ペアプログラミングの出所追跡を担保するため、`Co-Authored-By: <AgentName> <ModelName> <<email>>` トレーラーを付与。 |
+| **共同作成者情報 (Co-Author)** | **Git Co-Author プロトコル** | ペアプログラミングの出所追跡を担保するため、`Co-Authored-By: {AgentName} {ModelName} <{email}>` トレーラーを付与。 |
 
 ---
 

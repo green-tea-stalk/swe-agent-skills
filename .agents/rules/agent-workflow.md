@@ -24,6 +24,7 @@ When authoring skills in `plugins/`:
   4. `## 4. Sequential Workflow Protocol` / `## 4. シーケンシャルワークフロープロトコル` (includes Mermaid flowchart and step breakdown)
   5. `## 5. Output Artifacts & Verification` / `## 5. 生成成果物と検証` (includes artifact contract and verification commands)
 - **Bilingual Documentation Policy & 1:1 Parity**: When adding or updating a skill, you MUST create or update the English `README.md` first as the Single Source of Truth (SSOT). Only after finalizing the English documentation may you derive and update the Japanese `README.ja.md`. Both documents MUST maintain strict 1:1 line-by-line mirror parity (exact identical line counts) and topological parity for tables and Mermaid diagrams.
+- **Unified Placeholder Notation**: All template variables, placeholders, and dynamic tokens across skills, templates, scripts, subagents, and documentation MUST consistently use curly braces (`{placeholder}`). Pseudo-HTML angle bracket placeholders (`<placeholder>`) are strictly forbidden to prevent rendering breakages and syntax confusion in Markdown/HTML parsers (except for standard Git email delimiters in trailers like `Co-Authored-By: {name} <{email}>` or language generics like `array<T>`).
 
 ---
 

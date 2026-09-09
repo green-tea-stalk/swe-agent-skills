@@ -18,15 +18,15 @@ Follow these sequential steps whenever executing a commit:
 Execute the deterministic helper script located in the skill's `scripts/` directory against the current workspace:
 
 ```bash
-python3 <path-to-skill>/scripts/prepare_commit.py
+python3 {path-to-skill}/scripts/prepare_commit.py
 ```
 *(Note: Run this command from your active workspace root; do NOT `cd` into the skill directory so Git inspects the target project)*
 
 Inspect the generated report:
 1. **Branch Safety**:
-   - If marked as `[PROTECTED]`, evaluate whether direct commit to default branch is intended. If working on a collaborative project or protection rules apply, switch to a feature branch (`git checkout -b feat/<name>`).
+   - If marked as `[PROTECTED]`, evaluate whether direct commit to default branch is intended. If working on a collaborative project or protection rules apply, switch to a feature branch (`git checkout -b feat/{name}`).
 2. **Staging & Security Check**:
-   - If **SECURITY WARNING** appears (`.env`, private keys, credentials), immediately unstage them (`git reset HEAD <file>`).
+   - If **SECURITY WARNING** appears (`.env`, private keys, credentials), immediately unstage them (`git reset HEAD {file}`).
    - If **NOISE WARNING** appears (`.DS_Store`, build artifacts), unstage or add them to `.gitignore`.
 3. **Atomic Scope**:
    - Ensure the staged files represent a single logical unit of work (Atomic Commit). If unrelated changes are staged together, split them into separate commits.
@@ -42,13 +42,13 @@ Consult the canonical template, full specification rules, and concrete examples:
 
 #### Structure
 ```text
-<type>(<scope>)[!]: <imperative subject summary (max 50-72 chars)>
+{type}({scope})[!]: {imperative subject summary (max 50-72 chars)}
 
-<body explaining WHY this change was made, referencing user requests, design decisions, or problem context>
+{body explaining WHY this change was made, referencing user requests, design decisions, or problem context}
 
-[BREAKING CHANGE: <description of breaking changes>]
-[Closes #<issue-number>]
-Co-Authored-By: <AgentName> <ModelName> <<email>>
+[BREAKING CHANGE: {description of breaking changes}]
+[Closes #{issue-number}]
+Co-Authored-By: {AgentName} {ModelName} <{email}>
 ```
 
 #### Commit Construction Protocol
@@ -57,7 +57,7 @@ Co-Authored-By: <AgentName> <ModelName> <<email>>
 3. **Breaking Changes**: Append `!` before the colon (e.g. `feat(api)!: ...`) or supply a `BREAKING CHANGE:` footer for breaking API changes (SemVer MAJOR).
 4. **Subject**: Imperative mood, present tense (e.g. `add user authentication`, NOT `added` or `adds`), lowercase start recommended, no trailing period.
 5. **Body (Required Blank Line)**: Separate from header by exactly one blank line. Detail the motivation, the "Why", and contrast with previous behavior.
-6. **Footers (Required Blank Line)**: Separate from body by exactly one blank line. Include issue closure (`Closes #<id>`) and the model-specific `Co-Authored-By` trailer (enclose in double quotes if model name contains parentheses):
+6. **Footers (Required Blank Line)**: Separate from body by exactly one blank line. Include issue closure (`Closes #{id}`) and the model-specific `Co-Authored-By` trailer (enclose in double quotes if model name contains parentheses):
    - **Claude Code**: `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`
    - **Google Antigravity**: `Co-Authored-By: "Antigravity Gemini 3.1 Pro (High)" <gemini@google.com>`
    - **OpenAI Codex**: `Co-Authored-By: Codex GPT-5.6 Sol <codex@openai.com>`
@@ -68,7 +68,7 @@ Co-Authored-By: <AgentName> <ModelName> <<email>>
 Run the commit command with the constructed message components:
 
 ```bash
-git commit -m "<type>(<scope>): <subject>" -m "<body explaining why and what>" -m 'Co-Authored-By: <AgentName> <ModelName> <<email>>'
+git commit -m "{type}({scope}): {subject}" -m "{body explaining why and what}" -m 'Co-Authored-By: {AgentName} {ModelName} <{email}>'
 ```
 *(Note: If footers like `BREAKING CHANGE:` or `Closes #123` are needed, append them via additional `-m` flags or combine within the footer paragraph)*
 

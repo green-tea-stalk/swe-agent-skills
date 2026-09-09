@@ -8,7 +8,7 @@ Comprehensive implementation engineering skill for the **implementation phase** 
 
 In agentic software development, implementing features without strict contract verification, automated test-first discipline, or objective security oversight leads to brittle code, regressive bugs, weakened assertions, and architectural decay.
 
-The `implementing-tasks` skill provides an automated, crash-resilient, and test-driven workflow that turns specifications (`requirements.md`, `design.md`, `tasks.md`) under `docs/specs/<feature-name>/` into production-grade software:
+The `implementing-tasks` skill provides an automated, crash-resilient, and test-driven workflow that turns specifications (`requirements.md`, `design.md`, `tasks.md`) under `docs/specs/{feature-name}/` into production-grade software:
 
 1. **Strict Test-Driven Development (TDD)**: Drives the Red-Green-Refactor cycle grounded in Design by Contract (DbC) preconditions, postconditions, and invariants.
 2. **Dual-Agent Quality & Security Gate**: Dispatches isolated reviewer subagents (`code-reviewer` and `security-reviewer`) to enforce anti-weakened assertions, API boundary absence safety, clean commenting, zero deprecated APIs, and OWASP defense-in-depth before refactoring.
@@ -82,17 +82,17 @@ flowchart TD
 
 ```text
 git repository:
-├── <spec-branch>                             # Base branch containing approved docs/specs/
-│   └── docs/specs/<feature-name>/
+├── {spec-branch}                             # Base branch containing approved docs/specs/
+│   └── docs/specs/{feature-name}/
 │       ├── requirements.md
 │       ├── design.md
 │       └── tasks.md (updated atomically)
 │
-├── feat/<feature-name>-part-1                # First implementation Stacked PR (base: <spec-branch>)
+├── feat/{feature-name}-part-1                # First implementation Stacked PR (base: {spec-branch})
 │   ├── src/... (implementation code)
 │   └── tests/... (contract and unit tests)
 │
-└── feat/<feature-name>-part-2                # Second implementation Stacked PR (base: feat/...-part-1)
+└── feat/{feature-name}-part-2                # Second implementation Stacked PR (base: feat/...-part-1)
     ├── src/...
     └── tests/...
 ```

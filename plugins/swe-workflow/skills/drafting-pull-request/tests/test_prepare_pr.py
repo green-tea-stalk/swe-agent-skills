@@ -211,7 +211,7 @@ class TestGenerateRecommendations(unittest.TestCase):
                     current_branch="feat/feature-1",
                 )
                 self.assertIn(
-                    '--title "<type>(<scope>): <subject>"',
+                    '--title "{type}({scope}): {subject}"',
                     "\n".join(recs),
                     f"Placeholder missing in: {sc['name']}",
                 )

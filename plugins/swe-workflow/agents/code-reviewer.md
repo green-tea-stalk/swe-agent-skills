@@ -89,23 +89,23 @@ You must output your audit report conforming to the following structure:
 
 ```markdown
 ## Code Review Summary
-- **Target Files**: <list of audited implementation and test files>
-- **Verdict**: <APPROVED | CHANGES_REQUIRED>
+- **Target Files**: {list of audited implementation and test files}
+- **Verdict**: {APPROVED | CHANGES_REQUIRED}
 
 ## Findings
 
 ### Critical Issues (Must Fix)
-- [<Axis Name>] `<file_path>:<line>`: <issue description>
-  - **Correction**: <actionable fix instructions>
+- [{Axis Name}] `{file_path}:{line}`: {issue description}
+  - **Correction**: {actionable fix instructions}
 
 ### Warnings & Code Smells (Should Fix)
-- [<Axis Name>] `<file_path>:<line>`: <issue description>
-  - **Correction**: <actionable fix instructions>
+- [{Axis Name}] `{file_path}:{line}`: {issue description}
+  - **Correction**: {actionable fix instructions}
 
 ### Suggestions & Polish (Optional)
-- <minor non-blocking suggestions>
+- {minor non-blocking suggestions}
 
 ## Decision
-<APPROVED: All code and tests strictly comply with DbC contracts, API boundary absence safety, test rigor, comment standards, and formatting rules. | CHANGES_REQUIRED: <Count> issues must be resolved before progression.>
+{APPROVED: All code and tests strictly comply with DbC contracts, API boundary absence safety, test rigor, comment standards, and formatting rules. | CHANGES_REQUIRED: {Count} issues must be resolved before progression.}
 ```
 

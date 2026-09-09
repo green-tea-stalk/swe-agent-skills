@@ -23,7 +23,7 @@ The `planning-and-designing` skill provides a deterministic, multi-stage workflo
 | **Requirements (`requirements.md`)** | **EARS** + **RFC 2119 / RFC 8174** + **ISO/IEC/IEEE 29148:2018** | Five standard EARS patterns, strict uppercase requirement keywords, 5 core quality characteristics (Unambiguous, Complete, Consistent, Verifiable, Traceable), robust Mermaid visual modeling. |
 | **Component Design (`design.md`)** | **DbC** + **JSON Schema** + **RFC 9457** | Public interface contracts (Preconditions, Postconditions, Invariants), data model constraints with empty collection & absence defense, protocols, standard Problem Details error envelope, Key Design Decisions. |
 | **Task Planning (`tasks.md`)** | **Stacked PR** + **Traceability Matrix** + **GFM Checkboxes** | Executive PR overview for human reviewers, mechanical coverage matrix (`REQ` × `COMP` × `TASK` × `PR`), progress tracking state machine, crash resiliency, full completion reset. |
-| **Multilingual Protocol** | **Filename Suffix Convention** (`*.<lang>.md`) | English document as SSOT; derived translation generated after English approval using target ISO 639-1 code (e.g. `*.ja.md`) and standard RFC 2119 localized mapping. |
+| **Multilingual Protocol** | **Filename Suffix Convention** (`*.{lang}.md`) | English document as SSOT; derived translation generated after English approval using target ISO 639-1 code (e.g. `*.ja.md`) and standard RFC 2119 localized mapping. |
 
 ---
 
@@ -69,7 +69,7 @@ flowchart TD
     end
 
     subgraph P5["Phase 5: Localization & PR Delegation"]
-        S7 --> S8["Step 8: Bilingual Translation Generation<br>(Derive *.<lang>.md using ISO 639-1 code)"]
+        S7 --> S8["Step 8: Bilingual Translation Generation<br>(Derive *.{lang}.md using ISO 639-1 code)"]
         S8 --> S9["Step 9: Delegate to drafting-pull-request<br>(Branch safety, atomic commit, draft PR creation)"]
     end
 ```
@@ -89,7 +89,7 @@ flowchart TD
 7. **Step 7: Task Planning & Audit**:
    Drafts `tasks.md` with GFM tracking and transitions to `status: approved` upon receiving `APPROVED` verdict from `tasks-reviewer`.
 8. **Step 8: Bilingual Translation Generation**:
-   Generates faithful localized files (e.g. `requirements.<lang>.md`, `design.<lang>.md`, `tasks.<lang>.md`) using target ISO 639-1 code and RFC 2119 mapping if user conversation is non-English.
+   Generates faithful localized files (e.g. `requirements.{lang}.md`, `design.{lang}.md`, `tasks.{lang}.md`) using target ISO 639-1 code and RFC 2119 mapping if user conversation is non-English.
 9. **Step 9: Delegate to `drafting-pull-request`**:
    Invokes `drafting-pull-request` to handle branch safety, Conventional Commit creation, and Draft PR submission.
 
@@ -115,19 +115,19 @@ plugins/swe-workflow/skills/planning-and-designing/
 
 ### Generated Specification Artifacts
 ```text
-docs/specs/<feature-name>/
+docs/specs/{feature-name}/
 ├── requirements.md            # English Requirements Specification (SSOT)
-├── requirements.<lang>.md     # Localized Requirements Specification (Derived, e.g. *.ja.md)
+├── requirements.{lang}.md     # Localized Requirements Specification (Derived, e.g. *.ja.md)
 ├── design.md                  # English Architecture & Component Design (SSOT)
-├── design.<lang>.md           # Localized Architecture & Component Design (Derived, e.g. *.ja.md)
+├── design.{lang}.md           # Localized Architecture & Component Design (Derived, e.g. *.ja.md)
 ├── tasks.md                   # English Stacked PR Task Plan & State Tracker (SSOT)
-└── tasks.<lang>.md            # Localized Stacked PR Task Plan & State Tracker (Derived, e.g. *.ja.md)
+└── tasks.{lang}.md            # Localized Stacked PR Task Plan & State Tracker (Derived, e.g. *.ja.md)
 ```
 
 ### Verification Commands
 ```bash
 # Verify specification directory contains all required English and localized documents
-ls -la docs/specs/<feature-name>/
+ls -la docs/specs/{feature-name}/
 # Verify specification Draft PR status on GitHub
 gh pr view --json number,title,url,isDraft,state
 ```

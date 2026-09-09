@@ -8,7 +8,7 @@ Spec-Driven Development（SDD: 仕様駆動開発）の**実装フェーズ**を
 
 エージェント主導のソフトウェア開発において、厳格な契約検証やテスト駆動の規約、客観的なセキュリティ監査を伴わずに機能を実装すると、脆弱なコード、リグレッションバグ、アサーションの骨抜き、およびアーキテクチャの劣化を招きます。
 
-`implementing-tasks` スキルは、`docs/specs/<feature-name>/` 配下の仕様資産（`requirements.md`、`design.md`、`tasks.md`）を製品品質のソフトウェアへと具現化する、自動化された耐障害性の高いテスト駆動ワークフローを提供します：
+`implementing-tasks` スキルは、`docs/specs/{feature-name}/` 配下の仕様資産（`requirements.md`、`design.md`、`tasks.md`）を製品品質のソフトウェアへと具現化する、自動化された耐障害性の高いテスト駆動ワークフローを提供します：
 
 1. **厳格なテスト駆動開発 (TDD)**: 基本設計書（`design.md`）に定義された契約による設計（DbC: 事前条件、事後条件、不変条件）に基づき、Red-Green-Refactor サイクルを推進。
 2. **2 体のエージェントによる品質・セキュリティ二重ゲート**: 独立したレビュアーサブエージェント（`code-reviewer` および `security-reviewer`）を起動し、アサーションの骨抜き防止、API 境界の不在安全性、クリーンなコメント記述、非推奨 API の排除、および OWASP 基準の堅牢化をリファクタリング前に検証。
@@ -82,17 +82,17 @@ flowchart TD
 
 ```text
 git リポジトリ:
-├── <spec-branch>                             # 承認済みの docs/specs/ を含むベースブランチ
-│   └── docs/specs/<feature-name>/
+├── {spec-branch}                             # 承認済みの docs/specs/ を含むベースブランチ
+│   └── docs/specs/{feature-name}/
 │       ├── requirements.md
 │       ├── design.md
 │       └── tasks.md (アトミックに同期更新)
 │
-├── feat/<feature-name>-part-1                # 最初の一連のタスクを含む Stacked PR (ベース: <spec-branch>)
+├── feat/{feature-name}-part-1                # 最初の一連のタスクを含む Stacked PR (ベース: {spec-branch})
 │   ├── src/... (実装コード)
 │   └── tests/... (契約テストおよび単体テスト)
 │
-└── feat/<feature-name>-part-2                # 後続のタスクを含む Stacked PR (ベース: feat/...-part-1)
+└── feat/{feature-name}-part-2                # 後続のタスクを含む Stacked PR (ベース: feat/...-part-1)
     ├── src/...
     └── tests/...
 ```

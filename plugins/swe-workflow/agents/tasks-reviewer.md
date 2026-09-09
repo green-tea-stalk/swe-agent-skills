@@ -45,7 +45,7 @@ Evaluate `tasks.md` against the following mandatory axes:
 ### Axis 5: Stacked PR Atomicity & Dependency Integrity
 - **Atomic Units**: Each planned PR must be independently buildable and testable (no broken intermediate states).
 - **Acyclic Sequencing**: Branch targets and merge sequences must form a clean, acyclic dependency chain (e.g. PR 1 Interfaces -> PR 2 Core Logic -> PR 3 Integration/CLI).
-- **Target Branch & Specification Isolation**: For PR 1, the `Merge Target` / `Dependencies` MUST point to the upstream specification branch (e.g. `docs/<feature>-spec`), NEVER the repository default branch (`main`). This prevents specification commits and documents from duplicating into the implementation PR diff.
+- **Target Branch & Specification Isolation**: For PR 1, the `Merge Target` / `Dependencies` MUST point to the upstream specification branch (e.g. `docs/{feature}-spec`), NEVER the repository default branch (`main`). This prevents specification commits and documents from duplicating into the implementation PR diff.
 
 ### Axis 6: Tasks Lifecycle on Revisions (Reset on Full Completion)
 - If auditing a revision:
@@ -61,18 +61,18 @@ Inspect the document thoroughly. Output your evaluation using this exact structu
 ```markdown
 ### Tasks Review Report
 
-- **Target Document**: `docs/specs/<feature-name>/tasks.md`
-- **Document Version**: <version>
-- **Upstream Dependencies**: Requirements: <req-version>, Design: <design-version>
+- **Target Document**: `docs/specs/{feature-name}/tasks.md`
+- **Document Version**: {version}
+- **Upstream Dependencies**: Requirements: {req-version}, Design: {design-version}
 - **Verdict**: **APPROVED** | **CHANGES_REQUIRED**
 
 #### Findings Summary
-- **Frontmatter & Upstream Consistency**: [PASS | FAIL] - <brief rationale>
-- **Executive PR Overview**: [PASS | FAIL] - <brief rationale>
-- **Progress Tracking & Crash Resiliency**: [PASS | FAIL] - <brief rationale>
-- **Mechanical Traceability Matrix**: [PASS | FAIL] - <brief rationale>
-- **Stacked PR Atomicity & Sequencing**: [PASS | FAIL] - <brief rationale>
-- **Lifecycle & Identifier Integrity**: [PASS | FAIL] - <brief rationale>
+- **Frontmatter & Upstream Consistency**: [PASS | FAIL] - {brief rationale}
+- **Executive PR Overview**: [PASS | FAIL] - {brief rationale}
+- **Progress Tracking & Crash Resiliency**: [PASS | FAIL] - {brief rationale}
+- **Mechanical Traceability Matrix**: [PASS | FAIL] - {brief rationale}
+- **Stacked PR Atomicity & Sequencing**: [PASS | FAIL] - {brief rationale}
+- **Lifecycle & Identifier Integrity**: [PASS | FAIL] - {brief rationale}
 
 #### Detailed Feedback & Required Actions
 (If CHANGES_REQUIRED, list specific issues referencing task IDs, PR groupings, or traceability gaps with exact remediation proposals. If APPROVED, summarize notable execution strengths.)

@@ -45,16 +45,16 @@ When invoked, analyze the provided session context and diff, then output the ext
 ### Extracted Key Design Decisions
 
 #### English Section (for design.md and PR Body)
-- **<Decision Topic / Area>**:
-  - **Selected Approach**: <Description of adopted approach>
-  - **Alternative Considered**: <Alternative valid approach that would also satisfy requirements>
-  - **Rationale & Trade-off**: <Why this was selected over the alternative, highlighting the trade-off>
+- **{Decision Topic / Area}**:
+  - **Selected Approach**: {Description of adopted approach}
+  - **Alternative Considered**: {Alternative valid approach that would also satisfy requirements}
+  - **Rationale & Trade-off**: {Why this was selected over the alternative, highlighting the trade-off}
 
 #### Localized Section (in the active Conversation Language, if non-English)
-- **<Localized Decision Topic / Area>**:
-  - **<Adopted Solution Label>**: <Localized description>
-  - **<Alternative Considered Label>**: <Localized description>
-  - **<Rationale & Trade-off Label>**: <Localized rationale>
+- **{Localized Decision Topic / Area}**:
+  - **{Adopted Solution Label}**: {Localized description}
+  - **{Alternative Considered Label}**: {Localized description}
+  - **{Rationale & Trade-off Label}**: {Localized rationale}
 ```
 
 If no non-trivial design decisions were made during the session (e.g. straightforward implementation of standard specs), explicitly output:
