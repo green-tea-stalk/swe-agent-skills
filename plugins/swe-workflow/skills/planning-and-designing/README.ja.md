@@ -33,7 +33,7 @@ Spec-Driven Development（SDD: 仕様駆動開発）の**計画・設計フェ�
 
 ```text
 plugins/swe-workflow/agents/
-├── requirements-reviewer.md  # EARS および ISO 29148 に基づき requirements.md を監査
+├── requirements-reviewer.md  # EARS、ISO 29148、およびブラックボックス仕様に基づき requirements.md を監査
 ├── design-reviewer.md        # DbC、データモデル、RFC 9457 に基づき design.md を監査
 ├── tasks-reviewer.md         # 追跡可能性、PR の原子性、GFM 追跡に基づき tasks.md を監査
 └── decision-analyst.md       # 客観的な設計判断およびアーキテクチャ上のトレードオフを抽出
@@ -83,7 +83,7 @@ flowchart TD
 4. **ステップ 4: コードベース調査とフィジビリティ検証**:
    対象リポジトリの開発規約、技術スタック、既存パターンを調査し、技術的実現可能性を検証します。技術的トレードオフや不明点をユーザーと対話して埋め切り（ギャップフィリング）、仕様策定のための入力を最終確定します。
 5. **ステップ 5: 要求仕様化と監査**:
-   確定した入力を元に `requirements.md`（堅牢な Mermaid モデリング含む）を作成し、`requirements-reviewer` の承認を経て `status: approved` へ遷移させます。
+   確定した入力を元に技術非依存の `requirements.md`（ブラックボックス振る舞い・境界モデリング）を作成し、`requirements-reviewer` の承認を経て `status: approved` へ遷移させます。
 6. **ステップ 6: 基本設計と監査**:
    `design.md`（堅牢な相互作用モデリング含む）を作成し、設計判断を記録して `design-reviewer` の承認を経て `status: approved` へ遷移させます。
 7. **ステップ 7: タスク計画と監査**:

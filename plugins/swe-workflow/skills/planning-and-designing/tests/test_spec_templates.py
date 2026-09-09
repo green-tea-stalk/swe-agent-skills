@@ -296,6 +296,77 @@ class TestSpecificationTemplates(unittest.TestCase):
                         f"design-template.md '{case_label}' must contain '{phrase}'",
                     )
 
+    def test_requirements_template_black_box_and_boundary_rules(self) -> None:
+        """Verify requirements-template.md enforces black-box specifications and excludes implementation details."""
+        req_path = self.references_dir / "requirements-template.md"
+        content = req_path.read_text(encoding="utf-8")
+
+        # Table-driven test cases for black-box and boundary requirements
+        verification_cases = [
+            (
+                "Guidelines: Black-Box Externally Observable Behavior",
+                r"<!--\s*Guidelines:(.*?)-->",
+                [
+                    "black-box externally observable requirements",
+                    "perspective of external actors",
+                    "reserve solution architecture for design.md",
+                    "data store entities",
+                ],
+                [],
+            ),
+            (
+                "Section 3 Mermaid Block: System Boundary Without Storage Entities",
+                r"## 3\. Visual Modeling.*?```mermaid\s*\n(.*?)\n```",
+                [
+                    "system[target system boundary]",
+                ],
+                [
+                    "db[(",
+                    "data store",
+                    "database",
+                ],
+            ),
+            (
+                "Full Template: Prohibited Implementation Detail Leakage",
+                r"(.*)",
+                [],
+                [
+                    "get /api",
+                    "post /api",
+                    "400 bad request",
+                    "201 created",
+                    "select * from",
+                    "order by ",
+                    "@valid",
+                    "bean validation",
+                ],
+            ),
+        ]
+
+        for case_label, pattern, required_phrases, forbidden_phrases in verification_cases:
+            with self.subTest(case=case_label):
+                match = re.search(pattern, content, re.DOTALL | re.IGNORECASE)
+                self.assertIsNotNone(
+                    match,
+                    f"requirements-template.md must match pattern for '{case_label}'",
+                )
+                assert match is not None
+                matched_text = match.group(1).lower()
+
+                for phrase in required_phrases:
+                    self.assertIn(
+                        phrase.lower(),
+                        matched_text,
+                        f"requirements-template.md '{case_label}' must contain '{phrase}'",
+                    )
+
+                for phrase in forbidden_phrases:
+                    self.assertNotIn(
+                        phrase.lower(),
+                        matched_text,
+                        f"requirements-template.md '{case_label}' must NOT contain implementation detail '{phrase}'",
+                    )
+
 
 if __name__ == "__main__":
     unittest.main()
