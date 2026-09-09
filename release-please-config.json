@@ -4,6 +4,7 @@
     ".": {
       "release-type": "simple",
       "package-name": "swe-agent-skills",
+      "include-component-in-tag": false,
       "extra-files": [
         {
           "type": "json",
