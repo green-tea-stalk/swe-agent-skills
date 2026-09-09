@@ -11,6 +11,7 @@
         "The agent verifies remote synchronization before pushing",
         "The agent extracts design decisions and trade-offs via the decision-analyst subagent",
         "The agent formats a Conventional Commits PR title with component scope matching the commit history (release-please compatible)",
+        "The agent formats the PR body with a third-person narrative summary, design decisions, and actual test execution records while omitting redundant diff breakdowns",
         "The agent creates or updates the pull request via gh pr create or gh pr edit"
       ]
     }

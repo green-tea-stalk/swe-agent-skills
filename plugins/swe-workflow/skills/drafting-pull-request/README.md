@@ -12,7 +12,7 @@ The `drafting-pull-request` skill provides an automated, fail-closed workflow th
 
 1. **Pre-PR Repository Inspection**: Evaluates remote sync status, uncommitted changes, branch safety, and existing open PRs before submission.
 2. **Architectural Decision Extraction**: Dispatches the `decision-analyst` subagent to isolate genuine design decisions and trade-offs from bugs and trivial choices.
-3. **Release-Ready PR Descriptions**: Formats Conventional Commit titles (`release-please` compatible) and localized folding sections (`<details>`) matching the active conversation language.
+3. **Release-Ready PR Descriptions**: Formats Conventional Commit titles (`release-please` compatible), third-person narrative summaries, and test execution records.
 4. **Stacked PR Compatibility**: Supports linking stacked feature branches via `gh-stack` where installed.
 
 ---
@@ -24,13 +24,13 @@ The `drafting-pull-request` skill provides an automated, fail-closed workflow th
 | **Release Automation** | **`release-please` Compatibility** | Enforces Conventional Commit PR titles (`<type>(<scope>)[!]: <subject>`) with commit-derived scopes and SemVer priority to drive automated releases upon merge. |
 | **Architectural Transparency** | **`decision-analyst` Subagent** | Evaluates session context and diffs to document chosen solutions, considered alternatives, and explicit trade-offs. |
 | **Fail-Closed Inspection** | **Safe Synchronization Protocol** | Halts on unclassified uncommitted changes, zero diff commits against base, or diverged remote states. |
-| **Dynamic Localization** | **Bilingual PR Folding** | Provides structured English descriptions while dynamically appending folded localized explanations (`<details>`) for non-English conversation contexts. |
+| **Standardized Descriptions** | **Narrative Summary & Test Records** | Enforces third-person narrative summaries (Why + What), eliminates redundant diff listings, and records actual test execution evidence. |
 
 ---
 
 ## 3. Tooling & Subagent Architecture
 
-The skill integrates a standard-library Python inspection script and a specialized software architect subagent:
+The skill integrates standard-library Python inspection and validation scripts alongside a specialized software architect subagent:
 
 ```text
 plugins/swe-workflow/skills/drafting-pull-request/
@@ -43,7 +43,8 @@ plugins/swe-workflow/skills/drafting-pull-request/
 ├── scripts/
 │   └── prepare_pr.py        # Pre-PR inspection helper script (PEP 723)
 └── tests/
-    └── test_prepare_pr.py   # Unit test suite for prepare_pr.py
+    ├── test_prepare_pr.py   # Unit test suite for prepare_pr.py
+    └── test_pr_template.py  # Template & instruction structure test suite
 ```
 
 ### Supporting Components
@@ -78,7 +79,7 @@ graph TD
 2. **Step 2: Handle Branch Safety & Uncommitted Changes**: Ensures feature branch safety, commits active changes via `committing-changes`, and halts safely if zero commits exist.
 3. **Step 3: Ensure Remote Synchronization**: Synchronizes local commits with the remote tracking branch via push or fast-forward pull; halts safely on diverged branches.
 4. **Step 4: Extract Design Decisions**: Dispatches `decision-analyst` to formulate objective design decisions and trade-offs.
-5. **Step 5: Construct PR Title & Body**: Synthesizes a `release-please` compatible title, structured English body, and localized folding details.
+5. **Step 5: Construct PR Title & Body**: Synthesizes a `release-please` compatible title, third-person narrative summary, actual test execution records, and localized folding details.
 6. **Step 6: Create or Update PR**: Creates a GitHub Draft PR (or updates an existing open PR) using the GitHub CLI (`gh`).
 7. **Step 7: Validation**: Verifies the PR status via `gh pr view` and reports the URL to the user.
 
