@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.2.0](https://github.com/green-tea-stalk/swe-agent-skills/compare/v1.1.0...v1.2.0) (2026-09-09)
+
+
+### Features
+
+* **swe-workflow:** enforce black-box externally observable requirements in planning and reviewer ([#32](https://github.com/green-tea-stalk/swe-agent-skills/issues/32)) ([253893d](https://github.com/green-tea-stalk/swe-agent-skills/commit/253893d0f7f1f77517ad0367d4e604babbe8204c)), closes [#22](https://github.com/green-tea-stalk/swe-agent-skills/issues/22)
+* **swe-workflow:** enhance code and design reviewer audits for api boundary absence safety and empty collection defense ([#31](https://github.com/green-tea-stalk/swe-agent-skills/issues/31)) ([6c5833e](https://github.com/green-tea-stalk/swe-agent-skills/commit/6c5833e867149f4644b246b2a305f5223795ffa1)), closes [#20](https://github.com/green-tea-stalk/swe-agent-skills/issues/20)
+* **swe-workflow:** standardize pull request description template and verification records ([#33](https://github.com/green-tea-stalk/swe-agent-skills/issues/33)) ([4158235](https://github.com/green-tea-stalk/swe-agent-skills/commit/4158235107bd97b812a5f187a91578eb92476ec5))
+* **swe-workflow:** structure design.md data models and schema constraints as markdown tables ([#30](https://github.com/green-tea-stalk/swe-agent-skills/issues/30)) ([8087068](https://github.com/green-tea-stalk/swe-agent-skills/commit/80870685f5e1314539c95274865cb665c3dfd617)), closes [#24](https://github.com/green-tea-stalk/swe-agent-skills/issues/24)
+
+
+### Bug Fixes
+
+* **swe-workflow:** align Conventional Commits 1.0.0 specifications and templates ([#27](https://github.com/green-tea-stalk/swe-agent-skills/issues/27)) ([85892a1](https://github.com/green-tea-stalk/swe-agent-skills/commit/85892a1a0e13515e37851b0c3d82b41c771fcf3f)), closes [#19](https://github.com/green-tea-stalk/swe-agent-skills/issues/19)
+* **swe-workflow:** automate specification frontmatter status lifecycle transitions ([#23](https://github.com/green-tea-stalk/swe-agent-skills/issues/23)) ([#29](https://github.com/green-tea-stalk/swe-agent-skills/issues/29)) ([873746b](https://github.com/green-tea-stalk/swe-agent-skills/commit/873746bdd3ca59aed0b6bbbe908d96bf3f3cf41a))
+* **swe-workflow:** fix Mermaid sequence diagram activation mismatch in specification templates and reviews ([#28](https://github.com/green-tea-stalk/swe-agent-skills/issues/28)) ([c29c541](https://github.com/green-tea-stalk/swe-agent-skills/commit/c29c5412989cba7b0065c1e2cd8a0dd033dde852)), closes [#21](https://github.com/green-tea-stalk/swe-agent-skills/issues/21)
+* **swe-workflow:** prevent specification diff duplication in stacked pr phase 1 ([#25](https://github.com/green-tea-stalk/swe-agent-skills/issues/25)) ([49c1f03](https://github.com/green-tea-stalk/swe-agent-skills/commit/49c1f03d6be8f1f9450f9669211666cf8f7c5efe)), closes [#18](https://github.com/green-tea-stalk/swe-agent-skills/issues/18)
+
 ## [1.1.0](https://github.com/green-tea-stalk/swe-agent-skills/compare/v1.0.0...v1.1.0) (2026-09-05)
 
 
