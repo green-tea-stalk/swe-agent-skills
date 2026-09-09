@@ -33,7 +33,7 @@ This skill coordinates dedicated subagents to enforce fail-closed quality gateke
 
 ```text
 plugins/swe-workflow/agents/
-├── requirements-reviewer.md  # Audits requirements.md against EARS & ISO 29148
+├── requirements-reviewer.md  # Audits requirements.md against EARS, ISO 29148, and black-box specifications
 ├── design-reviewer.md        # Audits design.md against DbC, data models, and RFC 9457
 ├── tasks-reviewer.md         # Audits tasks.md against traceability, PR atomicity, and GFM tracking
 └── decision-analyst.md       # Extracts objective design decisions & architectural trade-offs
@@ -83,7 +83,7 @@ flowchart TD
 4. **Step 4: Codebase Reconnaissance & Technical Feasibility Verification**:
    Inspects codebase conventions, tech stack, and patterns. Verifies technical feasibility, conducts gap-filling dialogue with user, and finalizes authoring inputs.
 5. **Step 5: Requirements Specification & Audit**:
-   Drafts `requirements.md` (with robust Mermaid modeling), audits via `requirements-reviewer`, and transitions to `status: approved`.
+   Drafts technology-agnostic `requirements.md` (black-box behavior, system boundary modeling), audits via `requirements-reviewer`, and transitions to `status: approved`.
 6. **Step 6: Component Design & Audit**:
    Drafts `design.md` (with robust interaction modeling), extracts design decisions, and transitions to `status: approved` upon `design-reviewer` approval.
 7. **Step 7: Task Planning & Audit**:

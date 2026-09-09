@@ -12,9 +12,10 @@ updated_at: <YYYY-MM-DD>
 Guidelines:
 1. All functional requirements MUST use standard EARS patterns combined with uppercase RFC 2119/8174 keywords (MUST, MUST NOT, SHOULD, MAY).
 2. Adhere to ISO/IEC/IEEE 29148:2018 quality characteristics: Unambiguous, Complete, Consistent, Verifiable, and Traceable.
-3. Include visual Mermaid modeling for human readability.
-4. If translating to a localized file (e.g. *.<lang>.md like *.ja.md, *.fr.md), translate accurately using standard RFC 2119 mapping after English SSOT approval.
-5. Frontmatter Status Lifecycle: Initialized as `status: draft`. Transitions to `status: in-review` when submitting for subagent review, `status: approved` upon reviewer APPROVED verdict, and `status: superseded` if replaced or consolidated. Always update `updated_at` (ISO 8601 `YYYY-MM-DD`) whenever `status` transitions.
+3. Specify black-box externally observable requirements: Describe system behavior strictly from the perspective of external actors (stimulus and observable response/feedback at boundary). Do NOT include implementation details (e.g. no HTTP methods/routes, HTTP status codes, SQL queries, database table/column names, or framework classes/annotations); reserve solution architecture for design.md.
+4. Include visual Mermaid modeling strictly depicting interactions between external actors and the system boundary. Do NOT model internal components, pipelines, or data store entities.
+5. If translating to a localized file (e.g. *.<lang>.md like *.ja.md, *.fr.md), translate accurately using standard RFC 2119 mapping after English SSOT approval.
+6. Frontmatter Status Lifecycle: Initialized as `status: draft`. Transitions to `status: in-review` when submitting for subagent review, `status: approved` upon reviewer APPROVED verdict, and `status: superseded` if replaced or consolidated. Always update `updated_at` (ISO 8601 `YYYY-MM-DD`) whenever `status` transitions.
 -->
 
 ## 1. Context & Motivation
@@ -54,16 +55,16 @@ Guidelines:
 
 <!--
 Guidelines for Mermaid Diagrams:
+- Strictly model external actors interacting with the system boundary. Do NOT depict internal component calls or database/storage entities.
 - If authoring sequence diagrams (sequenceDiagram), omit manual activation boxes (activate/deactivate or +/- shortcuts).
 - Never use activation boxes across branching constructs (alt/else, opt, par, loop). Mermaid parses linearly without branch-isolated stacks; deactivating in multiple branches causes fatal GitHub rendering errors ("Trying to inactivate an inactive participant").
 -->
 
 ```mermaid
 graph TD
-    %% Insert Mermaid diagram (flowchart, sequence, or state diagram) clarifying workflows
-    User([User / Caller]) -->|Action Trigger| System[Target System]
-    System -->|Validate| DB[(Data Store)]
-    System -->|Success Response| User
+    %% Insert Mermaid diagram depicting external actors interacting with the system boundary
+    User([User / External Actor]) -->|Submit Request / Input| System[Target System Boundary]
+    System -->|Present Observable Result / Feedback| User
 ```
 
 ---
