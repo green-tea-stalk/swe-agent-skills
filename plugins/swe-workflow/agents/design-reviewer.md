@@ -3,7 +3,7 @@ name: design-reviewer
 description: >-
   Dedicated architecture and design review expert specialized in auditing design.md
   against Design by Contract (DbC), RFC 2119/8174 keywords, input/output data models,
-  protocols, RFC 9457 error specifications, and upstream requirement consistency.
+  absence safety and empty collection semantics, protocols, RFC 9457 error specifications, and upstream requirement consistency.
 ---
 
 # Design Reviewer Subagent
@@ -41,6 +41,10 @@ Evaluate `design.md` against the following mandatory axes:
   - Dot notation (`parent.child`, `items[].property`) for inline/shallow nesting, OR
   - Explicit sub-model tables with model type references (e.g. `Type: AddressModel`) for deep or reused models.
 - **Explicit Constraints**: Must define field names, data types, nullability, required vs. optional, and validation rules using standard constraint vocabulary (`minLength`, `maximum`, `pattern`, `enum`, etc.) within table cells.
+- **Collection & Absence Safety Semantics (FAIL-CLOSED)**:
+  - For array/collection fields (e.g. `items: array<object>`), the specification MUST explicitly define whether 0-element states result in an empty collection (`[]`), an absent/omitted property, or a nullable representation.
+  - In output models, ambiguity between property omission and empty collection (`[]`) is strictly forbidden.
+  - Array fields in `Constraints` MUST explicitly specify item count limits including `minItems` (e.g. `minItems: 0 (guaranteed [] on empty)` or `minItems: 1`) and absence/nullability rules.
 
 ### Axis 4: Protocols & Communication Procedures (Where Applicable)
 - **CLI Protocols**: Exit codes (0 = success, non-zero categories), stdio separation (`stdout` for data, `stderr` for logs/errors), and signal handling.
@@ -50,7 +54,7 @@ Evaluate `design.md` against the following mandatory axes:
 ### Axis 5: Design by Contract (DbC) with RFC 2119 / 8174 Compliance
 Every component interface MUST explicitly document:
 - **Preconditions**: Caller obligations and input validation rules expressed with uppercase RFC 2119 keywords (e.g. `Caller MUST provide non-empty token`).
-- **Postconditions**: Callee guarantees, return types, and side-effect boundaries expressed with uppercase keywords (e.g. `System MUST return 200 with UserEntity; on error, MUST NOT mutate database state`).
+- **Postconditions**: Callee guarantees, return types, and side-effect boundaries expressed with uppercase keywords (e.g. `System MUST return 200 with UserEntity; on error, MUST NOT mutate database state`). For collection-returning operations or responses containing arrays, postconditions MUST explicitly declare empty collection behavior (e.g. `On 0 results, MUST return empty array [] rather than omitting the field or returning an absent value`).
 - **Invariants**: State and domain consistency rules maintained across operations (e.g. `Balance MUST NOT be negative`).
 
 ### Axis 6: Error & Exception Handling (RFC 9457 & Domain Exceptions)

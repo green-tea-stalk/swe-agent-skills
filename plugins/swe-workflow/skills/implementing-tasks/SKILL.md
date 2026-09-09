@@ -97,6 +97,7 @@ Execute strict Test-Driven Development for the current task (`TASK-xxx`):
 1. **Step 3A: Red Phase (Failing Test)**:
    - Consult `design.md` for the relevant Component Contract (DbC: Preconditions, Postconditions, Invariants) and data models.
    - Write comprehensive unit/contract tests verifying expected behavior and boundary conditions.
+   - **API Boundary & Absence Scenarios**: When testing components consuming external API responses, do NOT bias tests purely toward populated mock fixtures. Explicitly write test cases asserting correct handling of 0-element empty collections, omitted/missing properties, and language-specific absent-value representations (`null`, `undefined`, `None`, `nil`, or `Option::None`).
    - **Test Fixture Best Practices**: Utilize framework fixtures (pytest fixtures, JUnit `@BeforeEach`, Test Data Builders) to eliminate boilerplate.
    - **Collection Formatting**: Format matrix/table datasets with readable indentation and line breaks, protecting them with formatter exclusion blocks (e.g. `// spotless:off` / `// spotless:on`, `# fmt: off` / `# fmt: on`, `// prettier-ignore`) if automated formatters are configured in the repository.
    - **Self-Contained Naming**: Do NOT use specification identifiers (`REQ-001`, `COMP-002`) in test names or assertions; use descriptive domain terminology.
@@ -104,6 +105,7 @@ Execute strict Test-Driven Development for the current task (`TASK-xxx`):
 
 2. **Step 3B: Green Phase (Minimal Implementation)**:
    - Write the minimal production code necessary to satisfy the test and adhere to the contract.
+   - **API Boundary Absence Safety & Defensive Programming**: Defensively guard external API response parsing using language-idiomatic safety patterns (safe navigation where supported, map/dict fallback defaults, `Option`/`Result` unwrap handling, or explicit boundary guards) to prevent runtime crashes caused by absent data or empty collections.
    - **Zero Deprecated APIs**: Ensure all invoked APIs, standard library functions, and third-party libraries use modern, non-deprecated alternatives.
    - **Doc Comments & Code Cleanliness**: Add language-standard Doc comments to public/abstract members. Omit obvious line-by-line narration comments; document only non-obvious reasoning.
    - Execute the test suite and verify that all tests **pass cleanly** (Green).
@@ -114,7 +116,7 @@ Execute strict Test-Driven Development for the current task (`TASK-xxx`):
 
 1. **Step 4A: Dual Audit (Audit 1)**:
    - Concurrently invoke the dedicated `code-reviewer` and `security-reviewer` subagents to audit modified implementation and test files.
-   - **code-reviewer**: Audits DbC alignment, anti-weakening of tests, fixture usage, comment discipline, Doc comments, spec-free readability, clean architecture, deprecated API elimination, and collection formatting.
+   - **code-reviewer**: Audits DbC alignment, anti-weakening of tests, API boundary absence safety and empty collection defense, fixture usage, comment discipline, Doc comments, spec-free readability, clean architecture, deprecated API elimination, and collection formatting.
    - **security-reviewer**: Audits input validation, secret leakage prevention, safe cryptography, and resource management.
    - **Convergence**:
      - If either reviewer returns `CHANGES_REQUIRED`, address all defects and re-audit (up to 3 total iterations, Fail-Closed).
