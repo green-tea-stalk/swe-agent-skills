@@ -72,24 +72,22 @@ Invoke the dedicated `decision-analyst` subagent to analyze the session context 
 
 ### Step 5: Construct PR Title & Structured Body
 
-Formulate the PR title and body following the canonical template and specifications in [`pr-template.md`](./references/pr-template.md):
+Formulate the PR title and structured description conforming to **Conventional Commits 1.0.0** and automated release workflows:
+👉 Consult canonical specifications, templates, and agent instructions in [`./references/pr-template.md`](./references/pr-template.md)
 
-#### 1. PR Title Protocol (`release-please` compatible Conventional Commits)
-- **Syntax**: `<type>(<scope>)[!]: <imperative subject summary>` (see [`./references/pr-template.md`](./references/pr-template.md))
-- **Type Derivation (SemVer Priority)**: Inspect branch commits from Step 1 (`[5] Commits & Diff vs Base`). Inherit the highest SemVer impact present (MAJOR (`!`) > MINOR (`feat`) > PATCH (`fix`) > others).
-- **Scope Derivation (Mandatory Component Attribution)**: Derive `<scope>` directly from the underlying branch commits. In component-tracked repositories, `release-please` uses this scope to determine package changelog and version bumps upon merge. Never omit the scope (e.g., use `feat(backend): ...`, not `feat: ...`).
-- **Breaking Change Indicator (`!`)**: If the changes introduce breaking API changes, append `!` before the colon (e.g. `feat(swe-workflow)!: ...`).
-- **Subject**: Imperative mood, present tense, lowercase start recommended, no trailing period.
-
-#### 2. PR Body Structure
-Construct the body adhering to [`pr-template.md`](./references/pr-template.md):
-- **Summary & Motivation**: Objective bullet points and problem context.
-- **Key Design Decisions & Trade-offs**: Integrate findings from `decision-analyst`.
-- **Changes Made**: Technical component breakdown.
-- **Breaking Changes**: Include `## Breaking Changes` section with `BREAKING CHANGE: <description>` if breaking changes exist.
-- **Related Issues**: Link issues via `Closes #<id>` or `Fixes #<id>`.
-- **Verification & Testing**: Commands and validation steps performed.
-- **Language Folding**: Append `<details>` with full translations if user conversation is not in English.
+1. **PR Title Construction**:
+   - Construct `{type}({scope})[!]: {subject}` conforming to Section 1 of `pr-template.md`.
+   - Derive `{type}` from highest SemVer impact in Step 1 commits.
+   - Inherit mandatory `{scope}` directly from branch commits (`release-please` requirement).
+   - Use imperative mood, present tense, no trailing period.
+2. **PR Body Construction**:
+   - Render the structured PR body adhering strictly to the template in Section 2 and agent instructions in Section 3 of `pr-template.md`.
+   - Incorporate the third-person narrative `## Summary` (Why + What, 3-4 sentences).
+   - Integrate architectural trade-offs from `decision-analyst` into `## Key Design Decisions & Trade-offs` (or `- None`).
+   - Include `## Breaking Changes` only for SemVer MAJOR changes (otherwise omit).
+   - Link issues via `## Related Issues` (`Closes #{id}`, `Fixes #{id}`, `Relates to #{id}`, or `None`).
+   - Record actual executed test commands and results in `## Verification & Testing`.
+   - If conversation language is not English, append `<details>` with full translation mirror titled `<summary>{flag} {Native "Translation" Label} ({English Language Name} Translation)</summary>`.
 
 ---
 
