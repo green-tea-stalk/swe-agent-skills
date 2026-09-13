@@ -2,6 +2,7 @@
 
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/green-tea-stalk/swe-agent-skills)](https://github.com/green-tea-stalk/swe-agent-skills/releases)
 [![Release Please](https://github.com/green-tea-stalk/swe-agent-skills/actions/workflows/release-please.yml/badge.svg)](https://github.com/green-tea-stalk/swe-agent-skills/actions/workflows/release-please.yml)
+[![Dependabot](https://img.shields.io/badge/dependabot-enabled-025e8c?logo=dependabot&logoColor=white)](https://github.com/green-tea-stalk/swe-agent-skills/network/updates)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 > Reusable software engineering skills, workflows, and subagents for modern AI coding agents.
 
