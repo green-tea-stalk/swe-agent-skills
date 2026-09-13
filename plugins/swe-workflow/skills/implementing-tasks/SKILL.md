@@ -73,6 +73,11 @@ flowchart TD
    - Read `docs/specs/{feature-name}/tasks.md` and find the first uncompleted task checkbox (`- [ ]`).
    - Identify the PR group to which the task belongs (e.g. `PR-1`, `PR-2`) and the associated component (`COMP-xxx`) and requirements (`REQ-xxx`).
 
+3. **Pre-Approved Plan Autonomous Execution (No Redundant Confirmation Gates)**:
+   - Because `tasks.md`, `design.md`, and `requirements.md` have already been formally audited and approved (`status: approved`) during the planning phase, the task specifications, boundaries, and acceptance criteria in `tasks.md` serve as the **authoritative, pre-approved implementation plan**.
+   - The agent MUST NOT halt execution to present redundant implementation plans or prompt the user for permission (e.g. "May I proceed with PR-1?", "Should I start implementing this task?") before beginning branch setup or task implementation.
+   - Proceed immediately and autonomously to **Step 2** and **Step 3** to begin the TDD implementation cycle.
+
 ---
 
 ### Step 2: Stacked PR Branch Setup
@@ -153,8 +158,8 @@ Execute strict Test-Driven Development for the current task (`TASK-xxx`):
      - Identify the target base branch for the current PR from `tasks.md` (for `PR-1`, this MUST be the upstream specification branch, e.g. `docs/{feature}-spec`; for `PR-N`, it is `PR-N-1`'s branch).
      - Delegate to `drafting-pull-request` with the identified base branch as context to perform pre-PR inspection (`prepare_pr.py {base-branch}`), remote sync, design decision extraction, and draft PR submission targeting the base branch.
      - Link stack via `gh stack link {base-branch} {current-branch}` if `gh-stack` is installed.
-3. **Advance to Next Stacked PR**:
-   - If subsequent PRs and tasks remain in `tasks.md`, loop back to **Step 2** to establish the next branch.
+3. **Advance to Next Stacked PR (Autonomous Continuity)**:
+   - If subsequent PRs and tasks remain in `tasks.md`, do NOT halt execution to prompt the user for permission to proceed. Automatically loop back to **Step 2** to establish the next branch and continue implementation autonomously until all planned PRs and tasks are completed.
 
 ---
 

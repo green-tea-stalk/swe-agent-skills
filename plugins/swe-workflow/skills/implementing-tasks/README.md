@@ -14,6 +14,7 @@ The `implementing-tasks` skill provides an automated, crash-resilient, and test-
 2. **Dual-Agent Quality & Security Gate**: Dispatches isolated reviewer subagents (`code-reviewer` and `security-reviewer`) to enforce anti-weakened assertions, API boundary absence safety, clean commenting, zero deprecated APIs, and OWASP defense-in-depth before refactoring.
 3. **Stacked PR Execution & Atomic Tracking**: Organizes implementation into progressive, stacked feature branches starting directly on the specification branch, updating the GFM checkbox state machine atomically alongside each commit.
 4. **Resilient Specification Gap Recovery**: Provides a standardized stash, upstream specification revision, and sequential merge protocol whenever specification inconsistencies or implementation blockers emerge.
+5. **Pre-Approved Plan Autonomous Execution**: Treats approved `tasks.md` as an authoritative implementation plan, eliminating redundant kickoff confirmations and advancing across stacked PRs autonomously.
 
 ---
 
@@ -26,6 +27,7 @@ The `implementing-tasks` skill provides an automated, crash-resilient, and test-
 | **Security Audit** | **`security-reviewer` Subagent** | Audits input validation, injection vectors (SQL, command, path traversal), secret leakage prevention, safe cryptographic primitives, and resource lifecycle management. |
 | **Stacked PR Architecture** | **GitHub Stacked Branches** + **Atomic Commits** | Stacks implementation branches sequentially starting on the specification branch (`spec` ➔ `PR-1` ➔ `PR-2`), committing atomically alongside `tasks.md` updates. |
 | **Spec Defect Protocol** | **Non-Destructive Merge Propagation** | Safely stashes in-flight work, checks out the spec branch to execute revisions via `planning-and-designing`, and sequentially merges updates into stacked branches without destructive rebases. |
+| **Pre-Approved Autonomy** | **Approved Spec Authority** + **Zero-Gate Execution** | Treats approved specifications as pre-authorized implementation plans, executing TDD cycles and advancing across stacked PRs without redundant confirmation halts. |
 
 ---
 
@@ -67,12 +69,12 @@ flowchart TD
     Step6_Submit -- "All tasks complete" --> Step8
 ```
 
-1. **Step 1: Specification & Task Discovery**: Identifies target feature, verifies approved status of `requirements.md`, `design.md`, and `tasks.md`, and finds the first uncompleted task (`- [ ]`).
+1. **Step 1: Specification & Task Discovery**: Identifies target feature, verifies approved status of `requirements.md`, `design.md`, and `tasks.md`, establishes pre-approved plan authority, and finds the first uncompleted task (`- [ ]`).
 2. **Step 2: Stacked PR Branch Setup**: Creates or switches to the designated feature branch (`PR-1` based on spec branch; `PR-N` based on `PR-N-1`).
 3. **Step 3: TDD Implementation Cycle**: Writes failing unit/contract tests verifying DbC rules and data collections (Red), then writes minimal production code using modern non-deprecated APIs to pass the tests (Green).
 4. **Step 4: Dual Audit & Refactor Phase**: Audits diff via `code-reviewer` and `security-reviewer` (Audit 1), refactors for simplicity, and conducts final re-audit (Audit 2).
 5. **Step 5: Atomic Progress Commit**: Updates `tasks.md` checkbox (`- [x]`) and creates an atomic Conventional Commit via `committing-changes`.
-6. **Step 6: PR Boundary & Stacked PR Submission**: Submits Stacked Draft PRs targeting designated base branches upon completing PR task boundaries and advances to the next stack.
+6. **Step 6: PR Boundary & Stacked PR Submission**: Submits Stacked Draft PRs targeting designated base branches upon completing PR task boundaries and autonomously advances to the next stack.
 7. **Step 7: Specification Defect Stash & Merge Protocol**: If specification inconsistencies emerge, stashes work, executes upstream spec revision lifecycle, and sequentially merges updates into stacked branches.
 8. **Step 8: Final Verification & Completion**: Confirms all tasks and test suites pass and reports draft PR links to the user.
 
