@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/green-tea-stalk/swe-agent-skills/compare/v1.3.0...v1.4.0) (2026-09-13)
+
+
+### Features
+
+* **implementing-tasks:** add pre-approved plan autonomous execution rule ([#43](https://github.com/green-tea-stalk/swe-agent-skills/issues/43)) ([7344d39](https://github.com/green-tea-stalk/swe-agent-skills/commit/7344d397cb942e8ce883471f3f21f92d35235832))
+
 ## [1.3.0](https://github.com/green-tea-stalk/swe-agent-skills/compare/v1.2.0...v1.3.0) (2026-09-13)
 
 
