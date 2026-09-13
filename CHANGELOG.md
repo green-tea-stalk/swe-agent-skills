@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/green-tea-stalk/swe-agent-skills/compare/v1.2.0...v1.3.0) (2026-09-13)
+
+
+### Features
+
+* **swe-workflow:** introduce prescriptive visual modeling patterns for requirements ([#38](https://github.com/green-tea-stalk/swe-agent-skills/issues/38)) ([4a7c42c](https://github.com/green-tea-stalk/swe-agent-skills/commit/4a7c42cbe85812b88ed991328e12cc4c2e976a99))
+
 ## [1.2.0](https://github.com/green-tea-stalk/swe-agent-skills/compare/v1.1.0...v1.2.0) (2026-09-09)
 
 
