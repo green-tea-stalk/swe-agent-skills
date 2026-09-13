@@ -64,12 +64,15 @@ Evaluate `requirements.md` against the following mandatory axes:
 ### Axis 5: Human Readability & Visual Modeling
 - **Context & Motivation**: Background, user personas/actors, and business objectives must be clearly articulated.
 - **Use Case Descriptions**: Detailed flows including actor, preconditions, main flow, alternative flows, and postconditions.
-- **Mermaid Visualizations & System Boundary Scope (FAIL-CLOSED)**:
-  - Must include appropriate diagrams (use case diagrams, activity flowcharts, or sequence diagrams) that visually clarify workflows and interactions for human readers.
+- **Mermaid Visualizations & Prescriptive Pattern Conformance (FAIL-CLOSED)**:
+  - Must include appropriate Mermaid diagrams that visually clarify workflows and interactions for human readers, strictly conforming to one of the four prescriptive patterns:
+    1. **Interaction Sequence (`sequenceDiagram`)**: Clean request/response flows between external actors and the system boundary (`actor User`, `participant System as ...`). Must strictly omit manual activation boxes (`activate`/`deactivate`, `+`/`-`) to eliminate GitHub activation stack mismatch rendering errors. Any diagram with activation mismatches or deactivations across branches MUST receive `CHANGES_REQUIRED`.
+    2. **Activity / Decision Flow (`flowchart TD` or `flowchart LR`)**: Condition evaluation, validation branching, and fallback logic leading from events to observable outcomes, organized with structured decision diamonds (`{?}`) and `subgraph` scopes.
+    3. **System Context Scope (`flowchart LR` or `flowchart TD`)**: Clean association mapping between external actors and system use cases across the boundary (`subgraph System Boundary`).
+    4. **Observable State Transition (`stateDiagram-v2`)**: Externally observable domain entity lifecycles and event-triggered state transitions.
+  - **Pattern Semantic Consistency**: Diagram syntax MUST align with the modeling concern (e.g. multi-step request/response dialogues must be modeled as interaction sequences rather than ad-hoc graphs with numbered bidirectional edges). Diagrams failing to conform to any of the four prescriptive pattern semantics MUST receive `CHANGES_REQUIRED`.
   - **System Boundary Scope**: Visual diagrams in `requirements.md` MUST strictly depict interactions between external actors and the external boundary of the target system. Diagrams MUST NOT penetrate the system boundary to illustrate internal component calls, internal class pipelines, or data store entities (e.g. `DB[(Database)]`). Any diagram modeling internal architectural interactions or data storage operations belongs in `design.md` and MUST receive `CHANGES_REQUIRED`.
   - All Mermaid syntax MUST be valid and strictly renderable on GitHub without errors.
-  - **Sequence Diagram Activation Safety**: In sequence diagrams (`sequenceDiagram`), manual activation boxes (`activate` / `deactivate`) and shorthand activation modifiers (`+` / `-`) MUST NOT be used across branching constructs (`alt` / `else`, `opt`, `par`, `loop`). Deactivating an already-inactive participant across conditional branches triggers GitHub rendering failure (`Trying to inactivate an inactive participant`).
-  - **Robustness Standard**: Strongly recommend clean, activation-free sequence diagrams (`A->>B: message`, `B-->>A: response`), which are completely immune to activation stack mismatch errors. Any diagram containing activation mismatches or deactivations across branches MUST receive `CHANGES_REQUIRED`.
 
 ### Axis 6: Identifier Immutability (Applicable on Revisions)
 - If auditing a revision (`version` > 1.0.0):
