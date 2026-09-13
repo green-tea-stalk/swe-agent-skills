@@ -311,14 +311,18 @@ class TestSpecificationTemplates(unittest.TestCase):
                     "perspective of external actors",
                     "reserve solution architecture for design.md",
                     "data store entities",
+                    "prescriptive modeling patterns",
                 ],
                 [],
             ),
             (
-                "Section 3 Mermaid Block: System Boundary Without Storage Entities",
+                "Section 3 Mermaid Block: Prescriptive Pattern Sequence Diagram",
                 r"## 3\. Visual Modeling.*?```mermaid\s*\n(.*?)\n```",
                 [
-                    "system[target system boundary]",
+                    "sequencediagram",
+                    "actor user as {user / external actor}",
+                    "participant system as {target system boundary}",
+                    "alt {successful condition}",
                 ],
                 [
                     "db[(",

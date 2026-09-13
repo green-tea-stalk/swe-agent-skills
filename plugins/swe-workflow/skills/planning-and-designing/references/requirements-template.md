@@ -13,7 +13,7 @@ Guidelines:
 1. All functional requirements MUST use standard EARS patterns combined with uppercase RFC 2119/8174 keywords (MUST, MUST NOT, SHOULD, MAY).
 2. Adhere to ISO/IEC/IEEE 29148:2018 quality characteristics: Unambiguous, Complete, Consistent, Verifiable, and Traceable.
 3. Specify black-box externally observable requirements: Describe system behavior strictly from the perspective of external actors (stimulus and observable response/feedback at boundary). Do NOT include implementation details (e.g. no HTTP methods/routes, HTTP status codes, SQL queries, database table/column names, or framework classes/annotations); reserve solution architecture for design.md.
-4. Include visual Mermaid modeling strictly depicting interactions between external actors and the system boundary. Do NOT model internal components, pipelines, or data store entities.
+4. Include visual Mermaid modeling strictly depicting interactions between external actors and the system boundary following one of the four prescriptive modeling patterns (Interaction Sequence, Activity / Decision Flow, System Context Scope, Observable State Transition). Do NOT model internal components, pipelines, or data store entities.
 5. If translating to a localized file (e.g. *.{lang}.md like *.ja.md, *.fr.md), translate accurately using standard RFC 2119 mapping after English SSOT approval.
 6. Frontmatter Status Lifecycle: Initialized as `status: draft`. Transitions to `status: in-review` when submitting for subagent review, `status: approved` upon reviewer APPROVED verdict, and `status: superseded` if replaced or consolidated. Always update `updated_at` (ISO 8601 `YYYY-MM-DD`) whenever `status` transitions.
 -->
@@ -54,17 +54,29 @@ Guidelines:
 ## 3. Visual Modeling
 
 <!--
-Guidelines for Mermaid Diagrams:
-- Strictly model external actors interacting with the system boundary. Do NOT depict internal component calls or database/storage entities.
-- If authoring sequence diagrams (sequenceDiagram), omit manual activation boxes (activate/deactivate or +/- shortcuts).
-- Never use activation boxes across branching constructs (alt/else, opt, par, loop). Mermaid parses linearly without branch-isolated stacks; deactivating in multiple branches causes fatal GitHub rendering errors ("Trying to inactivate an inactive participant").
+Prescriptive Guidelines for Visual Modeling:
+Select one or more of the following standard patterns based on the primary modeling concern:
+1. Interaction Sequence (sequenceDiagram): Use for actor-system boundary request/response flows, external stimuli, and alternate error paths. Omit manual activation boxes (activate/deactivate, +/-).
+2. Activity / Decision Flow (flowchart TD/LR): Use for event-driven condition evaluation, validation branching, and fallback logic organized by subgraphs.
+3. System Context Scope (flowchart LR/TD): Use for mapping external actors to discrete system use cases and boundary scope boundaries.
+4. Observable State Transition (stateDiagram-v2): Use for domain entity lifecycle and external event-driven state transitions.
+
+Strict System Boundary Rule:
+Visual diagrams in requirements.md MUST strictly depict interactions between external actors and the external boundary of the target system. Diagrams MUST NOT penetrate the system boundary to illustrate internal component pipelines or data store entities (e.g. DB[(Database)]).
 -->
 
 ```mermaid
-graph TD
-    %% Insert Mermaid diagram depicting external actors interacting with the system boundary
-    User([User / External Actor]) -->|Submit Request / Input| System[Target System Boundary]
-    System -->|Present Observable Result / Feedback| User
+sequenceDiagram
+    actor User as {User / External Actor}
+    participant System as {Target System Boundary}
+
+    Note over User,System: Primary Use Case Interaction
+    User->>System: {Stimulus / Request / Input}
+    alt {Successful Condition}
+        System-->>User: {Observable Result / Feedback}
+    else {Boundary / Error Condition}
+        System-->>User: {Error Feedback / Fallback Presentation}
+    end
 ```
 
 ---
